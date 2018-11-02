@@ -1,0 +1,17 @@
+service:
+  name: cvs-svc-stum-crm-atfs
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  getATFs:
+    handler: handler.getATFs
+    events:
+      - http:
+          method: get
+          path: atf
