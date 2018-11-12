@@ -1,17 +1,76 @@
-service:
+service: 
   name: cvs-svc-stum-crm-atfs
+
+openapi: 3.0.0
 
 plugins:
   - serverless-offline
+  - serverless-openapi-documentation
 
 provider:
   name: aws
   runtime: nodejs8.10
+
+custom:
+  documentation:
+    version: '1'
+    title: 'Get ATF List API'
+    description: 'This is the API spec for retrieving all existing ATFs'
+    models: 
+      - name: "ATFs"
+        description: "Get ATFs successful response"
+        contentType: "application/json"
+        schema: 
+          type: "array"
+          items: 
+            type: "object"
+            properties: 
+              atfId:
+                type: "string"
+              atfNumber:
+                type: "string"
+              atfName: 
+                type: string
+              atfContactNumber:
+                type: string 
+              atfAccessNotes: 
+                type: string
+              atfGeneralNotes:  
+                type: string
+              atfTown: 
+                type: string
+              atfAddress: 
+                type: string
+              atfPostcode: 
+                type: string
+              atfLongitude: 
+                type: number
+              atfLatitude: 
+                type: number
 
 functions:
   getATFs:
     handler: handler.getATFs
     events:
       - http:
-          method: get
-          path: atf
+          path: "atf"
+          method: "get"
+          documentation:
+            summary: "Get ATF List"
+            description: "Returns all existing ATFs from the database"
+            methodResponses:
+              - statusCode: 200
+                responseBody:
+                  description: "List of ATFs"
+                responseModels: 
+                  "application/json": "ATFs"
+              - statusCode: 500
+                responseBody:
+                  description: "The error trace"
+                responseModels:
+                  content:
+                    application/json:
+                      schema:
+                        type: array
+                        items:
+                          type: string

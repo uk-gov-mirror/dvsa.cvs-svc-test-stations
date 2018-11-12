@@ -1,0 +1,51 @@
+openapi: 3.0.0
+components:
+  schemas:
+    ATFs:
+      type: array
+      items:
+        type: object
+        properties:
+          atfId:
+            type: string
+          atfNumber:
+            type: string
+          atfName:
+            type: string
+          atfContactNumber:
+            type: string
+          atfAccessNotes:
+            type: string
+          atfGeneralNotes:
+            type: string
+          atfTown:
+            type: string
+          atfAddress:
+            type: string
+          atfPostcode:
+            type: string
+          atfLongitude:
+            type: number
+          atfLatitude:
+            type: number
+  securitySchemes: {}
+info:
+  title: Get ATF List API
+  description: This is the API spec for retrieving all existing ATFs
+  version: '1'
+paths:
+  /atf:
+    get:
+      operationId: getATFs
+      summary: Get ATF List
+      description: Returns all existing ATFs from the database
+      responses:
+        '200':
+          description: List of ATFs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ATFs'
+        '500':
+          description: The error trace
+          content: {}
