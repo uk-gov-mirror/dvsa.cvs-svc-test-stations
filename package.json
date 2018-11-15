@@ -21,7 +21,6 @@
     "expect": "^21.2.1",
     "mocha": "^4.0.1",
     "supertest": "^3.0.0",
-    "swagger": "^0.7.5",
     "swagger-ui-watcher": "^2.1.5"
   },
   "devDependencies": {
