@@ -4,10 +4,10 @@
   "description": "CRM-stub service that stores and serves the ATF data",
   "main": "handler.js",
   "scripts": {
-    "start": "npm run eslint && serverless offline start",
+    "start": "npm run eslint && SERVERLESS_PORT=${SERVERLESS_PORT:-3000} ./node_modules/serverless/bin/serverless offline start",
     "test": "node_modules/.bin/mocha tests/**/*.unitTest.js",
-    "test-i": "node_modules/.bin/mocha tests/**/*.intTest.js",
-    "tests": "npm run test && sls offline start > /dev/null 2>&1 & sleep 4 && npm run test-i && kill %1",
+    "test-i": "npm run start > /dev/null 2>&1 & sleep 5 && SERVERLESS_PORT=${SERVERLESS_PORT:-3000} node_modules/.bin/mocha tests/**/*.intTest.js && pkill -2 node",
+    "tests": "npm run test && npm run test-i",
     "prepush": "npm test && npm run eslint",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",

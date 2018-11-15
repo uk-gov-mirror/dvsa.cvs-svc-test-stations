@@ -2,7 +2,7 @@
 const supertest = require('supertest')
 const expect = require('expect')
 
-const url = 'http://localhost:3000/atf'
+const url = `http://localhost:${process.env.SERVERLESS_PORT}/`
 const request = supertest(url)
 
 describe('atfs', () => {
@@ -10,7 +10,7 @@ describe('atfs', () => {
     context('all atfs', () => {
       it('should return all atfs', (done) => {
         request
-          .get('/')
+          .get('atf')
           .set('Context-Type', 'application/json')
           .set('authorization', 'allow')
           .expect(200)
