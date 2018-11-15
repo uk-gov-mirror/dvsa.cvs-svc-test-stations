@@ -1,4 +1,4 @@
-service: 
+service:
   name: cvs-svc-stum-crm-atfs
 
 openapi: 3.0.0
@@ -12,40 +12,42 @@ provider:
   runtime: nodejs8.10
 
 custom:
+  serverless-offline:
+    port: ${env:SERVERLESS_PORT}
   documentation:
     version: '1'
     title: 'Get ATF List API'
     description: 'This is the API spec for retrieving all existing ATFs'
-    models: 
+    models:
       - name: "ATFs"
         description: "Get ATFs successful response"
         contentType: "application/json"
-        schema: 
+        schema:
           type: "array"
-          items: 
+          items:
             type: "object"
-            properties: 
+            properties:
               atfId:
                 type: "string"
               atfNumber:
                 type: "string"
-              atfName: 
+              atfName:
                 type: string
               atfContactNumber:
-                type: string 
-              atfAccessNotes: 
                 type: string
-              atfGeneralNotes:  
+              atfAccessNotes:
                 type: string
-              atfTown: 
+              atfGeneralNotes:
                 type: string
-              atfAddress: 
+              atfTown:
                 type: string
-              atfPostcode: 
+              atfAddress:
                 type: string
-              atfLongitude: 
+              atfPostcode:
+                type: string
+              atfLongitude:
                 type: number
-              atfLatitude: 
+              atfLatitude:
                 type: number
 
 functions:
@@ -62,7 +64,7 @@ functions:
               - statusCode: 200
                 responseBody:
                   description: "List of ATFs"
-                responseModels: 
+                responseModels:
                   "application/json": "ATFs"
               - statusCode: 500
                 responseBody:
