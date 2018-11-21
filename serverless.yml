@@ -13,7 +13,7 @@ provider:
 
 custom:
   serverless-offline:
-    port: ${env:SERVERLESS_PORT}
+    port: 3001
   documentation:
     version: '1'
     title: 'Get ATF List API'
@@ -52,7 +52,7 @@ custom:
 
 functions:
   getATFs:
-    handler: handler.getATFs
+    handler: src/handler.getATFs
     events:
       - http:
           path: "atf"
