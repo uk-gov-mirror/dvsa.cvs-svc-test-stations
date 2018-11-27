@@ -52,7 +52,7 @@ custom:
 
 functions:
   getATFs:
-    handler: src/handler.getATFs
+    handler: src/handler.handler
     events:
       - http:
           path: "atf"
