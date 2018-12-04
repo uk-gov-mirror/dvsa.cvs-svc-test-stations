@@ -3,7 +3,6 @@
 #### Run AWS Lambda node functions locally with a mock API Gateway
 - `npm install`
 - `npm start` to start serverless locally with default ports
--  `SERVERLESS_PORT={serverless port} ./node_modules/serverless/bin/serverless offline start` to start serverless locally with custom ports
 
 ### Git Hooks
 
@@ -38,4 +37,4 @@ In order to test, you need to run the following:
 
 ### Environmental variables
 
-- The `SERVERLESS_PORT` environment variable needs to be set to a value representing the port you want the serverless instance to run on. This variable is mandatory. Defaults to `3000`
+- The `ENV` environment variable indicates in which environment is this application running. Use `ENV=local` for local deployment. This variable is required when starting the application or running tests.

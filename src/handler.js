@@ -1,3 +1,3 @@
 const getATFLs = require('./functions/getATFsLambda')
 
-module.exports.getATFs = getATFLs
+module.exports.handler = getATFLs
