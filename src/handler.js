@@ -1,3 +1,3 @@
-const getATFLs = require('./functions/getATFsLambda')
+const handler = require('./functions/getATFsLambda')
 
-module.exports.handler = getATFLs
+module.exports.handler = handler
