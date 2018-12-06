@@ -10,7 +10,7 @@ describe('ATFDAO', () => {
     it('returns source contents', () => {
       const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
 
-      DAO.getAll()
+      return DAO.getAll()
         .then((ATFs) => {
           expect(ATFs.length).to.equal(20)
         })
@@ -24,7 +24,7 @@ describe('ATFDAO', () => {
     it('throws a 500 error', () => {
       const DAO = new ATFDAO(path.resolve(__dirname, '../..'))
 
-      DAO.getAll()
+      return DAO.getAll()
         .catch((errorResponse) => {
           expect(errorResponse).to.be.an.instanceOf(HTTPResponseStatus)
         })
@@ -38,7 +38,7 @@ describe('ATFService', () => {
       const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
       const service = new ATFService(DAO)
 
-      service.getATFList()
+      return service.getATFList()
         .then((ATFs) => {
           expect(ATFs.length).to.equal(20)
         })
@@ -53,7 +53,7 @@ describe('ATFService', () => {
       const DAO = new ATFDAO(path.resolve(__dirname, '../..'))
       const service = new ATFService(DAO)
 
-      service.getATFList()
+      return service.getATFList()
         .catch((errorResponse) => {
           expect(errorResponse).to.be.an.instanceOf(HTTPResponseStatus)
         })

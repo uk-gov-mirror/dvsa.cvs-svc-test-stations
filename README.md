@@ -32,8 +32,6 @@ These will be run as part of prepush so please make sure you set up the git hook
 In order to test, you need to run the following:
 - `npm run test` for unit tests
 - `npm run test-i` for integration tests
-- `npm run tests` to run both
-
 
 ### Environmental variables
 
