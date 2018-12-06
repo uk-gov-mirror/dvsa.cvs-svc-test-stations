@@ -12,6 +12,7 @@ class ATFDAOmock {
     try {
       mockData = JSON.parse(fs.readFileSync(this.mock, 'utf8'))
     } catch (error) {
+      console.log(error)
       throw new HTTPResponseStatus(500, error.stack)
     }
 

@@ -15,6 +15,8 @@ class ATFService {
         return data
       })
       .catch(error => {
+        console.log(error)
+
         if (!error.statusCode) {
           error.statusCode = 500
           error.body = 'Internal Server Error'

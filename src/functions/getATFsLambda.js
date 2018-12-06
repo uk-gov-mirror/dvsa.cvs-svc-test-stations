@@ -14,6 +14,8 @@ const getATFs = async () => {
       }
     })
     .catch((error) => {
+      console.log(error)
+
       return {
         statusCode: error.statusCode,
         body: JSON.stringify(error.body)
