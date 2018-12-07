@@ -15,4 +15,4 @@ class HTTPResponseStatus extends Error {
   }
 }
 
-module.exports.HTTPResponseStatus = HTTPResponseStatus
+module.exports = HTTPResponseStatus
