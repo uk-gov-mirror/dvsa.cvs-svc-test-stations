@@ -1,5 +1,6 @@
 const ATFService = require('../services/ATFService')
 const ATFDAO = require('../models/ATFDAOmock')
+const HTTPResponse = require('../models/HTTPResponse')
 const path = require('path')
 
 const getATFs = async () => {
@@ -7,21 +8,13 @@ const getATFs = async () => {
   const service = new ATFService(DAO)
 
   return service.getATFList()
-    .then((response) => {
-      return {
-        statusCode: response.statusCode,
-        headers: response.headers,
-        body: JSON.stringify(response.body)
-      }
+    .then((data) => {
+      return new HTTPResponse(200, JSON.stringify(data))
     })
     .catch((error) => {
       console.log(error)
 
-      return {
-        statusCode: error.statusCode,
-        headers: error.headers,
-        body: JSON.stringify(error.body)
-      }
+      return new HTTPResponse(error.statusCode, error.body)
     })
 }
 

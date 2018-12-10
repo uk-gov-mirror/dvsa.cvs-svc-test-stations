@@ -1,5 +1,5 @@
 const fs = require('fs')
-const HTTPResponseStatus = require('./HTTPStatusResponse')
+const HTTPError = require('./HTTPError')
 
 class ATFDAOmock {
   constructor (mock) {
@@ -13,7 +13,8 @@ class ATFDAOmock {
       mockData = JSON.parse(fs.readFileSync(this.mock, 'utf8'))
     } catch (error) {
       console.log(error)
-      throw new HTTPResponseStatus(500, error.stack)
+
+      throw new HTTPError(500, error.stack)
     }
 
     return mockData
