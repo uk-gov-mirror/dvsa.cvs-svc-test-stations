@@ -10,7 +10,8 @@
         "atfAddress": "224 Tennyson",
         "atfPostcode": "36987-2452",
         "atfLongitude": 5.8978018,
-        "atfLatitude": 43.4945737
+        "atfLatitude": 43.4945737,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "2",
@@ -23,7 +24,8 @@
         "atfAddress": "61969 Texas Trail",
         "atfPostcode": "43547-250",
         "atfLongitude": 28.8905763,
-        "atfLatitude": 47.1263592
+        "atfLatitude": 47.1263592,
+        "atfType": "ATF" 
     },
     {
         "atfId": "3",
@@ -36,7 +38,8 @@
         "atfAddress": "0700 Valley Edge Point",
         "atfPostcode": "16714-332",
         "atfLongitude": 116.8174054,
-        "atfLatitude": -8.8071005
+        "atfLatitude": -8.8071005,
+        "atfType": "GVTS"
     },
     {
         "atfId": "4",
@@ -49,7 +52,8 @@
         "atfAddress": "863 Eggendart Hill",
         "atfPostcode": "59572-210",
         "atfLongitude": 110.856622,
-        "atfLatitude": 26.433417
+        "atfLatitude": 26.433417,
+        "atfType": "ATF" 
     },
     {
         "atfId": "5",
@@ -62,7 +66,8 @@
         "atfAddress": "05 Arkansas Drive",
         "atfPostcode": "58232-0639",
         "atfLongitude": 23.7240855,
-        "atfLatitude": 49.9202398
+        "atfLatitude": 49.9202398,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "6",
@@ -75,7 +80,8 @@
         "atfAddress": "8 Bayside Drive",
         "atfPostcode": "0904-6203",
         "atfLongitude": 114.397004,
-        "atfLatitude": 38.135288
+        "atfLatitude": 38.135288,
+        "atfType": "ATF" 
     },
     {
         "atfId": "7",
@@ -88,7 +94,8 @@
         "atfAddress": "81884 Algoma Point",
         "atfPostcode": "48951-3047",
         "atfLongitude": 8.2894205,
-        "atfLatitude": 47.1666507
+        "atfLatitude": 47.1666507,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "8",
@@ -101,7 +108,8 @@
         "atfAddress": "58276 Barnett Parkway",
         "atfPostcode": "62382-0315",
         "atfLongitude": -47.1947232,
-        "atfLatitude": -23.5297232
+        "atfLatitude": -23.5297232,
+        "atfType": "ATF"
     },
     {
         "atfId": "9",
@@ -114,7 +122,8 @@
         "atfAddress": "5 Lukken Lane",
         "atfPostcode": "65162-300",
         "atfLongitude": -40.5120603,
-        "atfLatitude": -11.1816506
+        "atfLatitude": -11.1816506,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "10",
@@ -127,7 +136,8 @@
         "atfAddress": "0301 Trailsway Junction",
         "atfPostcode": "36987-2037",
         "atfLongitude": 124.6248039,
-        "atfLatitude": -9.9097428
+        "atfLatitude": -9.909742,
+        "atfType": "ATF" 
     },
     {
         "atfId": "11",
@@ -140,7 +150,8 @@
         "atfAddress": "46 Transport Avenue",
         "atfPostcode": "36987-1701",
         "atfLongitude": -84.0911821,
-        "atfLatitude": 9.8539292
+        "atfLatitude": 9.8539292,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "12",
@@ -153,7 +164,8 @@
         "atfAddress": "33 Harper Center",
         "atfPostcode": "24385-310",
         "atfLongitude": 28.0224528,
-        "atfLatitude": 43.3182911
+        "atfLatitude": 43.3182911,
+        "atfType": "ATF" 
     },
     {
         "atfId": "13",
@@ -166,7 +178,8 @@
         "atfAddress": "57729 Parkside Point",
         "atfPostcode": "15749-802",
         "atfLongitude": 139.7424494,
-        "atfLatitude": 35.8325673
+        "atfLatitude": 35.8325673,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "14",
@@ -179,7 +192,8 @@
         "atfAddress": "711 Macpherson Place",
         "atfPostcode": "65923-007",
         "atfLongitude": 117.500558,
-        "atfLatitude": 40.417358
+        "atfLatitude": 40.417358,
+        "atfType": "ATF" 
     },
     {
         "atfId": "15",
@@ -192,7 +206,8 @@
         "atfAddress": "19461 Esch Drive",
         "atfPostcode": "59824-0008",
         "atfLongitude": 121.9316847,
-        "atfLatitude": 13.2586816
+        "atfLatitude": 13.2586816,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "16",
@@ -205,7 +220,8 @@
         "atfAddress": "17805 Hoffman Parkway",
         "atfPostcode": "50436-4635",
         "atfLongitude": 109.879153,
-        "atfLatitude": 31.074834
+        "atfLatitude": 31.074834,
+        "atfType": "ATF" 
     },
     {
         "atfId": "17",
@@ -218,7 +234,8 @@
         "atfAddress": "4 Buena Vista Road",
         "atfPostcode": "54868-5260",
         "atfLongitude": 81.4278984,
-        "atfLatitude": 28.3102323
+        "atfLatitude": 28.3102323,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "18",
@@ -231,7 +248,8 @@
         "atfAddress": "5758 Elmside Terrace",
         "atfPostcode": "0113-0949",
         "atfLongitude": 110.873513,
-        "atfLatitude": 32.830953
+        "atfLatitude": 32.830953,
+        "atfType": "ATF"
     },
     {
         "atfId": "19",
@@ -244,7 +262,8 @@
         "atfAddress": "5 Bashford Parkway",
         "atfPostcode": "52584-475",
         "atfLongitude": 123.1331939,
-        "atfLatitude": 9.5109216
+        "atfLatitude": 9.5109216,
+        "atfType": "GVTS" 
     },
     {
         "atfId": "20",
@@ -257,6 +276,7 @@
         "atfAddress": "9632 Arkansas Hill",
         "atfPostcode": "63304-499",
         "atfLongitude": 2.1450245,
-        "atfLatitude": 14.6489525
+        "atfLatitude": 14.6489525,
+        "atfType": "ATF"
     }
 ]
