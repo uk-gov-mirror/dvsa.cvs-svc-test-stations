@@ -1,5 +1,5 @@
 const fs = require('fs')
-const HTTPResponseStatus = require('../models/HTTPResponseStatus')
+const HTTPResponseStatus = require('./HTTPStatusResponse')
 
 class ATFDAOmock {
   constructor (mock) {
