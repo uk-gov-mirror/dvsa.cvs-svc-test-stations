@@ -2,7 +2,7 @@
 const expect = require('chai').expect
 const ATFService = require('../../src/services/ATFService')
 const ATFDAO = require('../../src/models/ATFDAOmock')
-const HTTPResponseStatus = require('../../src/models/HTTPResponseStatus')
+const HTTPResponseStatus = require('../../src/models/HTTPStatusResponse')
 const path = require('path')
 
 describe('ATFDAO', () => {

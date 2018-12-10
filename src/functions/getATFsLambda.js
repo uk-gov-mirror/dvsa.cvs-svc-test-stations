@@ -7,10 +7,11 @@ const getATFs = async () => {
   const service = new ATFService(DAO)
 
   return service.getATFList()
-    .then((ATFs) => {
+    .then((response) => {
       return {
-        statusCode: 200,
-        body: JSON.stringify(ATFs)
+        statusCode: response.statusCode,
+        headers: response.headers,
+        body: JSON.stringify(response.body)
       }
     })
     .catch((error) => {
@@ -18,6 +19,7 @@ const getATFs = async () => {
 
       return {
         statusCode: error.statusCode,
+        headers: error.headers,
         body: JSON.stringify(error.body)
       }
     })
