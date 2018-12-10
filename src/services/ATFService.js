@@ -1,5 +1,4 @@
-const HTTPStatusResponse = require('../models/HTTPStatusResponse')
-const HTTPErrorResponse = require('../models/HTTPStatusResponse')
+const HTTPError = require('../models/HTTPError')
 
 class ATFService {
   constructor (atfDAO) {
@@ -10,10 +9,10 @@ class ATFService {
     return this.atfDAO.getAll()
       .then(data => {
         if (data.length === 0) {
-          throw new HTTPErrorResponse(404, 'No resources match the search criteria.')
+          throw new HTTPError(404, 'No resources match the search criteria.')
         }
 
-        return new HTTPStatusResponse(200, data)
+        return data
       })
       .catch(error => {
         console.log(error)
@@ -23,7 +22,7 @@ class ATFService {
           error.body = 'Internal Server Error'
         }
 
-        throw new HTTPErrorResponse(error.statusCode, error.body)
+        throw new HTTPError(error.statusCode, error.body)
       })
   }
 }
