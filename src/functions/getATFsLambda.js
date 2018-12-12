@@ -4,7 +4,7 @@ const HTTPResponse = require('../models/HTTPResponse')
 const path = require('path')
 
 const getATFs = async () => {
-  const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
+  const DAO = new ATFDAO(path.resolve(__dirname, '../../mocks/mock-atf.json'))
   const service = new ATFService(DAO)
 
   return service.getATFList()
