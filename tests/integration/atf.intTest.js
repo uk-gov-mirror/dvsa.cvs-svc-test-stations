@@ -16,6 +16,8 @@ describe('atfs', () => {
           .set('authorization', 'allow')
           .expect(200)
           .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect('access-control-allow-origin', '*')
+          .expect('access-control-allow-credentials', 'true')
           .end((err, res) => {
             if (err) throw err
             expect(res.body.length).toBeGreaterThan(0)

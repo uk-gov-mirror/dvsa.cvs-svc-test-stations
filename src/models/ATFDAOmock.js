@@ -1,5 +1,4 @@
-const fs = require('fs')
-const HTTPResponseStatus = require('../models/HTTPResponseStatus')
+const HTTPError = require('./HTTPError')
 
 class ATFDAOmock {
   constructor (mock) {
@@ -10,10 +9,11 @@ class ATFDAOmock {
     let mockData
 
     try {
-      mockData = JSON.parse(fs.readFileSync(this.mock, 'utf8'))
+      mockData = this.mock
     } catch (error) {
       console.log(error)
-      throw new HTTPResponseStatus(500, error.stack)
+
+      throw new HTTPError(500, error.stack)
     }
 
     return mockData

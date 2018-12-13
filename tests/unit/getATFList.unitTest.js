@@ -2,13 +2,14 @@
 const expect = require('chai').expect
 const ATFService = require('../../src/services/ATFService')
 const ATFDAO = require('../../src/models/ATFDAOmock')
-const HTTPResponseStatus = require('../../src/models/HTTPResponseStatus')
+const HTTPError = require('../../src/models/HTTPError')
 const path = require('path')
 
 describe('ATFDAO', () => {
   context('when it is instantiated with a correct data source', () => {
     it('returns source contents', () => {
-      const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
+      const mockData = require('../../src/mocks/mock-atf.json')
+      const DAO = new ATFDAO(mockData)
 
       return DAO.getAll()
         .then((ATFs) => {
@@ -22,11 +23,11 @@ describe('ATFDAO', () => {
 
   context('when it is instantiated with a bad data source', () => {
     it('throws a 500 error', () => {
-      const DAO = new ATFDAO(path.resolve(__dirname, '../..'))
+      const DAO = new ATFDAO(path.resolve(__dirname, '../bad/path/file.json'))
 
       return DAO.getAll()
         .catch((errorResponse) => {
-          expect(errorResponse).to.be.an.instanceOf(HTTPResponseStatus)
+          expect(errorResponse).to.be.an.instanceOf(HTTPError)
         })
     })
   })
@@ -35,7 +36,8 @@ describe('ATFDAO', () => {
 describe('ATFService', () => {
   context('when it is instantiated with a working DAO', () => {
     it('returns ATF data', () => {
-      const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
+      const mockData = require('../../src/mocks/mock-atf.json')
+      const DAO = new ATFDAO(mockData)
       const service = new ATFService(DAO)
 
       return service.getATFList()
@@ -50,12 +52,12 @@ describe('ATFService', () => {
 
   context('when it is instantiated with a bad DAO', () => {
     it('returns an error', () => {
-      const DAO = new ATFDAO(path.resolve(__dirname, '../..'))
+      const DAO = new ATFDAO(path.resolve(__dirname, '../bad/path/file.json'))
       const service = new ATFService(DAO)
 
       return service.getATFList()
         .catch((errorResponse) => {
-          expect(errorResponse).to.be.an.instanceOf(HTTPResponseStatus)
+          expect(errorResponse).to.be.an.instanceOf(HTTPError)
         })
     })
   })

@@ -1,25 +1,19 @@
 const ATFService = require('../services/ATFService')
 const ATFDAO = require('../models/ATFDAOmock')
-const path = require('path')
+const HTTPResponse = require('../models/HTTPResponse')
 
 const getATFs = async () => {
-  const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
+  const mockData = require('../mocks/mock-atf.json')
+  const DAO = new ATFDAO(mockData)
+
   const service = new ATFService(DAO)
 
   return service.getATFList()
-    .then((ATFs) => {
-      return {
-        statusCode: 200,
-        body: JSON.stringify(ATFs)
-      }
+    .then((data) => {
+      return new HTTPResponse(200, data)
     })
     .catch((error) => {
-      console.log(error)
-
-      return {
-        statusCode: error.statusCode,
-        body: JSON.stringify(error.body)
-      }
+      return new HTTPResponse(error.statusCode, error.body)
     })
 }
 
