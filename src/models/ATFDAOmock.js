@@ -1,4 +1,3 @@
-const fs = require('fs')
 const HTTPError = require('./HTTPError')
 
 class ATFDAOmock {
@@ -10,7 +9,7 @@ class ATFDAOmock {
     let mockData
 
     try {
-      mockData = JSON.parse(fs.readFileSync(this.mock, 'utf8'))
+      mockData = this.mock
     } catch (error) {
       console.log(error)
 

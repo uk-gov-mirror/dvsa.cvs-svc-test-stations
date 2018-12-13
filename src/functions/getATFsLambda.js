@@ -1,10 +1,10 @@
 const ATFService = require('../services/ATFService')
 const ATFDAO = require('../models/ATFDAOmock')
 const HTTPResponse = require('../models/HTTPResponse')
-const path = require('path')
 
 const getATFs = async () => {
-  const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
+  const mockData = require('../mocks/mock-atf.json')
+  const DAO = new ATFDAO(mockData)
   const service = new ATFService(DAO)
 
   return service.getATFList()

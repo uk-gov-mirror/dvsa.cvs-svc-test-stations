@@ -8,7 +8,8 @@ const path = require('path')
 describe('ATFDAO', () => {
   context('when it is instantiated with a correct data source', () => {
     it('returns source contents', () => {
-      const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
+      const mockData = require('../../src/mocks/mock-atf.json')
+      const DAO = new ATFDAO(mockData)
 
       return DAO.getAll()
         .then((ATFs) => {
@@ -35,7 +36,8 @@ describe('ATFDAO', () => {
 describe('ATFService', () => {
   context('when it is instantiated with a working DAO', () => {
     it('returns ATF data', () => {
-      const DAO = new ATFDAO(path.resolve(__dirname, '../../src/mocks/mock-atf.json'))
+      const mockData = require('../../src/mocks/mock-atf.json')
+      const DAO = new ATFDAO(mockData)
       const service = new ATFService(DAO)
 
       return service.getATFList()
