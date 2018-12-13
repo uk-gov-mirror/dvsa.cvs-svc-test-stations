@@ -5,6 +5,7 @@ const HTTPResponse = require('../models/HTTPResponse')
 const getATFs = async () => {
   const mockData = require('../mocks/mock-atf.json')
   const DAO = new ATFDAO(mockData)
+
   const service = new ATFService(DAO)
 
   return service.getATFList()
