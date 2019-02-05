@@ -30,11 +30,6 @@ podTemplate(label: label, containers: [
                 sh "npm run test"
             }
 
-            stage ("integration test") {
-                sh "node_modules/gulp/bin/gulp.js start-serverless"
-                sh "npm run test-i"
-            }
-
             stage("zip dir"){
                 sh "rm -rf ./node_modules"
                 sh "npm install --production"
