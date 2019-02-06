@@ -1,17 +1,16 @@
 /* global describe it context */
 const supertest = require('supertest')
 const expect = require('expect')
-const config = require('../../src/config/config')
 
-const url = `http://localhost:${config.OFFLINE.SERVERLESS_PORT}/`
+const url = `http://localhost:3004/`
 const request = supertest(url)
 
-describe('atfs', () => {
+describe('testStations', () => {
   context('GET', () => {
-    context('all atfs', () => {
-      it('should return all atfs', (done) => {
+    context('all testStations', () => {
+      it('should return all testStations', (done) => {
         request
-          .get('atf')
+          .get('test-stations')
           .set('Context-Type', 'application/json')
           .set('authorization', 'allow')
           .expect(200)

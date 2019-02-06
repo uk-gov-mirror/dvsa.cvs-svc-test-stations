@@ -1,6 +1,6 @@
 const HTTPError = require('./HTTPError')
 
-class ATFDAOmock {
+class TestStationDAOmock {
   constructor (mock) {
     this.mock = mock
   }
@@ -20,4 +20,4 @@ class ATFDAOmock {
   }
 }
 
-module.exports = ATFDAOmock
+module.exports = TestStationDAOmock
