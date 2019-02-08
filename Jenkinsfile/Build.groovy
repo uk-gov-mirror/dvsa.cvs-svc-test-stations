@@ -45,7 +45,7 @@ podTemplate(label: label, containers: [
                            credentialsId: 'jenkins-iam',
                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 
-                sh "aws s3 cp ${LBRANCH}.zip s3://cvs-services/atf/${LBRANCH}.zip"
+                sh "aws s3 cp ${LBRANCH}.zip s3://cvs-services/test-station/${LBRANCH}.zip"
                 }
             }
         }

@@ -1,5 +1,5 @@
 service:
-  name: cvs-svc-stum-crm-atfs
+  name: cvs-svc-stum-crm-test-station
 
 openapi: 3.0.0
 
@@ -14,49 +14,9 @@ provider:
 custom:
   serverless-offline:
     port: 3004
-  documentation:
-    version: '1'
-    title: 'List of Test Stations'
-    description: 'This is the API spec for retrieving the list of Test Stations'
-    models:
-      - name: "Test Station"
-        description: "Get Test Stations successful response"
-        contentType: "application/json"
-        schema:
-          type: "array"
-          items:
-            type: "object"
-            properties:
-              testStationId:
-                type: "string"
-              testStationPNumber:
-                type: "string"
-              testStationName:
-                type: string
-              testStationContactNumber:
-                type: string
-              testStationAccessNotes:
-                type: string
-              testStationGeneralNotes:
-                type: string
-              testStationTown:
-                type: string
-              testStationAddress:
-                type: string
-              testStationPostcode:
-                type: string
-              testStationLongitude:
-                type: number
-              testStationLatitude:
-                type: number
-              testStationType:
-                type: "atf"
-              testStationEmails: [
-                "string"
-              ]
 
 functions:
-  getATFs:
+  getTestStations:
     handler: src/handler.handler
     events:
       - http:
