@@ -1,51 +1,52 @@
 openapi: 3.0.0
 components:
   schemas:
-    ATFs:
+    Test Station:
       type: array
       items:
         type: object
         properties:
-          atfId:
+          testStationId:
             type: string
-          atfNumber:
+          testStationPNumber:
             type: string
-          atfName:
+          testStationName:
             type: string
-          atfContactNumber:
+          testStationContactNumber:
             type: string
-          atfAccessNotes:
+          testStationAccessNotes:
             type: string
-          atfGeneralNotes:
+          testStationGeneralNotes:
             type: string
-          atfTown:
+          testStationTown:
             type: string
-          atfAddress:
+          testStationAddress:
             type: string
-          atfPostcode:
+          testStationPostcode:
             type: string
-          atfLongitude:
+          testStationLongitude:
             type: number
-          atfLatitude:
+          testStationLatitude:
             type: number
+          testStationType:
+            type: atf
+          testStationEmails:
+            - string
   securitySchemes: {}
 info:
-  title: Get ATF List API
-  description: This is the API spec for retrieving all existing ATFs
+  title: List of Test Stations
+  description: This is the API spec for retrieving the list of Test Stations
   version: '1'
 paths:
-  /atf:
+  /test-stations:
     get:
       operationId: getATFs
-      summary: Get ATF List
-      description: Returns all existing ATFs from the database
+      summary: Get Test Station List
+      description: Returns all existing Test Stations from the database
       responses:
         '200':
-          description: List of ATFs
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ATFs'
+          description: List of Test Stations
+          content: {}
         '500':
           description: The error trace
           content: {}

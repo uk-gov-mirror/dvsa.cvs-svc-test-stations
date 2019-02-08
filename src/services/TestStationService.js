@@ -1,12 +1,12 @@
 const HTTPError = require('../models/HTTPError')
 
-class ATFService {
-  constructor (atfDAO) {
-    this.atfDAO = atfDAO
+class TestStationService {
+  constructor (testStationDAO) {
+    this.testStationDAO = testStationDAO
   }
 
-  getATFList () {
-    return this.atfDAO.getAll()
+  getTestStationList () {
+    return this.testStationDAO.getAll()
       .then(data => {
         if (data.length === 0) {
           throw new HTTPError(404, 'No resources match the search criteria.')
@@ -26,4 +26,4 @@ class ATFService {
   }
 }
 
-module.exports = ATFService
+module.exports = TestStationService
