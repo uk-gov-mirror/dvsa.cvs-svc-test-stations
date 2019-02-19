@@ -1,19 +1,13 @@
 service:
   name: cvs-svc-stum-crm-test-station
 
-openapi: 3.0.0
-
 plugins:
   - serverless-offline
-  - serverless-openapi-documentation
+  - serverless-dynamodb-local
 
 provider:
   name: aws
   runtime: nodejs8.10
-
-custom:
-  serverless-offline:
-    port: 3004
 
 functions:
   getTestStations:
@@ -21,23 +15,36 @@ functions:
     events:
       - http:
           path: "test-stations"
-          method: "get"
-          documentation:
-            summary: "Get Test Station List"
-            description: "Returns all existing Test Stations from the database"
-            methodResponses:
-              - statusCode: 200
-                responseBody:
-                  description: "List of Test Stations"
-                responseModels:
-                  "application/json": "Test Stations"
-              - statusCode: 500
-                responseBody:
-                  description: "The error trace"
-                responseModels:
-                  content:
-                    application/json:
-                      schema:
-                        type: array
-                        items:
-                          type: string
+          method: "get"  
+
+custom:
+  serverless-offline:
+    port: 3004
+  dynamodb:
+    start:
+      port: 8005
+      inMemory: true
+      migrate: true
+      seed: true
+      noStart: false
+    seed:
+      test-stations:
+        sources:
+          - table: cvs-local-test-stations
+            sources: [./tests/resources/test-stations.json]
+
+resources:
+  Resources:
+    Users:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: cvs-local-test-stations
+        AttributeDefinitions:
+        - AttributeName: testStationId
+          AttributeType: S
+        KeySchema:
+        - AttributeName: testStationId
+          KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

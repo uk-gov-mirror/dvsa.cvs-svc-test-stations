@@ -1,63 +1,60 @@
 /* global describe it context */
-const expect = require('chai').expect
 const TestStationService = require('../../src/services/TestStationService')
-const TestStationDAO = require('../../src/models/TestStationDAOmock')
+const TestStationDAOMock = require('../models/TestStationDAOMock')
 const HTTPError = require('../../src/models/HTTPError')
-const path = require('path')
+const expect = require('chai').expect
 
-describe('TestStationDAO', () => {
-  context('when it is instantiated with a correct data source', () => {
-    it('returns source contents', () => {
-      const mockData = require('../../src/mocks/mock-testStation.json')
-      const DAO = new TestStationDAO(mockData)
+describe('getTestStationList', () => {
+  var testStationDAOMock = new TestStationDAOMock()
 
-      return DAO.getAll()
-        .then((TestStations) => {
-          expect(TestStations.length).to.equal(20)
-        })
-        .catch(() => {
-          expect.fail()
-        })
+  describe('when database is on', () => {
+    context('database call returns valid data', () => {
+      it('should return the expected data', () => {
+        testStationDAOMock.testStationRecordsMock = require('../resources/test-stations.json')
+        testStationDAOMock.numberOfRecords = 20
+        testStationDAOMock.numberOfScannedRecords = 20
+        const testStationService = new TestStationService(testStationDAOMock)
+
+        return testStationService.getTestStationList()
+          .then((returnedRecords) => {
+            // console.log("*** ",returnedRecords.length);
+            expect(returnedRecords.Items.length).to.equal(20)
+          })
+      })
+    })
+    context('database call returns empty data', () => {
+      it('should return error 404', () => {
+        testStationDAOMock.testStationRecordsMock = require('../resources/test-stations.json')
+        testStationDAOMock.numberOfRecords = 0
+        testStationDAOMock.numberOfScannedRecords = 0
+        const testStationService = new TestStationService(testStationDAOMock)
+
+        return testStationService.getTestStationList()
+          .then(() => {
+            expect.fail()
+          }).catch((errorResponse) => {
+            expect(errorResponse).to.be.instanceOf(HTTPError)
+            expect(errorResponse.statusCode).to.equal(404)
+            expect(errorResponse.body).to.equal('No resources match the search criteria.')
+          })
+      })
     })
   })
 
-  context('when it is instantiated with a bad data source', () => {
-    it('throws a 500 error', () => {
-      const DAO = new TestStationDAO(path.resolve(__dirname, '../bad/path/file.json'))
+  describe('when database is off', () => {
+    it('should return error 500', () => {
+      testStationDAOMock.testStationRecordsMock = require('../resources/test-stations.json')
+      testStationDAOMock.numberOfRecords = 20
+      testStationDAOMock.numberOfScannedRecords = 20
+      testStationDAOMock.isDatabaseOn = false
+      const testStationService = new TestStationService(testStationDAOMock)
 
-      return DAO.getAll()
+      return testStationService.getTestStationList()
+        .then(() => {})
         .catch((errorResponse) => {
-          expect(errorResponse).to.be.an.instanceOf(HTTPError)
-        })
-    })
-  })
-})
-
-describe('TestStationService', () => {
-  context('when it is instantiated with a working DAO', () => {
-    it('returns TestStation data', () => {
-      const mockData = require('../../src/mocks/mock-testStation.json')
-      const DAO = new TestStationDAO(mockData)
-      const service = new TestStationService(DAO)
-
-      return service.getTestStationList()
-        .then((TestStations) => {
-          expect(TestStations.length).to.equal(20)
-        })
-        .catch(() => {
-          expect.fail()
-        })
-    })
-  })
-
-  context('when it is instantiated with a bad DAO', () => {
-    it('returns an error', () => {
-      const DAO = new TestStationDAO(path.resolve(__dirname, '../bad/path/file.json'))
-      const service = new TestStationService(DAO)
-
-      return service.getTestStationList()
-        .catch((errorResponse) => {
-          expect(errorResponse).to.be.an.instanceOf(HTTPError)
+          expect(errorResponse).to.be.instanceOf(HTTPError)
+          expect(errorResponse.statusCode).to.be.equal(500)
+          expect(errorResponse.body).to.equal('Internal Server Error')
         })
     })
   })

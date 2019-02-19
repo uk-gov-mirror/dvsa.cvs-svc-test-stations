@@ -1,12 +1,10 @@
 const TestStationService = require('../services/TestStationService')
-const TestStationDAO = require('../models/TestStationDAOmock')
+const TestStationDAO = require('../models/TestStationDAO')
 const HTTPResponse = require('../models/HTTPResponse')
 
 const getTestStations = async () => {
-  const mockData = require('../mocks/mock-testStation.json')
-  const DAO = new TestStationDAO(mockData)
-
-  const service = new TestStationService(DAO)
+  const testStationDAO = new TestStationDAO()
+  const service = new TestStationService(testStationDAO)
 
   return service.getTestStationList()
     .then((data) => {
