@@ -12,7 +12,7 @@ class TestStationService {
           throw new HTTPError(404, 'No resources match the search criteria.')
         }
 
-        return data
+        return data.Items
       })
       .catch(error => {
         if (!(error instanceof HTTPError)) {

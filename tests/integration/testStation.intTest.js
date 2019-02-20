@@ -43,7 +43,7 @@ describe('test stations', () => {
             expect(res.statusCode).to.equal(200)
             expect(res.headers['access-control-allow-origin']).to.equal('*')
             expect(res.headers['access-control-allow-credentials']).to.equal('true')
-            expect(res.body.Items.length).to.equal(expectedResponse.length)
+            expect(res.body.length).to.equal(expectedResponse.length)
             done()
           })
       })

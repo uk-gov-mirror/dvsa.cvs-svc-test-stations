@@ -6,7 +6,7 @@ function generateConfig () {
     DYNAMODB_DOCUMENTCLIENT_PARAMS:
     {
       region: 'localhost',
-      endpoint: 'http://localhost:8005/'
+      endpoint: 'http://localhost:8007/'
     },
     DYNAMODB_TABLE_NAME: 'cvs-' + BRANCH + '-test-stations'
   }

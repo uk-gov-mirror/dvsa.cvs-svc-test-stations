@@ -18,7 +18,7 @@ describe('getTestStationList', () => {
         return testStationService.getTestStationList()
           .then((returnedRecords) => {
             // console.log("*** ",returnedRecords.length);
-            expect(returnedRecords.Items.length).to.equal(20)
+            expect(returnedRecords.length).to.equal(20)
           })
       })
     })
