@@ -1,7 +1,7 @@
 {
-  "name": "crm-stub-service",
+  "name": "cvs-svc-test-station",
   "version": "1.0.0",
-  "description": "CRM-stub service that stores and serves the Test Stations data",
+  "description": "Test Station service that stores and serves the Test Stations data",
   "main": "handler.js",
   "scripts": {
     "start": "npm run eslint && BRANCH=local ./node_modules/serverless/bin/serverless offline start",
@@ -13,8 +13,9 @@
     "prepush": "npm test && npm run eslint",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
-    "eslint": "eslint . --config=.eslintrc.json --fix",
-    "sonar-scanner": "echo TODO"
+    "eslint": "eslint . --config=.eslintrc.json --fix  -f json -o report.json",
+    "sonar-scanner": "npm run eslint && npm run coverage && sonar-scanner",
+    "coverage": "nyc mocha tests/unit/*.unitTest.js && nyc report --reporter=lcov"
   },
   "author": "",
   "license": "MIT",
@@ -30,9 +31,10 @@
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "expect": "^21.2.1",
+    "expect": "^24.1.0",
     "gulp": "^4.0.0",
     "mocha": "^4.1.0",
+    "nyc": "^13.3.0",
     "serverless": "^1.37.1",
     "serverless-dynamodb-local": "0.2.35",
     "serverless-offline": "^3.33.0",
