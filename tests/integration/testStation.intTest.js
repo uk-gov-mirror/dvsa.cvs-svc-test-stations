@@ -57,7 +57,7 @@ describe('test stations', () => {
         }
 
         batches.forEach((batch) => {
-          testStationService.deletePreparerList(
+          testStationService.deleteTestStationsList(
             batch.map((item) => {
               return item.testStationId
             })

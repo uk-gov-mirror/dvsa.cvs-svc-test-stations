@@ -1,6 +1,7 @@
 class TestStationDAOMock {
   constructor () {
     this.testStationRecordsMock = null
+    this.unprocessedItems = null
     this.numberOfRecords = null
     this.numberOfScannedRecords = null
     this.isDatabaseOn = true
@@ -14,6 +15,22 @@ class TestStationDAOMock {
     }
 
     if (!this.isDatabaseOn) { return Promise.reject(responseObject) }
+
+    return Promise.resolve(responseObject)
+  }
+
+  createMultiple () {
+    const responseObject = { UnprocessedItems: this.unprocessedItems }
+
+    if (!this.isDatabaseOn) return Promise.reject(responseObject)
+
+    return Promise.resolve(responseObject)
+  }
+
+  deleteMultiple () {
+    const responseObject = { UnprocessedItems: this.unprocessedItems }
+
+    if (!this.isDatabaseOn) return Promise.reject(responseObject)
 
     return Promise.resolve(responseObject)
   }

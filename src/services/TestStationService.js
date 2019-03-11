@@ -38,7 +38,7 @@ class TestStationService {
       })
   }
 
-  deletePreparerList (testStationItemsKeys) {
+  deleteTestStationsList (testStationItemsKeys) {
     return this.testStationDAO.deleteMultiple(testStationItemsKeys)
       .then((data) => {
         if (data.UnprocessedItems) { return data.UnprocessedItems }
@@ -46,7 +46,7 @@ class TestStationService {
       .catch((error) => {
         if (error) {
           console.error(error)
-          throw new HTTPError(500, 'Internal ServerError')
+          throw new HTTPError(500, 'Internal Server Error')
         }
       })
   }
