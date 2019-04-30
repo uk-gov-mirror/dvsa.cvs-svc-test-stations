@@ -4,10 +4,19 @@ service:
 plugins:
   - serverless-offline
   - serverless-dynamodb-local
+  - serverless-plugin-tracing
 
 provider:
   name: aws
   runtime: nodejs8.10
+  tracing: true # enable tracing
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource:
+        - "*"
 
 functions:
   getTestStations:
@@ -15,7 +24,7 @@ functions:
     events:
       - http:
           path: "test-stations"
-          method: "get"  
+          method: "get"
 
 custom:
   serverless-offline:
