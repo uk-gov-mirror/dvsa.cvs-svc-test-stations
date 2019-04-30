@@ -10,7 +10,7 @@
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline start",
     "test": "node_modules/.bin/mocha tests/**/*.unitTest.js",
     "test-i": "node_modules/.bin/mocha tests/**/*.intTest.js",
-    "prepush": "npm test && npm run eslint",
+    "prepush": "npm test && npm run eslint && npm run security-checks",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
     "eslint": "eslint . --config=.eslintrc.json --fix  -f json -o report.json",
@@ -20,7 +20,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.332.0"
+    "aws-sdk": "^2.332.0",
+    "aws-xray-sdk": "^2.3.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
