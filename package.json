@@ -8,7 +8,7 @@
     "start:test": "npm run eslint && node_modules/gulp/bin/gulp.js start-serverless",
     "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline start",
-    "test": "AWS_XRAY_CONTEXT_MISSING=LOG_ERROR ./node_modules/.bin/mocha tests/**/*.unitTest.js",
+    "test": "./node_modules/.bin/mocha tests/**/*.unitTest.js",
     "test-i": "node_modules/.bin/mocha tests/**/*.intTest.js",
     "prepush": "npm test && npm run eslint && npm run security-checks",
     "predeploy": "npm install && npm run prepush",
