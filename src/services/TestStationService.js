@@ -1,4 +1,6 @@
+const AWSXRay = require('aws-xray-sdk')
 const HTTPError = require('../models/HTTPError')
+AWSXRay.setLogger(console);
 
 class TestStationService {
   constructor (testStationDAO) {
@@ -6,6 +8,7 @@ class TestStationService {
   }
 
   getTestStationList () {
+    console.log("In getTestStationList")
     return this.testStationDAO.getAll()
       .then(data => {
         if (data.Count === 0) {
