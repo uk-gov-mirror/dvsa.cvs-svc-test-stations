@@ -13,6 +13,22 @@ class TestStationDAOmock {
     return dbClient.scan({ TableName: this.tableName }).promise()
   }
 
+  getTestStationEmailByPNumber (testStationPNumber) {
+    let params = {
+      TableName: this.tableName,
+      IndexName: 'testStationPNumberIndex',
+      KeyConditionExpression: '#testStationPNumber = :testStationPNumber',
+      ExpressionAttributeNames: {
+        '#testStationPNumber': 'testStationPNumber'
+      },
+      ExpressionAttributeValues: {
+        ':testStationPNumber': testStationPNumber
+      }
+    }
+
+    return dbClient.query(params).promise()
+  }
+
   createMultiple (testStationItems) {
     var params = this.generatePartialParams()
 

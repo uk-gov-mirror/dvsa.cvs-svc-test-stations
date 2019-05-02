@@ -23,8 +23,18 @@ functions:
     handler: src/handler.handler
     events:
       - http:
-          path: "test-stations"
-          method: "get"
+          path: test-stations
+          method: get
+  getTestStationEmails:
+    handler: src/functions/getTestStationEmails.getTestStationEmails
+    events:
+      - http:
+          path: test-stations/{testStationPNumber}
+          method: get
+          request:
+            parameters:
+              paths:
+                testStationPNumber: true
 
 custom:
   serverless-offline:
@@ -51,9 +61,23 @@ resources:
         AttributeDefinitions:
         - AttributeName: testStationId
           AttributeType: S
+        - AttributeName: testStationPNumber
+          AttributeType: S
         KeySchema:
         - AttributeName: testStationId
           KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: testStationPNumberIndex
+            KeySchema:
+              - AttributeName: testStationPNumber
+                KeyType: HASH
+            Projection:
+              NonKeyAttributes:
+                - testStationEmails
+              ProjectionType: INCLUDE
+            ProvisionedThroughput:
+              ReadCapacityUnits: '1'
+              WriteCapacityUnits: '1'
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
