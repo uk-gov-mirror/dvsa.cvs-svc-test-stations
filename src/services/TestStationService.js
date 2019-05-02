@@ -1,6 +1,4 @@
-const AWSXRay = require('aws-xray-sdk')
 const HTTPError = require('../models/HTTPError')
-AWSXRay.setLogger(console);
 
 class TestStationService {
   constructor (testStationDAO) {
@@ -14,13 +12,11 @@ class TestStationService {
         if (data.Count === 0) {
           throw new HTTPError(404, 'No resources match the search criteria.')
         }
-        console.log('returning all stations');
 
         return data.Items
       })
       .catch(error => {
         if (!(error instanceof HTTPError)) {
-          AWSXRay.
           console.log(error)
           error.statusCode = 500
           error.body = 'Internal Server Error'
