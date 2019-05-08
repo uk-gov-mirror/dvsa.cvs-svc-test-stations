@@ -13,7 +13,7 @@ class TestStationService {
 
     console.log('TEST SEGMENT QWERTY',retrievedSegment)
     const segment = new AWSXRay.Segment('hello')
-    segment.addAnnotation('retrieved segment', retrievedSegment.toJSON())
+    segment.addAnnotation('retrieved segment', retrievedSegment)
 
     return this.testStationDAO.getAll()
       .then(data => {
