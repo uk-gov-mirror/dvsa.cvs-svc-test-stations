@@ -1,7 +1,7 @@
 const HTTPError = require('../models/HTTPError')
 const AWSXRay = require('aws-xray-sdk-core')
 
-AWSXRay.enableManualMode()
+// AWSXRay.enableManualMode()
 
 class TestStationService {
   constructor (testStationDAO) {
@@ -9,30 +9,28 @@ class TestStationService {
   }
 
   getTestStationList () {
-    const retrievedSegment = AWSXRay.getSegment();
+    let retrievedSegment = AWSXRay.getSegment();
+    if(typeof retrievedSegment === 'undefined') retrievedSegment = new AWSXRay.Segment('hello');
 
     console.log('TEST SEGMENT QWERTY',retrievedSegment)
-    const segment = new AWSXRay.Segment('hello')
-    segment.addAnnotation('retrieved segment', retrievedSegment)
+    // const segment = new AWSXRay.Segment('hello')
+    retrievedSegment.addAnnotation('retrieved segment', JSON.stringify(retrievedSegment))
 
     return this.testStationDAO.getAll()
       .then(data => {
-        segment.addAnnotation("stations", data)
         if (data.Count === 0) {
-          // segment.addError()
           throw new HTTPError(404, 'No resources match the search criteria.')
         }
-        segment.close();
+        retrievedSegment.addAnnotation("stations", JSON.stringify(data))
         return data.Items
       })
       .catch(error => {
-        segment.addError(error);
+        retrievedSegment.addError(error);
         if (!(error instanceof HTTPError)) {
           console.log('thrown error', error, 'END of error')
           error.statusCode = 500
           error.body = 'Internal Server Error'
         }
-        segment.close();
         throw new HTTPError(error.statusCode, error.body)
       })
   }
