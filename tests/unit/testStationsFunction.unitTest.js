@@ -1,6 +1,7 @@
 const LambdaTester = require('lambda-tester')
 const GetTestStationsFunction = require('../../src/functions/getTestStationsLambda')
-const GetTestStationEmailFunction = require('../../src/functions/getTestStationEmails')
+const GetTestStationsEmailFunction = require('../../src/functions/getTestStationEmails')
+
 
 describe('getTestStations', () => {
   it('should return a promise', () => {
@@ -9,9 +10,23 @@ describe('getTestStations', () => {
   })
 })
 
-describe('GetTestStationEmailFunction', () => {
+describe('getTestStationsEmail', () => {
+  it('should return an error', () => {
+    return LambdaTester(GetTestStationsEmailFunction.getTestStationEmails)
+      .expectReject()
+  })
   it('should return a promise', () => {
-    return LambdaTester(GetTestStationEmailFunction)
+    return LambdaTester(GetTestStationsEmailFunction.getTestStationEmails).event({
+      pathParameters: {
+        testStationPNumber: '87-1369569' }
+    })
+      .expectResolve()
+  })
+  it('should return a promise', () => {
+    return LambdaTester(GetTestStationsEmailFunction.getTestStationEmails).event({
+      pathParameters: {
+        testStationPNumber: '111' }
+    })
       .expectResolve()
   })
 })

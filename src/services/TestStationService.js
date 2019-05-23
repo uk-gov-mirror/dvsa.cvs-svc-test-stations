@@ -6,7 +6,6 @@ class TestStationService {
   }
 
   getTestStationList () {
-
     return this.testStationDAO.getAll()
       .then(data => {
         if (data.Count === 0) {
