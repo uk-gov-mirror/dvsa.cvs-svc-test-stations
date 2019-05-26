@@ -1,0 +1,25 @@
+functions:
+- getTestStations:
+    method: GET
+    path: /test-stations
+    proxy: null
+    function: getTestStations
+dynamodb:
+  local:
+    params:
+      region: localhost
+      endpoint: http://localhost:8007
+    table: cvs-local-test-stations
+    keys:
+      - testStations
+  local-global:
+    params:
+      region: localhost
+      endpoint: http://localhost:8000
+    table: cvs-local-global-test-stations
+  remote:
+    params: {}
+    table: cvs-${BRANCH}-test-stations
+serverless:
+  basePath: /${BRANCH}
+  port: 3004
