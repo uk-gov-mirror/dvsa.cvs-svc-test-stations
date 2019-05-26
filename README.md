@@ -47,7 +47,7 @@ custom:
 ```
 ### Testing
 In order to test, you need to run the following:
-- `npm run test` for unit tests
+- `npm run test` or `npm run test:dev` for unit tests
 - `npm run test-i` for integration tests
 
 ### SonarQube
