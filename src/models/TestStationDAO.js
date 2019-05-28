@@ -4,7 +4,7 @@ const generateConfig = require('../config/generateConfig')
 const config = generateConfig()
 const dbClient = new AWS.DynamoDB.DocumentClient(config.DYNAMODB_DOCUMENTCLIENT_PARAMS)
 
-class TestStationDAOmock {
+class TestStationDAO {
   constructor () {
     this.tableName = config.DYNAMODB_TABLE_NAME
   }
@@ -75,4 +75,4 @@ class TestStationDAOmock {
   }
 }
 
-module.exports = TestStationDAOmock
+module.exports = TestStationDAO

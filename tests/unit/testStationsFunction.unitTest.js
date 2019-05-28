@@ -11,18 +11,18 @@ describe('getTestStations', () => {
 })
 
 describe('getTestStationsEmail', () => {
-  it('should return an error', () => {
+  it('should return an error when sending no parameters', () => {
     return LambdaTester(GetTestStationsEmailFunction.getTestStationEmails)
       .expectReject()
   })
-  it('should return a promise', () => {
+  it('should return a promise when sending parameters', () => {
     return LambdaTester(GetTestStationsEmailFunction.getTestStationEmails).event({
       pathParameters: {
         testStationPNumber: '87-1369569' }
     })
       .expectResolve()
   })
-  it('should return a promise', () => {
+  it('should return a promise when sending parameters', () => {
     return LambdaTester(GetTestStationsEmailFunction.getTestStationEmails).event({
       pathParameters: {
         testStationPNumber: '111' }
