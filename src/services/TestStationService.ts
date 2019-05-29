@@ -2,6 +2,7 @@ import { HTTPError } from "../models/HTTPError";
 import { Service } from "../models/injector/ServiceDecorator";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { ITestStation } from "../models/ITestStation";
+import { ERRORS } from "../utils/Enum";
 
 @Service()
 export class TestStationService {
@@ -18,7 +19,7 @@ export class TestStationService {
     return this.testStationDAO.getAll()
       .then((data: any) => {
         if (data.Count === 0) {
-          throw new HTTPError(404, "No resources match the search criteria.");
+          throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
         }
         return data.Items;
       })
@@ -26,7 +27,7 @@ export class TestStationService {
         if (!(error instanceof HTTPError)) {
           console.log(error);
           error.statusCode = 500;
-          error.body = "Internal Server Error";
+          error.body = ERRORS.INTERNAL_SERVER_ERROR;
         }
         throw new HTTPError(error.statusCode, error.body);
       });
@@ -44,7 +45,7 @@ export class TestStationService {
       .catch((error: any) => {
         if (error) {
           console.error(error);
-          throw new HTTPError(500, "Internal Server Error");
+          throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
         }
       });
   }
@@ -61,7 +62,7 @@ export class TestStationService {
       .catch((error: any) => {
         if (error) {
           console.error(error);
-          throw new HTTPError(500, "Internal Server Error");
+          throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
         }
       });
   }
