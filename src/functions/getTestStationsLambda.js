@@ -2,7 +2,7 @@ const TestStationService = require('../services/TestStationService')
 const TestStationDAO = require('../models/TestStationDAO')
 const HTTPResponse = require('../models/HTTPResponse')
 
-const getTestStations = async () => {
+const getTestStationsLambda = () => {
   const testStationDAO = new TestStationDAO()
   const service = new TestStationService(testStationDAO)
 
@@ -15,4 +15,4 @@ const getTestStations = async () => {
     })
 }
 
-module.exports = getTestStations
+module.exports.getTestStationsLambda = getTestStationsLambda

@@ -1,0 +1,30 @@
+functions:
+  - getTestStationsLambda:
+      method: GET
+      path: /test-stations
+      proxy: null
+      function: getTestStationsLambda
+      event: apigateway
+  - getTestStationsEmails:
+      method: GET
+      path: /test-stations/{+proxy}
+      proxy: :testStationPNumber
+      function: getTestStationsEmails
+      event: lambda
+dynamodb:
+  local:
+    params:
+      region: localhost
+      endpoint: http://localhost:8007
+    table: cvs-local-test-stations
+  local-global:
+    params:
+      region: localhost
+      endpoint: http://localhost:8000
+    table: cvs-local-global-test-stations
+  remote:
+    params: {}
+    table: cvs-${BRANCH}-test-stations
+serverless:
+  basePath: /${BRANCH}
+  port: 3004

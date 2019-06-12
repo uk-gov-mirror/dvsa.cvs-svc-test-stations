@@ -25,9 +25,6 @@ functions:
       - http:
           path: test-stations
           method: get
-  getTestStationEmails:
-    handler: src/functions/getTestStationEmails.getTestStationEmails
-    events:
       - http:
           path: test-stations/{testStationPNumber}
           method: get

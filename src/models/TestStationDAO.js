@@ -1,12 +1,12 @@
 const AWSXRay = require('aws-xray-sdk')
 const AWS = AWSXRay.captureAWS(require('aws-sdk'))
-const generateConfig = require('../config/generateConfig')
-const config = generateConfig()
-const dbClient = new AWS.DynamoDB.DocumentClient(config.DYNAMODB_DOCUMENTCLIENT_PARAMS)
+const Configuration = require('../utils/Configuration')
+const dbConfig = Configuration.getInstance().getDynamoDBConfig()
+const dbClient = new AWS.DynamoDB.DocumentClient(dbConfig.params)
 
 class TestStationDAO {
   constructor () {
-    this.tableName = config.DYNAMODB_TABLE_NAME
+    this.tableName = dbConfig.table
   }
 
   getAll () {

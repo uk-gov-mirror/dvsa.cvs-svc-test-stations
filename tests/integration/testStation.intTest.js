@@ -55,7 +55,7 @@ describe('test stations', () => {
             testStationEmails: [
               'teststationname@dvsa.gov.uk',
               'teststationname1@dvsa.gov.uk'
-              ],
+            ],
             testStationId: '2'
           }
         ]
