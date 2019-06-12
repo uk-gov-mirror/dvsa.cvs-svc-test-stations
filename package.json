@@ -4,46 +4,75 @@
   "description": "Test Station service that stores and serves the Test Stations data",
   "main": "handler.js",
   "scripts": {
-    "start": "npm run eslint && BRANCH=local ./node_modules/serverless/bin/serverless offline start",
+    "start": "npm run tslint && BRANCH=local ./node_modules/serverless/bin/serverless offline start",
     "start:test": "npm run eslint && node_modules/gulp/bin/gulp.js start-serverless",
+    "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
+    "build:dev": "node_modules/typescript/bin/tsc && npm run build:copy",
+    "build:copy": "find src -type f \\( -name \"*.yml\" -or -name \"*.json\" \\) | cpio -pdm .build && find tests -type f \\( -name \"*.yml\" -or -name \"*.json\" \\)  | cpio -pdm .build",
     "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline start",
-    "test": "./node_modules/.bin/mocha tests/**/*.unitTest.js",
-    "test-i": "node_modules/.bin/mocha tests/**/*.intTest.js",
+    "test": "node_modules/.bin/mocha .build/tests/**/*.unitTest.js",
+    "test-i": "node_modules/.bin/mocha .build/tests/**/*.intTest.js",
+    "test:dev": "npm run build:dev && npm run test",
     "prepush": "npm test && npm run eslint && npm run security-checks",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
-    "eslint": "eslint . --config=.eslintrc.json --fix  -f json -o report.json",
+    "tslint": "tslint src/**/*.ts tests/**/*.ts -t json -o report.json",
     "sonar-scanner": "npm run eslint && npm run coverage && sonar-scanner",
     "coverage": "nyc mocha tests/unit/*.unitTest.js && nyc report --reporter=lcov",
     "audit-dep": "npm audit --json | audit-filter --nsp-config=.nsprc --audit=-"
   },
+  "nyc": {
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.455.0",
-    "aws-xray-sdk": "^2.3.2"
+    "aws-sdk": "^2.473.0",
+    "aws-xray-sdk": "^2.3.2",
+    "node-yaml": "^3.2.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/lambda-tester": "^3.5.1",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.18",
+    "@types/request": "^2.48.1",
+    "@types/supertest": "^2.0.7",
     "audit-filter": "^0.4.3",
     "chai": "^4.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-mocha": "^5.3.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0",
     "expect": "^24.8.0",
     "gulp": "^4.0.2",
     "lambda-tester": "^3.5.0",
     "mocha": "^4.1.0",
     "nyc": "^13.3.0",
-    "serverless": "^1.42.3",
-    "serverless-dynamodb-local": "^0.2.37",
+    "serverless": "^1.45.0",
+    "serverless-dynamodb-local": "^0.2.38",
     "serverless-offline": "^3.33.0",
     "serverless-plugin-tracing": "^2.0.0",
+    "serverless-plugin-typescript": "^1.1.5",
     "standard": "^12.0.1",
-    "supertest": "^3.4.2"
+    "supertest": "^3.4.2",
+    "tslint": "^5.12.1",
+    "tslint-jsdoc-rules": "^0.1.3",
+    "tslint-no-unused-expression-chai": "^0.1.4",
+    "typescript": "^3.2.4"
   }
 }
