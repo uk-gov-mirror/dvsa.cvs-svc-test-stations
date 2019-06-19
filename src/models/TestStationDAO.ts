@@ -2,10 +2,11 @@ import { Configuration } from "../utils/Configuration";
 import { DocumentClient } from "aws-sdk/lib/dynamodb/document_client";
 import { ITestStation } from "./ITestStation";
 import { PromiseResult } from "aws-sdk/lib/request";
+import { default as unwrappedAWS } from 'aws-sdk'
 
 /* tslint:disable */
 const AWSXRay = require('aws-xray-sdk')
-const AWS = AWSXRay.captureAWS(require('aws-sdk'))
+const AWS = AWSXRay.captureAWS(unwrappedAWS)
 /* tslint:enable */
 
 
