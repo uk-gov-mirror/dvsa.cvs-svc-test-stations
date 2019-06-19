@@ -2,7 +2,7 @@ import { Configuration } from "../utils/Configuration";
 import { DocumentClient } from "aws-sdk/lib/dynamodb/document_client";
 import { ITestStation } from "./ITestStation";
 import { PromiseResult } from "aws-sdk/lib/request";
-import { default as unwrappedAWS } from 'aws-sdk'
+import { default as unwrappedAWS } from "aws-sdk";
 
 /* tslint:disable */
 const AWSXRay = require('aws-xray-sdk')
