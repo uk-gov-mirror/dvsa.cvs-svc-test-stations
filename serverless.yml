@@ -4,6 +4,7 @@ service:
 plugins:
   - serverless-offline
   - serverless-dynamodb-local
+  - serverless-plugin-typescript
   - serverless-plugin-tracing
 
 provider:
@@ -37,6 +38,8 @@ custom:
   serverless-offline:
     port: 3004
   dynamodb:
+    stages:
+      - dev
     start:
       port: 8007
       inMemory: true
