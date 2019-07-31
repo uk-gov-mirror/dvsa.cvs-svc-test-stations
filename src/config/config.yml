@@ -1,9 +1,9 @@
 functions:
-  - getTestStationsLambda:
+  - getTestStations:
       method: GET
       path: /test-stations
       proxy: null
-      function: getTestStationsLambda
+      function: getTestStations
       event: apigateway
   - getTestStationsEmails:
       method: GET
