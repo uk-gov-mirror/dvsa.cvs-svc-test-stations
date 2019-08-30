@@ -1,10 +1,8 @@
 import { HTTPError } from "../models/HTTPError";
-import { Service } from "../models/injector/ServiceDecorator";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { ITestStation } from "../models/ITestStation";
 import { ERRORS } from "../utils/Enum";
 
-@Service()
 export class TestStationService {
   public readonly testStationDAO: TestStationDAO;
 
@@ -35,20 +33,19 @@ export class TestStationService {
 
   public getTestStationEmails = (pNumber: string) => {
     return this.testStationDAO.getTestStationEmailByPNumber(pNumber)
-        .then((data) => {
+        .then((data: any) => {
           if (data.Count === 0) {
             throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
           }
 
           return data.Items;
         })
-        .catch((error) => {
+        .catch((error: any) => {
           if (!(error instanceof HTTPError)) {
             console.log(error);
             error.statusCode = 500;
             error.body = ERRORS.INTERNAL_SERVER_ERROR;
           }
-
           throw new HTTPError(error.statusCode, error.body);
         });
   }
@@ -65,8 +62,8 @@ export class TestStationService {
         .catch((error: any) => {
           if (error) {
             console.error(error);
-            throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
           }
+          throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
         });
   }
 
@@ -82,8 +79,8 @@ export class TestStationService {
         .catch((error: any) => {
           if (error) {
             console.error(error);
-            throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
           }
+          throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
         });
   }
 }

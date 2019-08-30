@@ -1,5 +1,5 @@
 export interface ITestStation {
-    testStationId: number;
+    testStationId: string;
     testStationPNumber: string;
     testStationName: string;
     testStationContactNumber: string;

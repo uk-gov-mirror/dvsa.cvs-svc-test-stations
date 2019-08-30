@@ -1,27 +1,15 @@
 import {Handler} from "aws-lambda";
 // @ts-ignore
 import * as yml from "node-yaml";
-
-enum HTTPMethods {
-  GET = "GET",
-    POST = "POST",
-    PUT = "PUT",
-    DELETE = "DELETE"
-}
-
-interface IFunctionEvent {
-  name: string;
-  method: HTTPMethods;
-  path: string;
-  function: Handler;
-}
+import {IFunctionConfig} from "../models";
+import {ERRORS} from "./Enum";
 
 class Configuration {
 
   private static instance: Configuration;
   private readonly config: any;
 
-  private constructor(configPath: string) {
+  constructor(configPath: string) {
     this.config = yml.readSync(configPath);
 
     // Replace environment variable references
@@ -66,9 +54,9 @@ class Configuration {
    * Retrieves the lambda functions declared in the config
    * @returns IFunctionEvent[]
    */
-  public getFunctions(): IFunctionEvent[] {
+  public getFunctions(): IFunctionConfig[] {
     if (!this.config.functions) {
-      throw new Error("Functions were not defined in the config file.");
+      throw new Error(ERRORS.FUNCTION_CONFIG_NOT_DEFINED);
     }
 
     return this.config.functions.map((fn: Handler) => {
@@ -109,4 +97,4 @@ class Configuration {
     return this.config.dynamodb[env];
   }
 }
-export { Configuration, IFunctionEvent };
+export { Configuration };

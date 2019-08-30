@@ -14,6 +14,6 @@ export const getTestStations: Handler = async () => {
         return new HTTPResponse(200, data);
       })
       .catch((error: any) => {
-        return new HTTPError(error.statusCode, error.body);
+        throw new HTTPError(error.statusCode, error.body);
       });
 };

@@ -1,8 +1,9 @@
 import { HTTPRESPONSE } from "./utils/Enum";
 import {APIGatewayProxyResult, Callback, Context, Handler} from "aws-lambda";
 import Path from "path-parser";
-import {Configuration, IFunctionEvent} from "./utils/Configuration";
+import {Configuration} from "./utils/Configuration";
 import {HTTPResponse} from "./models/HTTPResponse";
+import {IFunctionConfig} from "./models";
 
 const handler: Handler = async (event: any, context: Context, callback: Callback): Promise<APIGatewayProxyResult> => {
   // Request integrity checks
@@ -24,10 +25,10 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
 
   // Finding an appropriate λ matching the request
   const config: Configuration = Configuration.getInstance();
-  const functions: IFunctionEvent[] =  config.getFunctions();
+  const functions: IFunctionConfig[] =  config.getFunctions();
   const serverlessConfig: any = config.getConfig().serverless;
 
-  const matchingLambdaEvents: IFunctionEvent[] = functions.filter((fn) => {
+  const matchingLambdaEvents: IFunctionConfig[] = functions.filter((fn) => {
     // Find λ with matching httpMethod
     return event.httpMethod === fn.method;
   })
@@ -41,7 +42,7 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
 
   // Exactly one λ should match the above filtering.
   if (matchingLambdaEvents.length === 1) {
-    const lambdaEvent: IFunctionEvent = matchingLambdaEvents[0];
+    const lambdaEvent = matchingLambdaEvents[0];
     const lambdaFn: Handler = lambdaEvent.function;
 
     const localPath: Path = new Path(lambdaEvent.path);
