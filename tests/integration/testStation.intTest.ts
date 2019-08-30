@@ -5,6 +5,7 @@ import path from "path";
 import { TestStationService } from "../../src/services/TestStationService";
 import { TestStationDAO } from "../../src/models/TestStationDAO";
 import {ITestStation} from "../../src/models/ITestStation";
+import stations from "../resources/test-stations.json";
 const url = "http://localhost:3004/";
 const request = supertest(url);
 
@@ -15,10 +16,10 @@ describe("test stations", () => {
       let testStationDAO = null;
       const testStationData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../resources/test-stations.json"), "utf8"));
 
-      before((done) => {
+      beforeEach((done) => {
         testStationDAO = new TestStationDAO();
         testStationService = new TestStationService(testStationDAO);
-        const mockBuffer = testStationData.slice();
+        const mockBuffer = [...stations].slice();
 
         const batches = [];
         while (mockBuffer.length > 0) {
@@ -33,16 +34,13 @@ describe("test stations", () => {
       });
 
       it("should return all test stations in the database", (done) => {
-        const expectedResponse = JSON.parse(JSON.stringify(testStationData));
-
         request.get("test-stations")
           .end((err: Error, res: any) => {
-            console.log();
             if (err) { expect.fail(err); }
             expect(res.statusCode).to.equal(200);
             expect(res.headers["access-control-allow-origin"]).to.equal("*");
             expect(res.headers["access-control-allow-credentials"]).to.equal("true");
-            expect(res.body.length).to.equal(expectedResponse.length);
+            expect(res.body.length).to.equal(stations.length);
             done();
           });
       });
@@ -70,7 +68,7 @@ describe("test stations", () => {
           });
       });
 
-      after((done) => {
+      afterEach((done) => {
         const dataBuffer = testStationData;
 
         const batches = [];

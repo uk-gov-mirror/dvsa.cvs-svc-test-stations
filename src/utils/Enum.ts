@@ -1,6 +1,8 @@
 export enum ERRORS {
     RESOURCE_NOT_FOUND = "No resources match the search criteria.",
-    INTERNAL_SERVER_ERROR = "Internal Server Error"
+    INTERNAL_SERVER_ERROR = "Internal Server Error",
+    DYNAMODB_CONFIG_NOT_DEFINED = "DynamoDB config is not defined in the config file.",
+    FUNCTION_CONFIG_NOT_DEFINED = "Functions were not defined in the config file.",
 }
 
 export enum HTTPRESPONSE {
