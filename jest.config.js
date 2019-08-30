@@ -6,7 +6,7 @@ module.exports = {
         "<rootDir>/tests"
     ],
     testMatch: [
-        "**/*.unitTest.ts"
+        "**/*.*Test.ts"
     ],
     setupFiles: [
         "jest-plugin-context/setup"
