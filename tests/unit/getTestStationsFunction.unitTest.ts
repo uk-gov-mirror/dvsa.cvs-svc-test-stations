@@ -17,7 +17,7 @@ describe("getTestStationsEmails Handler", () => {
             });
 
             try {
-                const res: HTTPResponse = await getTestStations(null, ctx, () => {return; });
+                const res: HTTPResponse = await getTestStations();
                 expect(res).to.be.instanceOf(HTTPResponse);
                 expect(res.statusCode).to.equal(200);
                 expect(res.body).to.equal(JSON.stringify(stations));
@@ -35,7 +35,7 @@ describe("getTestStationsEmails Handler", () => {
             });
 
             try {
-                await getTestStations(null, ctx, () => {return; });
+                await getTestStations();
                 expect.fail();
             } catch (e) {
                 expect(e).to.be.instanceOf(HTTPError);
