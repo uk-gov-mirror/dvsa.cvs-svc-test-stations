@@ -8,7 +8,7 @@ import {HTTPError} from "../../src/models/HTTPError";
 describe("getTestStations", () => {
   it("should return a promise", () => {
     return LambdaTester(getTestStations)
-      .expectResolve((result: ITestStation[]) => {
+      .expectResolve((result: any) => {
         expect(result).to.exist;
       });
   });

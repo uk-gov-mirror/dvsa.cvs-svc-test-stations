@@ -1,18 +1,18 @@
 import { HTTPRESPONSE } from "./utils/Enum";
-import {APIGatewayProxyResult, Callback, Context, Handler} from "aws-lambda";
 import Path from "path-parser";
-import {Configuration} from "./utils/Configuration";
-import {HTTPResponse} from "./models/HTTPResponse";
+import { Configuration } from "./utils/Configuration";
+import { HTTPResponse } from "./models/HTTPResponse";
+import {Context} from "aws-lambda";
 import {IFunctionConfig} from "./models";
 
-const handler: Handler = async (event: any, context: Context, callback: Callback): Promise<APIGatewayProxyResult> => {
+const handler = async (event: any, context: Context) => {
   // Request integrity checks
   if (!event) {
     return new HTTPResponse(400, HTTPRESPONSE.AWS_EVENT_EMPTY);
   }
 
   if (event.body) {
-    let payload: any = {};
+    let payload = {};
 
     try {
       payload = JSON.parse(event.body);
@@ -25,14 +25,14 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
 
   // Finding an appropriate λ matching the request
   const config: Configuration = Configuration.getInstance();
-  const functions: IFunctionConfig[] =  config.getFunctions();
-  const serverlessConfig: any = config.getConfig().serverless;
+  const functions: IFunctionConfig[] = config.getFunctions();
+  const serverlessConfig = config.getConfig().serverless;
 
-  const matchingLambdaEvents: IFunctionConfig[] = functions.filter((fn) => {
+  const matchingLambdaEvents: IFunctionConfig[] = functions.filter((fn: IFunctionConfig) => {
     // Find λ with matching httpMethod
     return event.httpMethod === fn.method;
   })
-      .filter((fn) => {
+      .filter((fn: IFunctionConfig) => {
         // Find λ with matching path
         const localPath: Path = new Path(fn.path);
         const remotePath: Path = new Path(`${serverlessConfig.basePath}${fn.path}`); // Remote paths also have environment
@@ -43,19 +43,19 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
   // Exactly one λ should match the above filtering.
   if (matchingLambdaEvents.length === 1) {
     const lambdaEvent = matchingLambdaEvents[0];
-    const lambdaFn: Handler = lambdaEvent.function;
+    const lambdaFn = lambdaEvent.function;
 
     const localPath: Path = new Path(lambdaEvent.path);
     const remotePath: Path = new Path(`${serverlessConfig.basePath}${lambdaEvent.path}`); // Remote paths also have environment
 
-    const lambdaPathParams: any = (localPath.test(event.path) || remotePath.test(event.path));
+    const lambdaPathParams = (localPath.test(event.path) || remotePath.test(event.path));
 
     Object.assign(event, { pathParameters: lambdaPathParams });
 
     console.log(`HTTP ${event.httpMethod} ${event.path} -> λ ${lambdaEvent.name}`);
 
     // Explicit conversion because typescript can't figure it out
-    return lambdaFn(event, context, callback) as Promise<APIGatewayProxyResult>;
+    return lambdaFn(event, context, () => {return; });
   }
 
   // If filtering results in less or more λ functions than expected, we return an error.
@@ -68,4 +68,4 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
   return new HTTPResponse(400, { error: `Route ${event.httpMethod} ${event.path} was not found.` });
 };
 
-export { handler };
+export {handler};
