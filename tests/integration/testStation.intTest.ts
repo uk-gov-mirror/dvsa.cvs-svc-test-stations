@@ -10,27 +10,32 @@ const url = "http://localhost:3004/";
 const request = supertest(url);
 
 describe("test stations", () => {
+  let testStationService: any = null;
+  let testStationDAO = null;
+  const testStationData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../resources/test-stations.json"), "utf8"));
+
+  const populateDatabase = (done: any) => {
+    testStationDAO = new TestStationDAO();
+    testStationService = new TestStationService(testStationDAO);
+    const mockBuffer = [...stations].slice();
+
+    const batches = [];
+    while (mockBuffer.length > 0) {
+      batches.push(mockBuffer.splice(0, 25));
+    }
+
+    batches.forEach((batch) => {
+      testStationService.insertTestStationList(batch);
+    });
+
+    done();
+  };
+
   describe("getTestStation", () => {
     context("when database is populated", () => {
-      let testStationService: any = null;
-      let testStationDAO = null;
-      const testStationData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../resources/test-stations.json"), "utf8"));
 
       beforeEach((done) => {
-        testStationDAO = new TestStationDAO();
-        testStationService = new TestStationService(testStationDAO);
-        const mockBuffer = [...stations].slice();
-
-        const batches = [];
-        while (mockBuffer.length > 0) {
-          batches.push(mockBuffer.splice(0, 25));
-        }
-
-        batches.forEach((batch) => {
-          testStationService.insertTestStationList(batch);
-        });
-
-        done();
+        populateDatabase(done);
       });
 
       it("should return all test stations in the database", (done) => {
@@ -101,4 +106,9 @@ describe("test stations", () => {
   afterEach((done) => {
     setTimeout(done, 500);
   });
+  afterAll((done) => {
+    populateDatabase(done);
+  });
 });
+
+
