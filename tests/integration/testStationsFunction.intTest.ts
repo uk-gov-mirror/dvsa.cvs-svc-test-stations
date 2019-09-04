@@ -33,7 +33,7 @@ describe("getTestStationsEmail", () => {
           expect(result).to.exist;
         });
   });
-  it("should return a promise when sending parameters", () => {
+  it("should throw and error when requesting non-existent record", () => {
     return LambdaTester(getTestStationsEmails)
         .event({
           pathParameters: {
