@@ -18,6 +18,7 @@ export const getTestStationsEmails: Handler = (event) => {
         return new HTTPResponse(200, data);
       })
       .catch((error: any) => {
+        console.error(error);
         throw new HTTPError(error.statusCode, error.body);
       });
 };

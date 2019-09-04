@@ -13,6 +13,7 @@ export const getTestStations = async () => {
         return new HTTPResponse(200, data);
       })
       .catch((error: any) => {
+          console.error(error);
         throw new HTTPError(error.statusCode, error.body);
       });
 };
