@@ -1,7 +1,5 @@
 import supertest from "supertest";
 import {expect} from "chai";
-import fs from "fs";
-import path from "path";
 import { TestStationService } from "../../src/services/TestStationService";
 import { TestStationDAO } from "../../src/models/TestStationDAO";
 import {ITestStation} from "../../src/models/ITestStation";
@@ -10,13 +8,9 @@ const url = "http://localhost:3004/";
 const request = supertest(url);
 
 describe("test stations", () => {
-  let testStationService: any = null;
-  let testStationDAO = null;
-  const testStationData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../resources/test-stations.json"), "utf8"));
-
-  const populateDatabase = (done: any) => {
-    testStationDAO = new TestStationDAO();
-    testStationService = new TestStationService(testStationDAO);
+  const populateDatabase = () => {
+    const testStationDAO = new TestStationDAO();
+    const testStationService = new TestStationService(testStationDAO);
     const mockBuffer = [...stations].slice();
 
     const batches = [];
@@ -27,15 +21,33 @@ describe("test stations", () => {
     batches.forEach((batch) => {
       testStationService.insertTestStationList(batch);
     });
+  };
 
-    done();
+  const emptyDatabase = () => {
+    const testStationDAO = new TestStationDAO();
+    const testStationService = new TestStationService(testStationDAO);
+    const dataBuffer = [...stations];
+
+    const batches = [];
+    while (dataBuffer.length > 0) {
+      batches.push(dataBuffer.splice(0, 25));
+    }
+
+    batches.forEach((batch) => {
+      testStationService.deleteTestStationsList(
+          batch.map((item: ITestStation) => {
+            return item.testStationId;
+          })
+      );
+    });
   };
 
   describe("getTestStation", () => {
     context("when database is populated", () => {
 
       beforeEach((done) => {
-        populateDatabase(done);
+        populateDatabase();
+        done();
       });
 
       it("should return all test stations in the database", (done) => {
@@ -72,29 +84,14 @@ describe("test stations", () => {
             done();
           });
       });
-
-      afterEach((done) => {
-        const dataBuffer = testStationData;
-
-        const batches = [];
-        while (dataBuffer.length > 0) {
-          batches.push(dataBuffer.splice(0, 25));
-        }
-
-        batches.forEach((batch) => {
-          testStationService.deleteTestStationsList(
-            batch.map((item: ITestStation) => {
-              return item.testStationId;
-            })
-          );
-        });
-
-        done();
-      });
     });
   });
 
   context("when database is empty", () => {
+    beforeAll((done) => {
+      emptyDatabase();
+      done();
+    });
     it("should return error code 404", (done) => {
       request.get("preparers").expect(404, done);
     });
@@ -107,7 +104,8 @@ describe("test stations", () => {
     setTimeout(done, 500);
   });
   afterAll((done) => {
-    populateDatabase(done);
+    populateDatabase();
+    done();
   });
 });
 
