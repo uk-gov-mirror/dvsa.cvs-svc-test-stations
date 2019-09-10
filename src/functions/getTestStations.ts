@@ -14,6 +14,6 @@ export const getTestStations = async () => {
       })
       .catch((error: any) => {
           console.error(error);
-        throw new HTTPError(error.statusCode, error.body);
+          throw new HTTPError(error.statusCode, error.body);
       });
 };
