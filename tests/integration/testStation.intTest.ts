@@ -18,9 +18,11 @@ describe("test stations", () => {
       batches.push(mockBuffer.splice(0, 25));
     }
 
-    batches.forEach((batch) => {
-      testStationService.insertTestStationList(batch);
-    });
+    return Promise.all(
+      batches.map(async (batch) => {
+        return await testStationService.insertTestStationList(batch);
+      })
+    );
   };
 
   const emptyDatabase = () => {
@@ -32,22 +34,22 @@ describe("test stations", () => {
     while (dataBuffer.length > 0) {
       batches.push(dataBuffer.splice(0, 25));
     }
-
-    batches.forEach((batch) => {
-      testStationService.deleteTestStationsList(
-          batch.map((item: ITestStation) => {
-            return item.testStationId;
-          })
-      );
-    });
+    return Promise.all(
+      batches.map(async (batch) => {
+        return await testStationService.deleteTestStationsList(
+            batch.map((item: ITestStation) => {
+              return item.testStationId;
+            })
+        );
+      })
+    );
   };
 
   describe("getTestStation", () => {
     context("when database is populated", () => {
 
-      beforeEach((done) => {
-        populateDatabase();
-        done();
+      beforeEach(async () => {
+        await populateDatabase();
       });
 
       it("should return all test stations in the database", (done) => {
