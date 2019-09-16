@@ -1,57 +1,21 @@
 import supertest from "supertest";
 import {expect} from "chai";
-import { TestStationService } from "../../src/services/TestStationService";
-import { TestStationDAO } from "../../src/models/TestStationDAO";
-import {ITestStation} from "../../src/models/ITestStation";
+import {populateDatabase, emptyDatabase} from "../util/dbOperations";
 import stations from "../resources/test-stations.json";
 const url = "http://localhost:3004/";
 const request = supertest(url);
 
+jest.restoreAllMocks();
+jest.resetModules();
+
 describe("test stations", () => {
-  const populateDatabase = () => {
-    const testStationDAO = new TestStationDAO();
-    const testStationService = new TestStationService(testStationDAO);
-    const mockBuffer = [...stations].slice();
-
-    const batches = [];
-    while (mockBuffer.length > 0) {
-      batches.push(mockBuffer.splice(0, 25));
-    }
-
-    return Promise.all(
-      batches.map(async (batch) => {
-        return await testStationService.insertTestStationList(batch);
-      })
-    );
-  };
-
-  const emptyDatabase = () => {
-    const testStationDAO = new TestStationDAO();
-    const testStationService = new TestStationService(testStationDAO);
-    const dataBuffer = [...stations];
-
-    const batches = [];
-    while (dataBuffer.length > 0) {
-      batches.push(dataBuffer.splice(0, 25));
-    }
-    return Promise.all(
-      batches.map(async (batch) => {
-        return await testStationService.deleteTestStationsList(
-            batch.map((item: ITestStation) => {
-              return item.testStationId;
-            })
-        );
-      })
-    );
-  };
+  beforeAll(async (done) => {
+    await populateDatabase();
+    setTimeout(done, 1000);
+  });
 
   describe("getTestStation", () => {
     context("when database is populated", () => {
-
-      beforeEach(async () => {
-        await populateDatabase();
-      });
-
       it("should return all test stations in the database", (done) => {
         request.get("test-stations")
           .end((err: Error, res: any) => {
@@ -90,25 +54,28 @@ describe("test stations", () => {
   });
 
   context("when database is empty", () => {
-    beforeAll((done) => {
-      emptyDatabase();
-      done();
+    beforeAll( async (done) => {
+      await emptyDatabase();
+      setTimeout(done, 1000);
     });
+
     it("should return error code 404", (done) => {
-      request.get("preparers").expect(404, done);
+      request.get("test-stations").expect(404, done);
+    });
+
+    afterAll(async (done) => {
+      await populateDatabase();
+      setTimeout(done, 1000);
     });
   });
 
-  beforeEach((done) => {
-    setTimeout(done, 500);
+  beforeEach(() => {
+    jest.setTimeout(5000);
   });
-  afterEach((done) => {
-    setTimeout(done, 500);
+  afterEach(() => {
+    jest.setTimeout(5000);
   });
-  afterAll((done) => {
-    populateDatabase();
-    done();
-  });
+
 });
 
 
