@@ -15,6 +15,20 @@ describe("getTestStations", () => {
 });
 
 describe("getTestStationsEmail", () => {
+  beforeAll(async (done) => {
+    jest.resetAllMocks();
+    jest.resetModules();
+    done();
+  });
+
+  beforeEach(() => {
+    jest.setTimeout(30000);
+  });
+
+  afterEach(() => {
+    jest.setTimeout(30000);
+  });
+
   it("should return an error when sending no parameters", () => {
     return LambdaTester(getTestStationsEmails)
         .expectReject((error: Error) => {
