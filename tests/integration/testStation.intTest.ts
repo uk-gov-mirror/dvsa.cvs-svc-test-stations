@@ -18,8 +18,6 @@ describe("test stations", () => {
           .end((err: Error, res: any) => {
             if (err) { expect.fail(err); }
             expect(res.statusCode).to.equal(200);
-            expect(res.headers["access-control-allow-origin"]).to.equal("*");
-            expect(res.headers["access-control-allow-credentials"]).to.equal("true");
             expect(res.body.length).to.equal(stations.length);
             done();
           });
@@ -42,8 +40,6 @@ describe("test stations", () => {
             .end((err, res: any) => {
               if (err) { expect.fail(err); }
               expect(res.statusCode).to.equal(200);
-              expect(res.headers["access-control-allow-origin"]).to.equal("*");
-              expect(res.headers["access-control-allow-credentials"]).to.equal("true");
               expect(res.body).to.deep.equal(expectedResponse);
               done();
             });
