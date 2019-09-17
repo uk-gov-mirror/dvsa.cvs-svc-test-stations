@@ -7,12 +7,12 @@ const request = supertest(url);
 
 
 describe("test stations", () => {
-    beforeAll((done) => {
+    beforeEach((done) => {
         emptyDatabase();
         done();
     });
 
-    afterAll((done) => {
+    afterEach((done) => {
         populateDatabase();
         done();
     });
