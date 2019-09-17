@@ -7,11 +7,11 @@ const request = supertest(url);
 
 describe("test stations", () => {
   beforeAll(async (done) => {
-    await populateDatabase();
+    jest.setTimeout(30000);
     jest.resetAllMocks();
     jest.resetModules();
-    jest.setTimeout(30000);
-    done();
+    await populateDatabase();
+    setTimeout(done,20000);
   });
 
   beforeEach(() => {
@@ -24,8 +24,6 @@ describe("test stations", () => {
 
   describe("getTestStation", () => {
     context("when database is populated", () => {
-      jest.setTimeout(30000);
-
       it("should return all test stations in the database", async (done) => {
         request.get("test-stations")
           .end((err: Error, res: any) => {
