@@ -3,7 +3,7 @@ import * as path from "path";
 import {TestStationDAO} from "../../src/models/TestStationDAO";
 import {ITestStation} from "../../src/models/ITestStation";
 
-export const populateDatabase = () => {
+export const populateDatabase = async () => {
     const testStationDAO = new TestStationDAO();
     const mockBuffer = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../resources/test-stations.json"), "utf8"));
 
@@ -17,7 +17,7 @@ export const populateDatabase = () => {
     });
 };
 
-export const emptyDatabase = () => {
+export const emptyDatabase = async () => {
     const testStationDAO = new TestStationDAO();
     const dataBuffer = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../resources/test-stations.json"), "utf8"));
 
