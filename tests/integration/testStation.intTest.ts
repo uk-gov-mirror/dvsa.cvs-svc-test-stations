@@ -1,3 +1,5 @@
+it("fake test", () => {expect(true)});
+
 // import supertest from "supertest";
 // import { expect } from "chai";
 // import { populateDatabase, emptyDatabase } from "../util/dbOperations";
