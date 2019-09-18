@@ -1,4 +1,4 @@
-it("fake test 2", () => {expect(true)});
+it("fake test 2", () => { expect(true); });
 
 // import supertest from "supertest";
 // import { expect } from "chai";
