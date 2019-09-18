@@ -6,17 +6,16 @@ const url = "http://localhost:3004/";
 const request = supertest(url);
 
 describe("getTestStation", () => {
+  beforeEach((done) => {
+    populateDatabase();
+    done();
+  });
+
+  afterEach((done) => {
+    emptyDatabase();
+    done();
+  });
   context("when database is populated", () => {
-    beforeEach((done) => {
-      populateDatabase();
-      done();
-    });
-
-    afterEach((done) => {
-      emptyDatabase();
-      done();
-    });
-
     it("should return all test stations in the database", (done) => {
       request.get("test-stations")
         .end((err: Error, res: any) => {
