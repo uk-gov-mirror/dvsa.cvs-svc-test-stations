@@ -7,8 +7,10 @@ const request = supertest(url);
 
 describe("getTestStation", () => {
   beforeEach((done) => {
-    populateDatabase();
-    done();
+    setTimeout(() => {
+      populateDatabase();
+      done();
+    }, 5000);
   });
 
   afterEach((done) => {
@@ -17,12 +19,15 @@ describe("getTestStation", () => {
   });
 
   afterAll((done) => {
-    populateDatabase();
-    done();
+    setTimeout(() => {
+      populateDatabase();
+      done();
+    }, 5000);
 });
 
   context("when database is populated", () => {
     context("when fetching all records", () => {
+      jest.setTimeout(6000);
       it("should return all test stations in the database", (done) => {
         request.get("test-stations")
           .end((err: Error, res: any) => {
@@ -35,6 +40,7 @@ describe("getTestStation", () => {
     });
 
     context("when fetching selected record", () => {
+      jest.setTimeout(6000);
       it("should return the selected Station's details", (done) => {
         const expectedResponse = [
           {
