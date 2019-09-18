@@ -15,7 +15,8 @@ describe("getTestStation", () => {
     emptyDatabase();
     done();
   });
-  context("when database is populated", () => {
+
+  context("when database is populated for fetching all records", () => {
     it("should return all test stations in the database", (done) => {
       request.get("test-stations")
         .end((err: Error, res: any) => {
@@ -25,7 +26,9 @@ describe("getTestStation", () => {
           done();
         });
     });
+  });
 
+  context("when database is populated for fetching selected record", () => {
     it("should return the selected Station's details", (done) => {
       const expectedResponse = [
         {
