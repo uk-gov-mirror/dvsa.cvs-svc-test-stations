@@ -21,9 +21,7 @@ describe("test stations", () => {
         context("when database is empty", () => {
             it("should return error code 404", (done) => {
                 request.get("test-stations").expect(404, done)
-                    .end((err: Error, res: any) => {
-                        done();
-                    });
+                done();
             });
         });
     });
