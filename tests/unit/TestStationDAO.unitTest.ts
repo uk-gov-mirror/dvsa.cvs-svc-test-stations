@@ -1,13 +1,15 @@
 import AWS from "aws-sdk";
 import {expect} from "chai";
-import { TestStationDAO } from "../../src/models/TestStationDAO";
+import {TestStationDAO} from "../../src/models/TestStationDAO";
 import sinon, {SinonStub} from "sinon";
-import { HTTPError } from "../../src/models/HTTPError";
+import {HTTPError} from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
+import {TEST_STATION_STATUS} from "../../src/utils/Enum";
+import {Configuration} from "../../src/utils/Configuration";
 
 const sandbox = sinon.createSandbox();
 
-describe("Preparers DAO", () => {
+describe("TestStationDAO", () => {
 
     context("getAll", () => {
         beforeEach(() => {jest.resetModules(); });
@@ -16,8 +18,15 @@ describe("Preparers DAO", () => {
         it("returns data on successful query", async () => {
             mockDocumentClientWithReturn("scan", "success");
             const dao = new TestStationDAO();
-            const output = await dao.getAll();
+            const output = await dao.getAll(TEST_STATION_STATUS.ACTIVE);
             expect(output).to.equal("success");
+        });
+
+        it("does not set filter test stations if the statusFilter is null", async () => {
+            const stub = mockDocumentClientWithReturn("scan", "success");
+            const dao = new TestStationDAO();
+            await dao.getAll(null);
+            expect(stub.args[0]).to.deep.equal( [ { TableName: Configuration.getInstance().getDynamoDBConfig().table}]);
         });
 
         it("throw error on failed query", async () => {
@@ -25,7 +34,7 @@ describe("Preparers DAO", () => {
             mockDocumentClientWithReject("scan", myError);
             const dao = new TestStationDAO();
             try {
-                await dao.getAll();
+                await dao.getAll(TEST_STATION_STATUS.ACTIVE);
                 expect.fail();
             } catch (e) {
                 expect(e).to.equal(myError);

@@ -12,6 +12,14 @@ describe("getTestStations", () => {
         expect(result).to.exist;
       });
   });
+
+  it("should return only the active test stations", () => {
+    return LambdaTester(getTestStations)
+      .expectResolve((result: any) => {
+        expect(result).to.exist;
+        expect(JSON.parse(result.body).length).to.equal(17);
+      });
+  });
 });
 
 describe("getTestStationsEmail", () => {

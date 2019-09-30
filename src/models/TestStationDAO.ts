@@ -3,6 +3,7 @@ import { DocumentClient } from "aws-sdk/lib/dynamodb/document_client";
 import { ITestStation } from "./ITestStation";
 import { PromiseResult } from "aws-sdk/lib/request";
 import { default as unwrappedAWS } from "aws-sdk";
+import {TEST_STATION_STATUS} from "../utils/Enum";
 
 /* tslint:disable */
 const AWSXRay = require('aws-xray-sdk')
@@ -43,11 +44,25 @@ export class TestStationDAO {
   }
 
   /**
-   * Get All test stations in the DB
+   * Get All test stations in the DB, filtered by status
+   * If the statusFilter is set to null, get all test stations
    * @returns ultimately, an array of TestStation objects, wrapped in a PromiseResult, wrapped in a Promise
    */
-  public getAll(): Promise<PromiseResult<DocumentClient.ScanOutput, AWS.AWSError>> {
-    return TestStationDAO.dbClient.scan({ TableName: this.tableName }).promise();
+  public getAll(statusFilter: TEST_STATION_STATUS | null): Promise<PromiseResult<DocumentClient.ScanOutput, AWS.AWSError>> {
+    let scanParams = { TableName: this.tableName };
+    if (statusFilter) {
+      const filter = {
+        FilterExpression: "#testStationStatus = :testStationStatus",
+        ExpressionAttributeNames: {
+          "#testStationStatus": "testStationStatus",
+        },
+        ExpressionAttributeValues: {
+          ":testStationStatus": statusFilter,
+        }
+      };
+      scanParams = {...scanParams, ...filter};
+    }
+    return TestStationDAO.dbClient.scan(scanParams).promise();
   }
 
   /**

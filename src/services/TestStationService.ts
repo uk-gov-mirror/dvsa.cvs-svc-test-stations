@@ -1,7 +1,7 @@
 import { HTTPError } from "../models/HTTPError";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { ITestStation } from "../models/ITestStation";
-import { ERRORS } from "../utils/Enum";
+import {ERRORS, TEST_STATION_STATUS} from "../utils/Enum";
 
 export class TestStationService {
   public readonly testStationDAO: TestStationDAO;
@@ -14,7 +14,7 @@ export class TestStationService {
    * Fetch a list of all test stations (ATFs) from DynamoDB
    */
   public getTestStationList() {
-    return this.testStationDAO.getAll()
+    return this.testStationDAO.getAll(TEST_STATION_STATUS.ACTIVE)
         .then((data: any) => {
           if (data.Count === 0) {
             throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);

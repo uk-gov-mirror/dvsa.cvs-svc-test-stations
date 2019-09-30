@@ -2,6 +2,7 @@
     {
         "testStationId": "1",
         "testStationPNumber": "87-1369569",
+        "testStationStatus": "active",
         "testStationName": "Rowe, Wunsch and Wisoky",
         "testStationContactNumber": "+33 976 156 9783",
         "testStationAccessNotes": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.",
@@ -21,6 +22,7 @@
     {
         "testStationId": "2",
         "testStationPNumber": "84-926821",
+        "testStationStatus": "active",
         "testStationName": "Larson, Nader and Okuneva",
         "testStationContactNumber": "+373 597 232 4326",
         "testStationAccessNotes": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.\n\nCras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nProin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.",
@@ -39,6 +41,7 @@
     {
         "testStationId": "3",
         "testStationPNumber": "45-6245686",
+        "testStationStatus": "active",
         "testStationName": "Weber, Schulist and Schmitt",
         "testStationContactNumber": "+62 644 827 5861",
         "testStationAccessNotes": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
@@ -56,6 +59,7 @@
     {
         "testStationId": "4",
         "testStationPNumber": "35-7138320",
+        "testStationStatus": "active",
         "testStationName": "Lowe-Veum",
         "testStationContactNumber": "+86 310 718 2042",
         "testStationAccessNotes": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
@@ -73,6 +77,7 @@
     {
         "testStationId": "5",
         "testStationPNumber": "00-3024646",
+        "testStationStatus": "active",
         "testStationName": "Nienow-Wunsch",
         "testStationContactNumber": "+380 759 660 5157",
         "testStationAccessNotes": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
@@ -90,6 +95,7 @@
     {
         "testStationId": "6",
         "testStationPNumber": "95-1291781",
+        "testStationStatus": "active",
         "testStationName": "Bergnaum Group",
         "testStationContactNumber": "+86 323 219 2794",
         "testStationAccessNotes": "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.\n\nInteger tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
@@ -107,6 +113,7 @@
     {
         "testStationId": "7",
         "testStationPNumber": "47-9415710",
+        "testStationStatus": "active",
         "testStationName": "Orn LLC",
         "testStationContactNumber": "+86 756 250 7874",
         "testStationAccessNotes": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.\n\nFusce consequat. Nulla nisl. Nunc nisl.",
@@ -124,6 +131,7 @@
     {
         "testStationId": "8",
         "testStationPNumber": "78-7521984",
+        "testStationStatus": "active",
         "testStationName": "Haag, Nitzsche and Grant",
         "testStationContactNumber": "+55 707 349 5665",
         "testStationAccessNotes": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
@@ -141,6 +149,7 @@
     {
         "testStationId": "9",
         "testStationPNumber": "09-4129632",
+        "testStationStatus": "active",
         "testStationName": "Abshire-Kub",
         "testStationContactNumber": "+55 175 740 8666",
         "testStationAccessNotes": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\n\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
@@ -158,6 +167,7 @@
     {
         "testStationId": "10",
         "testStationPNumber": "14-8817748",
+        "testStationStatus": "active",
         "testStationName": "Jacobson and Sons",
         "testStationContactNumber": "+62 402 212 0490",
         "testStationAccessNotes": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.",
@@ -175,6 +185,7 @@
     {
         "testStationId": "11",
         "testStationPNumber": "00-2987340",
+        "testStationStatus": "active",
         "testStationName": "Kassulke Inc",
         "testStationContactNumber": "+506 317 509 2143",
         "testStationAccessNotes": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
@@ -192,6 +203,7 @@
     {
         "testStationId": "12",
         "testStationPNumber": "41-0258793",
+        "testStationStatus": "active",
         "testStationName": "Mraz, Gleichner and Aufderhar",
         "testStationContactNumber": "+359 764 313 9351",
         "testStationAccessNotes": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
@@ -209,6 +221,7 @@
     {
         "testStationId": "13",
         "testStationPNumber": "07-6213397",
+        "testStationStatus": "active",
         "testStationName": "Shields LLC",
         "testStationContactNumber": "+81 815 789 8062",
         "testStationAccessNotes": "Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.",
@@ -226,6 +239,7 @@
     {
         "testStationId": "14",
         "testStationPNumber": "69-2361520",
+        "testStationStatus": "active",
         "testStationName": "Shields LLC",
         "testStationContactNumber": "+86 619 125 2939",
         "testStationAccessNotes": "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.",
@@ -243,6 +257,7 @@
     {
         "testStationId": "15",
         "testStationPNumber": "68-6047236",
+        "testStationStatus": "active",
         "testStationName": "Klein LLC",
         "testStationContactNumber": "+63 671 575 3109",
         "testStationAccessNotes": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
@@ -260,6 +275,7 @@
     {
         "testStationId": "16",
         "testStationPNumber": "70-4016074",
+        "testStationStatus": "active",
         "testStationName": "Kovacek Group",
         "testStationContactNumber": "+86 612 861 4032",
         "testStationAccessNotes": "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
@@ -277,6 +293,7 @@
     {
         "testStationId": "17",
         "testStationPNumber": "04-2727779",
+        "testStationStatus": "active",
         "testStationName": "Lynch, Wyman and Reilly",
         "testStationContactNumber": "+977 702 518 7936",
         "testStationAccessNotes": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\n\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.\n\nInteger tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
@@ -294,6 +311,7 @@
     {
         "testStationId": "18",
         "testStationPNumber": "63-2521487",
+        "testStationStatus": "inactive",
         "testStationName": "Kuhn-Hand",
         "testStationContactNumber": "+86 184 657 2825",
         "testStationAccessNotes": "Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.",
@@ -311,6 +329,7 @@
     {
         "testStationId": "19",
         "testStationPNumber": "72-3855852",
+        "testStationStatus": null,
         "testStationName": "Steuber, Hoppe and Willms",
         "testStationContactNumber": "+63 526 386 6469",
         "testStationAccessNotes": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.\n\nCurabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.\n\nPhasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",

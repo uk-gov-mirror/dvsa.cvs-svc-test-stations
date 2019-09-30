@@ -9,3 +9,7 @@ export enum HTTPRESPONSE {
     AWS_EVENT_EMPTY = "AWS event is empty. Check your test event.",
     NOT_VALID_JSON = "Body is not a valid JSON.",
 }
+
+export enum TEST_STATION_STATUS {
+    ACTIVE = "active"
+}
