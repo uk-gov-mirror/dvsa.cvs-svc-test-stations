@@ -1,7 +1,7 @@
 export interface ITestStation {
     testStationId: string;
     testStationPNumber: string;
-    testStationStatus?: string | null;
+    testStationStatus: string;
     testStationName: string;
     testStationContactNumber: string;
     testStationAccessNotes: string;

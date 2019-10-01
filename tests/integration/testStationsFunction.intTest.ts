@@ -17,7 +17,7 @@ describe("getTestStations", () => {
     return LambdaTester(getTestStations)
       .expectResolve((result: any) => {
         expect(result).to.exist;
-        expect(JSON.parse(result.body).length).to.equal(17);
+        expect(JSON.parse(result.body).length).to.equal(19);
       });
   });
 });
