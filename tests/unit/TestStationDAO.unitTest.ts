@@ -4,7 +4,7 @@ import {TestStationDAO} from "../../src/models/TestStationDAO";
 import sinon, {SinonStub} from "sinon";
 import {HTTPError} from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
-import {TEST_STATION_STATUS} from "../../src/utils/Enum";
+import {RESPONSE_STATUS, TEST_STATION_STATUS} from "../../src/utils/Enum";
 import {Configuration} from "../../src/utils/Configuration";
 
 const sandbox = sinon.createSandbox();
@@ -19,7 +19,7 @@ describe("TestStationDAO", () => {
             mockDocumentClientWithReturn("scan", "success");
             const dao = new TestStationDAO();
             const output = await dao.getAll(TEST_STATION_STATUS.ACTIVE);
-            expect(output).to.equal("success");
+            expect(output).to.equal(RESPONSE_STATUS.SUCCESS);
         });
 
         it("does not set filter test stations if the statusFilter is null", async () => {

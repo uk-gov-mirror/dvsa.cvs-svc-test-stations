@@ -13,3 +13,7 @@ export enum HTTPRESPONSE {
 export enum TEST_STATION_STATUS {
     ACTIVE = "active"
 }
+
+export enum RESPONSE_STATUS {
+    SUCCESS = "success"
+}
