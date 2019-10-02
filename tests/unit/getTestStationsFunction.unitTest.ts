@@ -17,7 +17,7 @@ describe("getTestStationsEmails Handler", () => {
             });
 
             try {
-                const res: HTTPResponse = await getTestStations();
+                const res: HTTPResponse | HTTPError = await getTestStations();
                 expect(res).to.be.instanceOf(HTTPResponse);
                 expect(res.statusCode).to.equal(200);
                 expect(res.body).to.equal(JSON.stringify(stations));
@@ -28,19 +28,19 @@ describe("getTestStationsEmails Handler", () => {
     });
 
     context("Service throws error", () => {
-        it("should throw that error upwards", async () => {
+        it("should throw that error upwards and ultimately return it", async () => {
             const errorMessage = "Bad thing happened";
             TestStationService.prototype.getTestStationList = jest.fn().mockImplementation(() => {
                 return Promise.reject(new HTTPError(418, errorMessage));
             });
 
             try {
-                await getTestStations();
-                expect.fail();
+                const res = await getTestStations();
+                expect(res).to.be.instanceOf(HTTPError);
+                expect(res.statusCode).to.equal(418);
+                expect(res.body).to.equal(errorMessage);
             } catch (e) {
-                expect(e).to.be.instanceOf(HTTPError);
-                expect(e.statusCode).to.equal(418);
-                expect(e.body).to.equal(errorMessage);
+                expect.fail();
             }
         });
     });
