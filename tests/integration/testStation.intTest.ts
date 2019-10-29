@@ -8,7 +8,6 @@ const request = supertest(url);
 
 describe("getTestStation", () => {
   beforeEach(async () => {
-    await emptyDatabase();
     await populateDatabase();
   });
 
@@ -17,7 +16,6 @@ describe("getTestStation", () => {
   });
 
   beforeAll(async () => {
-    await emptyDatabase();
     await populateDatabase();
   });
 

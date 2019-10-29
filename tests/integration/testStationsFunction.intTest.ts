@@ -5,7 +5,6 @@ import {emptyDatabase, populateDatabase} from "../util/dbOperations";
 
 describe("getTestStations", () => {
     beforeEach(async () => {
-        await emptyDatabase();
         await populateDatabase();
     });
 
@@ -14,7 +13,6 @@ describe("getTestStations", () => {
     });
 
     beforeAll(async () => {
-        await emptyDatabase();
         await populateDatabase();
     });
 
