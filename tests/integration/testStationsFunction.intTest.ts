@@ -1,7 +1,6 @@
 import LambdaTester from "lambda-tester";
 import { getTestStations } from "../../src/functions/getTestStations";
 import { getTestStationsEmails } from "../../src/functions/getTestStationsEmails";
-import {expect} from "chai";
 import {ITestStation} from "../../src/models/ITestStation";
 import {HTTPError} from "../../src/models/HTTPError";
 import {HTTPResponse} from "../../src/models/HTTPResponse";
@@ -10,15 +9,15 @@ describe("getTestStations", () => {
   it("should return a promise", () => {
     return LambdaTester(getTestStations)
       .expectResolve((result: any) => {
-        expect(result).to.exist;
+        expect(result).toBeTruthy();
       });
   });
 
   it("should return only the active test stations", () => {
     return LambdaTester(getTestStations)
       .expectResolve((result: any) => {
-        expect(result).to.exist;
-        expect((result as HTTPResponse).statusCode).to.equal(200);
+        expect(result).toBeTruthy();
+        expect((result as HTTPResponse).statusCode).toEqual(200);
       });
   });
 });
@@ -27,9 +26,9 @@ describe("getTestStationsEmail", () => {
   it("should return an error when sending no parameters", () => {
     return LambdaTester(getTestStationsEmails)
         .expectReject((error: Error) => {
-          expect(error).to.exist;
-          expect(error).to.be.instanceOf(HTTPError);
-          expect((error as HTTPError).statusCode).to.equal(400);
+          expect(error).toBeTruthy();
+          expect(error).toBeInstanceOf(HTTPError);
+          expect((error as HTTPError).statusCode).toEqual(400);
         });
   });
   it("should return a promise when sending parameters", () => {
@@ -39,7 +38,7 @@ describe("getTestStationsEmail", () => {
             testStationPNumber: "87-1369569" }
         })
         .expectResolve((result: ITestStation[]) => {
-          expect(result).to.exist;
+          expect(result).toBeTruthy();
         });
   });
   it("should throw and error when requesting non-existent record", () => {
@@ -49,9 +48,9 @@ describe("getTestStationsEmail", () => {
             testStationPNumber: "111" }
         })
         .expectReject((error: Error) => {
-          expect(error).to.exist;
-          expect(error).to.be.instanceOf(HTTPError);
-          expect((error as HTTPError).statusCode).to.equal(404);
+          expect(error).toBeTruthy();
+          expect(error).toBeInstanceOf(HTTPError);
+          expect((error as HTTPError).statusCode).toEqual(404);
         });
   });
 });
