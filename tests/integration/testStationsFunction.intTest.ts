@@ -44,7 +44,7 @@ describe("getTestStations", () => {
 });
 
 describe("getTestStationsEmail", () => {
-    beforeEach(async () => {
+    /*beforeEach(async () => {
         await emptyDatabase();
         await populateDatabase();
     });
@@ -60,7 +60,7 @@ describe("getTestStationsEmail", () => {
 
     afterAll(async () => {
         await emptyDatabase();
-    });
+    });*/
 
       it("should return an error when sending no parameters", () => {
         return LambdaTester(getTestStationsEmails)
