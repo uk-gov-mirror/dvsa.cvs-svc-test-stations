@@ -4,6 +4,7 @@ import { getTestStationsEmails } from "../../src/functions/getTestStationsEmails
 import {expect} from "chai";
 import {ITestStation} from "../../src/models/ITestStation";
 import {HTTPError} from "../../src/models/HTTPError";
+import {HTTPResponse} from "../../src/models/HTTPResponse";
 
 describe("getTestStations", () => {
   it("should return a promise", () => {
@@ -17,7 +18,7 @@ describe("getTestStations", () => {
     return LambdaTester(getTestStations)
       .expectResolve((result: any) => {
         expect(result).to.exist;
-        expect(JSON.parse(result.body).length).to.equal(19);
+        expect((result as HTTPResponse).statusCode).to.equal(200);
       });
   });
 });

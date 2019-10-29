@@ -12,7 +12,7 @@
     "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline start",
     "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\" --coverage",
-    "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" ",
+    "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
     "test:dev": "npm run build:dev && npm run test",
     "prepush": "npm test && npm run tslint && npm run security-checks",
     "predeploy": "npm install && npm run prepush",

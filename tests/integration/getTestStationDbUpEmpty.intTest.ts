@@ -1,32 +1,39 @@
-it("fake test 2", () => { expect(true); });
+import supertest from "supertest";
+import { populateDatabase, emptyDatabase } from "../util/dbOperations";
+import LambdaTester from "lambda-tester";
+import {HTTPResponse} from "../../src/models/HTTPResponse";
+import {getTestStations} from "../../src/functions/getTestStations";
+const url = "http://localhost:3004/";
+const request = supertest(url);
 
-// import supertest from "supertest";
-// import { expect } from "chai";
-// import { populateDatabase, emptyDatabase } from "../util/dbOperations";
-// import stations from "../resources/test-stations.json";
-// const url = "http://localhost:3004/";
-// const request = supertest(url);
-//
-//
-// describe("test stations", () => {
-//     beforeEach((done) => {
-//         emptyDatabase();
-//         done();
-//     });
-//
-//     afterEach((done) => {
-//         populateDatabase();
-//         done();
-//     });
-//
-//     describe("getTestStation Db is Up", () => {
-//         context("when database is empty", () => {
-//             it("should return error code 404", (done) => {
-//                 request.get("test-stations").expect(404, done);
-//                 done();
-//             });
-//         });
-//     });
-// });
-//
-//
+
+describe("test stations", () => {
+    beforeEach(async () => {
+        await emptyDatabase();
+    });
+
+    afterEach(async () => {
+        await populateDatabase();
+    });
+
+    beforeAll(async () => {
+        await emptyDatabase();
+    });
+
+    afterAll(async () => {
+        await populateDatabase();
+    });
+
+    describe("getTestStation Db is Up", () => {
+        context("when database is empty", () => {
+            it("should throw and error when requesting non-existent record", async () => {
+                return LambdaTester(getTestStations)
+                    .expectResolve((result: any) => {
+                        expect((result as HTTPResponse).statusCode).toEqual(404);
+                    });
+            });
+        });
+    });
+});
+
+
