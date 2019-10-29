@@ -26,7 +26,7 @@ describe("getTestStation", () => {
   });
   context("when database is populated", () => {
     context("when fetching all records", () => {
-      it("should return all test stations in the database", async() => {
+      it("should return all test stations in the database", async () => {
         return LambdaTester(getTestStations)
             .expectResolve((result: any) => {
               expect((result as HTTPResponse).statusCode).toEqual(200);

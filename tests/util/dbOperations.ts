@@ -14,7 +14,7 @@ export const populateDatabase = async () => {
     }
 };
 
-export const emptyDatabase = async() => {
+export const emptyDatabase = async () => {
     const testStationDAO = new TestStationDAO();
     const mockBuffer = _.cloneDeep(testStations).map((station) => station.testStationId);
     const batches = [];
