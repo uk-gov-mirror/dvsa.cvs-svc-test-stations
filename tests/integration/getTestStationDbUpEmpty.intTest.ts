@@ -13,14 +13,6 @@ describe("test stations", () => {
         await emptyDatabase();
     });
 
-    beforeEach(async () => {
-        await emptyDatabase();
-    });
-
-    afterEach(async () => {
-        await emptyDatabase();
-    });
-
     afterAll(async () => {
         await populateDatabase();
     });
