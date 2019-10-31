@@ -5,6 +5,11 @@ import {HTTPError} from "../../src/models/HTTPError";
 import {emptyDatabase, populateDatabase} from "../util/dbOperations";
 
 describe("getTestStationsEmail", () => {
+    beforeAll(async () => {
+        jest.restoreAllMocks();
+        await emptyDatabase();
+    });
+
     beforeEach(async () => {
         await populateDatabase();
     });
@@ -13,12 +18,8 @@ describe("getTestStationsEmail", () => {
         await emptyDatabase();
     });
 
-    beforeAll(async () => {
-        await populateDatabase();
-    });
-
     afterAll(async () => {
-        await emptyDatabase();
+        await populateDatabase();
     });
 
     it("should return an error when sending no parameters", () => {

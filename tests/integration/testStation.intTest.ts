@@ -7,6 +7,11 @@ const url = "http://localhost:3004/";
 const request = supertest(url);
 
 describe("getTestStation", () => {
+  beforeAll(async () => {
+    jest.restoreAllMocks();
+    await emptyDatabase();
+  });
+
   beforeEach(async () => {
     await populateDatabase();
   });
@@ -15,12 +20,8 @@ describe("getTestStation", () => {
     await emptyDatabase();
   });
 
-  beforeAll(async () => {
-    await populateDatabase();
-  });
-
   afterAll(async () => {
-    await emptyDatabase();
+    await populateDatabase();
   });
   context("when database is populated", () => {
     context("when fetching all records", () => {

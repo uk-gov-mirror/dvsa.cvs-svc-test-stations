@@ -4,6 +4,11 @@ import {HTTPResponse} from "../../src/models/HTTPResponse";
 import {emptyDatabase, populateDatabase} from "../util/dbOperations";
 
 describe("getTestStations", () => {
+    beforeAll(async () => {
+        jest.restoreAllMocks();
+        await emptyDatabase();
+    });
+
     beforeEach(async () => {
         await populateDatabase();
     });
@@ -12,12 +17,8 @@ describe("getTestStations", () => {
         await emptyDatabase();
     });
 
-    beforeAll(async () => {
-        await populateDatabase();
-    });
-
     afterAll(async () => {
-        await emptyDatabase();
+        await populateDatabase();
     });
 
     context("when database is populated", () => {

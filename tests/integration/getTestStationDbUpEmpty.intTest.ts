@@ -8,15 +8,16 @@ const request = supertest(url);
 
 
 describe("test stations", () => {
+    beforeAll(async () => {
+        jest.restoreAllMocks();
+        await emptyDatabase();
+    });
+
     beforeEach(async () => {
         await emptyDatabase();
     });
 
     afterEach(async () => {
-        await populateDatabase();
-    });
-
-    beforeAll(async () => {
         await emptyDatabase();
     });
 
