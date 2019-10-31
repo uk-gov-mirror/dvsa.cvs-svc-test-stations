@@ -1,5 +1,4 @@
 import AWS from "aws-sdk";
-import {expect} from "chai";
 import {TestStationDAO} from "../../src/models/TestStationDAO";
 import sinon, {SinonStub} from "sinon";
 import {HTTPError} from "../../src/models/HTTPError";
@@ -19,14 +18,14 @@ describe("TestStationDAO", () => {
             mockDocumentClientWithReturn("scan", "success");
             const dao = new TestStationDAO();
             const output = await dao.getAll(TEST_STATION_STATUS.ACTIVE);
-            expect(output).to.equal(RESPONSE_STATUS.SUCCESS);
+            expect(output).toEqual(RESPONSE_STATUS.SUCCESS);
         });
 
         it("does not set filter test stations if the statusFilter is null", async () => {
             const stub = mockDocumentClientWithReturn("scan", "success");
             const dao = new TestStationDAO();
             await dao.getAll(null);
-            expect(stub.args[0]).to.deep.equal( [ { TableName: Configuration.getInstance().getDynamoDBConfig().table}]);
+            expect(stub.args[0]).toStrictEqual( [ { TableName: Configuration.getInstance().getDynamoDBConfig().table}]);
         });
 
         it("throw error on failed query", async () => {
@@ -35,9 +34,8 @@ describe("TestStationDAO", () => {
             const dao = new TestStationDAO();
             try {
                 await dao.getAll(TEST_STATION_STATUS.ACTIVE);
-                expect.fail();
             } catch (e) {
-                expect(e).to.equal(myError);
+                expect(e).toEqual(myError);
             }
         });
     });
@@ -51,8 +49,8 @@ describe("TestStationDAO", () => {
             const dao = new TestStationDAO();
             const testPNumber = "12-345678";
             const output = await dao.getTestStationEmailByPNumber(testPNumber);
-            expect(output).to.equal("success");
-            expect(stub.args[0][0].ExpressionAttributeValues).to.deep.equal({":testStationPNumber": testPNumber});
+            expect(output).toEqual("success");
+            expect(stub.args[0][0].ExpressionAttributeValues).toStrictEqual({":testStationPNumber": testPNumber});
         });
 
         it("throws error on failed query", async () => {
@@ -62,7 +60,7 @@ describe("TestStationDAO", () => {
             try {
                 await dao.getTestStationEmailByPNumber("12-345678");
             } catch (e) {
-                expect(e).to.equal(myError);
+                expect(e).toEqual(myError);
             }
         });
     });
@@ -81,8 +79,8 @@ describe("TestStationDAO", () => {
             }];
             const dao = new TestStationDAO();
             const output = await dao.createMultiple([stations[0]]);
-            expect(output).to.equal("success");
-            expect(getRequestItemsBodyFromStub(stub)).to.deep.equal(expectedParams);
+            expect(output).toEqual("success");
+            expect(getRequestItemsBodyFromStub(stub)).toStrictEqual(expectedParams);
         });
 
         it("returns error on failed query", async () => {
@@ -91,9 +89,8 @@ describe("TestStationDAO", () => {
             const dao = new TestStationDAO();
             try {
                 const output = await dao.createMultiple([stations[0]]);
-                expect.fail();
             } catch (err) {
-                expect(err).to.equal(myError);
+                expect(err).toEqual(myError);
             }
         });
     });
@@ -115,8 +112,8 @@ describe("TestStationDAO", () => {
             }];
             const dao = new TestStationDAO();
             const output = await dao.deleteMultiple(["testItem"]);
-            expect(output).to.equal("success");
-            expect(getRequestItemsBodyFromStub(stub)).to.deep.equal(expectedParams);
+            expect(output).toEqual("success");
+            expect(getRequestItemsBodyFromStub(stub)).toStrictEqual(expectedParams);
         });
 
         it("returns error on failed query", async () => {
@@ -125,9 +122,8 @@ describe("TestStationDAO", () => {
             const dao = new TestStationDAO();
             try {
                 const output = await dao.deleteMultiple(["testItem"]);
-                expect.fail();
             } catch (err) {
-                expect(err).to.equal(myError);
+                expect(err).toEqual(myError);
             }
         });
     });

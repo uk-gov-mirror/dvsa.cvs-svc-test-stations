@@ -51,7 +51,6 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
     "@types/jest": "^24.0.15",
     "@types/jest-plugin-context": "^2.9.2",
     "@types/lambda-tester": "^3.6.0",
@@ -61,7 +60,6 @@
     "@types/supertest": "^2.0.8",
     "audit-filter": "^0.4.3",
     "aws-lambda-mock-context": "^3.2.1",
-    "chai": "^4.2.0",
     "expect": "^24.8.0",
     "gulp": "^4.0.2",
     "jest": "^24.8.0",

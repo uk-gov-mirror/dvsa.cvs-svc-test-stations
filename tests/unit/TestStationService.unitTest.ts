@@ -2,7 +2,6 @@ import { ITestStation } from "../../src/models/ITestStation";
 import { HTTPError } from "../../src/models/HTTPError";
 import { TestStationService } from "../../src/services/TestStationService";
 import stations from "../resources/test-stations.json";
-import { expect } from "chai";
 import {ERRORS} from "../../src/utils/Enum";
 const stationIds = stations.map((station) => station.testStationId);
 
@@ -29,7 +28,7 @@ describe("TestStationService", () => {
                     const testStationService = new TestStationService(new TestStationDAOMock());
                     return testStationService.getTestStationList()
                         .then((returnedRecords: any) => {
-                            expect(returnedRecords.length).to.equal(20);
+                            expect(returnedRecords.length).toEqual(20);
                         });
                 });
             });
@@ -50,11 +49,11 @@ describe("TestStationService", () => {
                     const testStationService = new TestStationService(new TestStationDAOMock());
                     return testStationService.getTestStationList()
                         .then(() => {
-                            expect.fail();
+                            expect.assertions(1); // should have thrown an error, test failed
                         }).catch((errorResponse: any) => {
-                            expect(errorResponse).to.be.instanceOf(HTTPError);
-                            expect(errorResponse.statusCode).to.equal(404);
-                            expect(errorResponse.body).to.equal("No resources match the search criteria.");
+                            expect(errorResponse).toBeInstanceOf(HTTPError);
+                            expect(errorResponse.statusCode).toEqual(404);
+                            expect(errorResponse.body).toEqual("No resources match the search criteria.");
                         });
                 });
             });
@@ -74,9 +73,9 @@ describe("TestStationService", () => {
                 return testStationService.getTestStationList()
                     .then(() => {return; })
                     .catch((errorResponse: any) => {
-                        expect(errorResponse).to.be.instanceOf(HTTPError);
-                        expect(errorResponse.statusCode).to.be.equal(500);
-                        expect(errorResponse.body).to.equal("Internal Server Error");
+                        expect(errorResponse).toBeInstanceOf(HTTPError);
+                        expect(errorResponse.statusCode).toEqual(500);
+                        expect(errorResponse.body).toEqual("Internal Server Error");
                     });
             });
         });
@@ -102,9 +101,9 @@ describe("TestStationService", () => {
                     const testStationService = new TestStationService(new TestStationDAOMock());
                     try {
                         const returnedRecords = await testStationService.getTestStationEmails("87-1369569");
-                        expect(returnedRecords.length).to.equal(3);
+                        expect(returnedRecords.length).toEqual(3);
                     } catch (e) {
-                        expect.fail();
+                        expect.assertions(1); // should have thrown an error, test failed
                     }
                 });
             });
@@ -122,9 +121,9 @@ describe("TestStationService", () => {
                     return testStationService.getTestStationEmails("")
                         .then(() => {return; })
                         .catch((errorResponse: HTTPError) => {
-                            expect(errorResponse).to.be.instanceOf(HTTPError);
-                            expect(errorResponse.statusCode).to.be.equal(404);
-                            expect(errorResponse.body).to.equal("No resources match the search criteria.");
+                            expect(errorResponse).toBeInstanceOf(HTTPError);
+                            expect(errorResponse.statusCode).toEqual(404);
+                            expect(errorResponse.body).toEqual("No resources match the search criteria.");
                         });
                 });
             });
@@ -143,9 +142,9 @@ describe("TestStationService", () => {
                     return testStationService.getTestStationEmails("")
                         .then(() => {return; })
                         .catch((errorResponse: HTTPError) => {
-                            expect(errorResponse).to.be.instanceOf(HTTPError);
-                            expect(errorResponse.statusCode).to.be.equal(418);
-                            expect(errorResponse.body).to.equal("It broke");
+                            expect(errorResponse).toBeInstanceOf(HTTPError);
+                            expect(errorResponse.statusCode).toEqual(418);
+                            expect(errorResponse.body).toEqual("It broke");
                         });
                 });
             });
@@ -164,9 +163,9 @@ describe("TestStationService", () => {
                     return testStationService.getTestStationEmails("")
                         .then(() => {return; })
                         .catch((errorResponse: HTTPError) => {
-                            expect(errorResponse).to.be.instanceOf(HTTPError);
-                            expect(errorResponse.statusCode).to.be.equal(500);
-                            expect(errorResponse.body).to.equal(ERRORS.INTERNAL_SERVER_ERROR);
+                            expect(errorResponse).toBeInstanceOf(HTTPError);
+                            expect(errorResponse.statusCode).toEqual(500);
+                            expect(errorResponse.body).toEqual(ERRORS.INTERNAL_SERVER_ERROR);
                         });
                 });
             });
@@ -188,9 +187,9 @@ describe("TestStationService", () => {
 
                 return testStationService.insertTestStationList([...stations])
                     .then((data: any) => {
-                        expect(data).to.equal(undefined);
+                        expect(data).toEqual(undefined);
                     }).catch((e: any) => {
-                        expect.fail();
+                        expect.assertions(1); // should have thrown an error, test failed
                     });
             });
 
@@ -206,7 +205,7 @@ describe("TestStationService", () => {
                 const testStationService = new TestStationService(new TestStationDAOMock());
                 return testStationService.insertTestStationList([...stations])
                     .then((data: any) => {
-                        expect(data).to.have.length(20);
+                        expect(data).toHaveLength(20);
                     });
             });
         });
@@ -227,10 +226,10 @@ describe("TestStationService", () => {
                 return testStationService.insertTestStationList([...stations])
                     .then(() => {return; })
                     .catch((errorResponse: any) => {
-                        expect(spy.mock.calls).to.have.length(0);
-                        expect(errorResponse).to.be.instanceOf(HTTPError);
-                        expect(errorResponse.statusCode).to.be.equal(500);
-                        expect(errorResponse.body).to.equal("Internal Server Error");
+                        expect(spy.mock.calls).toHaveLength(0);
+                        expect(errorResponse).toBeInstanceOf(HTTPError);
+                        expect(errorResponse.statusCode).toEqual(500);
+                        expect(errorResponse.body).toEqual("Internal Server Error");
                     });
             });
 
@@ -249,10 +248,10 @@ describe("TestStationService", () => {
                 return testStationService.insertTestStationList([...stations])
                     .then(() => {return; })
                     .catch((errorResponse: any) => {
-                        expect(spy.mock.calls).to.have.length(1);
-                        expect(errorResponse).to.be.instanceOf(HTTPError);
-                        expect(errorResponse.statusCode).to.be.equal(500);
-                        expect(errorResponse.body).to.equal("Internal Server Error");
+                        expect(spy.mock.calls).toHaveLength(1);
+                        expect(errorResponse).toBeInstanceOf(HTTPError);
+                        expect(errorResponse.statusCode).toEqual(500);
+                        expect(errorResponse.body).toEqual("Internal Server Error");
                     });
             });
         });
@@ -276,7 +275,7 @@ describe("TestStationService", () => {
                 const testStationService = new TestStationService(new TestStationDAOMock());
                 return testStationService.deleteTestStationsList(stationIds)
                     .then((data: ITestStation[]) => {
-                        expect(data).to.equal(undefined);
+                        expect(data).toEqual(undefined);
                     });
             });
 
@@ -292,10 +291,10 @@ describe("TestStationService", () => {
                 const testStationService = new TestStationService(new TestStationDAOMock());
                 return testStationService.deleteTestStationsList(stationIds)
                     .then((data: ITestStation[]) => {
-                        return expect(data.length).to.equal(20);
+                        return expect(data.length).toEqual(20);
                     })
                     .catch(() => {
-                        return expect.fail();
+                        expect.assertions(1); // should have thrown an error, test failed
                     });
             });
         });
@@ -321,13 +320,13 @@ describe("TestStationService", () => {
 
                 return testStationService.deleteTestStationsList(stationIds)
                     .then(() => {
-                        return expect.fail();
+                        expect.assertions(1); // should have thrown an error, test failed
                     })
                     .catch((errorResponse: HTTPError) => {
-                        expect(spy.mock.calls).to.have.length(0);
-                        expect(errorResponse).to.be.instanceOf(HTTPError);
-                        expect(errorResponse.statusCode).to.be.equal(500);
-                        expect(errorResponse.body).to.equal("Internal Server Error");
+                        expect(spy.mock.calls).toHaveLength(0);
+                        expect(errorResponse).toBeInstanceOf(HTTPError);
+                        expect(errorResponse.statusCode).toEqual(500);
+                        expect(errorResponse.body).toEqual("Internal Server Error");
                     });
             });
 
@@ -345,13 +344,13 @@ describe("TestStationService", () => {
 
                 return testStationService.deleteTestStationsList(stationIds)
                     .then(() => {
-                        return expect.fail();
+                        expect.assertions(1); // should have thrown an error, test failed
                     })
                     .catch((errorResponse: HTTPError) => {
-                        expect(spy.mock.calls).to.have.length(1);
-                        expect(errorResponse).to.be.instanceOf(HTTPError);
-                        expect(errorResponse.statusCode).to.be.equal(500);
-                        expect(errorResponse.body).to.equal("Internal Server Error");
+                        expect(spy.mock.calls).toHaveLength(1);
+                        expect(errorResponse).toBeInstanceOf(HTTPError);
+                        expect(errorResponse.statusCode).toEqual(500);
+                        expect(errorResponse.body).toEqual("Internal Server Error");
                     });
             });
         });

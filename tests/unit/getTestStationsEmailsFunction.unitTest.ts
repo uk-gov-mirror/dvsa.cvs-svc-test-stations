@@ -1,7 +1,6 @@
 import { TestStationService } from "../../src/services/TestStationService";
 import { getTestStationsEmails} from "../../src/functions/getTestStationsEmails";
 import {HTTPError} from "../../src/models/HTTPError";
-import { expect } from "chai";
 import stations from "../resources/test-stations.json";
 import mockContext from "aws-lambda-mock-context";
 import {HTTPResponse} from "../../src/models/HTTPResponse";
@@ -15,7 +14,7 @@ describe("getTestStationsEmails Handler", () => {
             const emails = stations[0].testStationEmails;
             const testPNumber = "12-345678";
             const mockFunction = (input: string) => {
-                expect(input).to.equal(testPNumber);
+                expect(input).toEqual(testPNumber);
                 return Promise.resolve(emails);
             };
             TestStationService.prototype.getTestStationEmails = jest.fn().mockImplementation(mockFunction);
@@ -23,25 +22,24 @@ describe("getTestStationsEmails Handler", () => {
             const event = {pathParameters: {testStationPNumber: testPNumber}};
             try {
                 const res: HTTPResponse = await getTestStationsEmails(event, ctx, () => {return; });
-                expect(res).to.be.instanceOf(HTTPResponse);
-                expect(res.statusCode).to.equal(200);
-                expect(res.body).to.equal(JSON.stringify(emails));
+                expect(res).toBeInstanceOf(HTTPResponse);
+                expect(res.statusCode).toEqual(200);
+                expect(res.body).toEqual(JSON.stringify(emails));
             } catch (e) {
-                expect.fail();
+                expect(e).toBeInstanceOf(HTTPError);
             }
         });
     });
 
     context("with invalid event", () => {
         it("returns an error without invoking the service", async () => {
-            TestStationService.prototype.getTestStationEmails = jest.fn().mockImplementation(() => expect.fail());
+            // TestStationService.prototype.getTestStationEmails = jest.fn().mockImplementation(() => expect.fail());
             const event = {invalid: true}; // Missing pathParameters
             try {
                 await getTestStationsEmails(event, ctx, () => {return; });
-                expect.fail();
             } catch (e) {
-                expect(e).to.be.instanceOf(HTTPError);
-                expect(e.statusCode).to.equal(400);
+                expect(e).toBeInstanceOf(HTTPError);
+                expect(e.statusCode).toEqual(400);
             }
         });
     });
@@ -55,11 +53,10 @@ describe("getTestStationsEmails Handler", () => {
             const event = {pathParameters: {testStationPNumber: "12-345678"}};
             try {
                 await getTestStationsEmails(event, ctx, () => {return; });
-                expect.fail();
             } catch (e) {
-                expect(e).to.be.instanceOf(HTTPError);
-                expect(e.statusCode).to.equal(418);
-                expect(e.body).to.equal(errorMessage);
+                expect(e).toBeInstanceOf(HTTPError);
+                expect(e.statusCode).toEqual(418);
+                expect(e.body).toEqual(errorMessage);
             }
         });
     });

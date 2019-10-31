@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {Configuration} from "../../src/utils/Configuration";
 import {IDBConfig, IFunctionConfig, IInvokeConfig} from "../../src/models";
 import {ERRORS} from "../../src/utils/Enum";
@@ -8,8 +7,8 @@ describe("ConfigurationUtil", () => {
     context("when calling getConfig", () => {
         it("returns the full config object", () => {
             const conf = Configuration.getInstance().getConfig();
-            expect(conf).to.contain.keys("functions", "dynamodb", "serverless");
-            expect(conf.dynamodb).to.contain.keys("local", "local-global", "remote");
+            expect(Object.keys(conf)).toEqual(expect.arrayContaining(["functions", "dynamodb", "serverless"]));
+            expect(Object.keys(conf.dynamodb)).toEqual(expect.arrayContaining(["local", "local-global", "remote"]));
         });
     });
 
@@ -22,9 +21,8 @@ describe("ConfigurationUtil", () => {
             it("should throw error", () => {
                 try {
                     emptyConfig.getDynamoDBConfig();
-                    expect.fail();
                 } catch (e) {
-                    expect(e.message).to.equal(ERRORS.DYNAMODB_CONFIG_NOT_DEFINED);
+                    expect(e.message).toEqual(ERRORS.DYNAMODB_CONFIG_NOT_DEFINED);
                 }
             });
         });
@@ -32,8 +30,8 @@ describe("ConfigurationUtil", () => {
             process.env.BRANCH = "local";
             const dbConfig: IDBConfig = Configuration.getInstance().getDynamoDBConfig();
             it("should return the local invoke config", () => {
-                expect(dbConfig).to.contain.keys("params", "table");
-                expect(dbConfig.table).to.equal("cvs-local-test-stations");
+                expect(Object.keys(dbConfig.params)).toEqual(expect.arrayContaining(["region", "endpoint"]));
+                expect(dbConfig.table).toEqual("cvs-local-test-stations");
             });
         });
 
@@ -41,10 +39,10 @@ describe("ConfigurationUtil", () => {
             process.env.BRANCH = "local-global";
             const dbConfig: IDBConfig = Configuration.getInstance().getDynamoDBConfig();
             it("should return the local invoke config", () => {
-                expect(dbConfig).to.contain.keys("params", "table");
-                expect(dbConfig).to.not.contain.keys("keys");
-                expect(dbConfig.table).to.equal("cvs-local-global-test-stations");
-                expect(dbConfig.params).to.contain.keys("region", "endpoint");
+                expect(Object.keys(dbConfig)).toEqual(expect.arrayContaining(["params", "table"]));
+                expect(Object.keys(dbConfig.params)).toEqual(expect.arrayContaining(["region", "endpoint"]));
+                expect(Object.keys(dbConfig)).not.toEqual(expect.arrayContaining(["keys"]));
+                expect(dbConfig.table).toEqual("cvs-local-global-test-stations");
             });
         });
 
@@ -52,10 +50,10 @@ describe("ConfigurationUtil", () => {
             it("should return the remote invoke config", () => {
                 process.env.BRANCH = "develop";
                 // Switch to mockedConfig to simplify environment mocking
-                const dbConfig: IDBConfig = getMockedConfig().getDynamoDBConfig(); expect(dbConfig).to.contain.keys("params", "table");
-                expect(dbConfig).to.not.contain.keys("keys");
-                expect(dbConfig.table).to.equal("cvs-develop-test-stations");
-                expect(dbConfig.params).to.deep.equal({});
+                const dbConfig: IDBConfig = getMockedConfig().getDynamoDBConfig();
+                expect(Object.keys(dbConfig)).not.toEqual(expect.arrayContaining(["keys"]));
+                expect(dbConfig.table).toEqual("cvs-develop-test-stations");
+                expect(dbConfig.params).toStrictEqual({});
             });
         });
     });
@@ -69,9 +67,8 @@ describe("ConfigurationUtil", () => {
             it("should throw error", () => {
                 try {
                     emptyConfig.getFunctions();
-                    expect.fail();
                 } catch (e) {
-                    expect(e.message).to.equal(ERRORS.FUNCTION_CONFIG_NOT_DEFINED);
+                    expect(e.message).toEqual(ERRORS.FUNCTION_CONFIG_NOT_DEFINED);
                 }
             });
         });
@@ -79,11 +76,11 @@ describe("ConfigurationUtil", () => {
             process.env.BRANCH = "local";
             const funcConfig: IFunctionConfig[] = Configuration.getInstance().getFunctions();
             it("should return the list of specified functions with names and matching paths", () => {
-                expect(funcConfig).to.have.length(2);
-                expect(funcConfig[0].name).to.equal("getTestStations");
-                expect(funcConfig[0].path).to.equal("/test-stations");
-                expect(funcConfig[1].name).to.equal("getTestStationsEmails");
-                expect(funcConfig[1].path).to.equal("/test-stations/:testStationPNumber");
+                expect(funcConfig).toHaveLength(2);
+                expect(funcConfig[0].name).toEqual("getTestStations");
+                expect(funcConfig[0].path).toEqual("/test-stations");
+                expect(funcConfig[1].name).toEqual("getTestStationsEmails");
+                expect(funcConfig[1].path).toEqual("/test-stations/:testStationPNumber");
             });
         });
     });
