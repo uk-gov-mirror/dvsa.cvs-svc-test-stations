@@ -1,7 +1,7 @@
 import LambdaTester from "lambda-tester";
 import {getTestStations} from "../../src/functions/getTestStations";
-import {HTTPResponse} from "../../src/models/HTTPResponse";
 import {emptyDatabase, populateDatabase} from "../util/dbOperations";
+import testStations from "../resources/test-stations.json"
 
 describe("getTestStations", () => {
     beforeAll(async () => {
@@ -13,27 +13,13 @@ describe("getTestStations", () => {
         await populateDatabase();
     });
 
-    afterEach(async () => {
-        await emptyDatabase();
-    });
-
-    afterAll(async () => {
-        await populateDatabase();
-    });
-
     context("when database is populated", () => {
-        it("should return a promise", () => {
-            return LambdaTester(getTestStations)
-                .expectResolve((result: any) => {
-                    expect(result).toBeTruthy();
-                });
-        });
-
         it("should return only the active test stations", () => {
             return LambdaTester(getTestStations)
                 .expectResolve((result: any) => {
-                    expect(result).toBeTruthy();
-                    expect((result as HTTPResponse).statusCode).toEqual(200);
+                    expect(testStations).toHaveLength(20);
+                    expect(JSON.parse(result.body)).toHaveLength(19);
+                    expect(result.statusCode).toEqual(200);
                 });
         });
     });
