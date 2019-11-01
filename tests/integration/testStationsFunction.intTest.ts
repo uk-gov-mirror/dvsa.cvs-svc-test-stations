@@ -1,7 +1,7 @@
 import LambdaTester from "lambda-tester";
 import {getTestStations} from "../../src/functions/getTestStations";
 import {emptyDatabase, populateDatabase} from "../util/dbOperations";
-import testStations from "../resources/test-stations.json"
+import testStations from "../resources/test-stations.json";
 
 describe("getTestStations", () => {
     beforeAll(async () => {
