@@ -1,5 +1,5 @@
 import {Configuration} from "../../src/utils/Configuration";
-import {IDBConfig, IFunctionConfig, IInvokeConfig} from "../../src/models";
+import {IDBConfig, IFunctionConfig} from "../../src/models";
 import {ERRORS} from "../../src/utils/Enum";
 
 describe("ConfigurationUtil", () => {

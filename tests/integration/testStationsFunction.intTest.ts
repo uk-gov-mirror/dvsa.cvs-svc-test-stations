@@ -13,6 +13,14 @@ describe("getTestStations", () => {
         await populateDatabase();
     });
 
+    afterEach(async () => {
+        await emptyDatabase();
+    });
+
+    afterAll(async () => {
+        await populateDatabase();
+    });
+
     context("when database is populated", () => {
         it("should return only the active test stations", () => {
             return LambdaTester(getTestStations)

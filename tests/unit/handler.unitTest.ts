@@ -4,10 +4,9 @@ import * as getTestStations from "../../src/functions/getTestStations";
 import { Configuration } from "../../src/utils/Configuration";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
 import mockContext from "aws-lambda-mock-context";
-const ctx = mockContext();
-
 
 describe("The lambda function handler", () => {
+  const ctx = mockContext();
   context("With correct Config", () => {
     const event = {path : "/test-stations", httpMethod: "GET", body: ""};
     context("should correctly handle incoming events", () => {
@@ -123,9 +122,5 @@ describe("The configuration service", () => {
         expect(e.message).toEqual("DynamoDB config is not defined in the config file.");
       }
     });
-  });
-
-  afterEach(() => {
-    // process.env.BRANCH = 'local'
   });
 });

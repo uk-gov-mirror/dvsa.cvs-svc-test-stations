@@ -3,8 +3,6 @@ import LambdaTester from "lambda-tester";
 import {getTestStations} from "../../src/functions/getTestStations";
 import {HTTPResponse} from "../../src/models/HTTPResponse";
 import {emptyDatabase, populateDatabase} from "../util/dbOperations";
-const url = "http://localhost:3004/";
-const request = supertest(url);
 
 describe("getTestStation", () => {
   beforeAll(async () => {
@@ -47,6 +45,8 @@ describe("getTestStation", () => {
           }
         ];
 
+        const url = "http://localhost:3004/";
+        const request = supertest(url);
         const res = await request.get("test-stations/84-926821");
         expect(res.status).toEqual(200);
         expect(res.body).toStrictEqual(expectedResponse);

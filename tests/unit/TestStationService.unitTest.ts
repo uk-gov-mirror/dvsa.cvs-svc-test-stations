@@ -98,13 +98,10 @@ describe("TestStationService", () => {
                         };
                     });
 
+                    expect.assertions(1); // should have thrown an error, test failed
                     const testStationService = new TestStationService(new TestStationDAOMock());
-                    try {
-                        const returnedRecords = await testStationService.getTestStationEmails("87-1369569");
-                        expect(returnedRecords.length).toEqual(3);
-                    } catch (e) {
-                        expect.assertions(1); // should have thrown an error, test failed
-                    }
+                    const returnedRecords = await testStationService.getTestStationEmails("87-1369569");
+                    expect(returnedRecords.length).toEqual(3);
                 });
             });
             context("database call returns no data", () => {
@@ -354,7 +351,5 @@ describe("TestStationService", () => {
                     });
             });
         });
-
-
     });
 });
