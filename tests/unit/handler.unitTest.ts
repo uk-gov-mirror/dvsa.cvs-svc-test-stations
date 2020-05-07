@@ -68,7 +68,7 @@ describe("The configuration service", () => {
       process.env.BRANCH = "local";
       const configService = Configuration.getInstance();
       const functions = configService.getFunctions();
-      expect(functions.length).toEqual(2);
+      expect(functions.length).toEqual(4);
       expect(functions[0].name).toEqual("getTestStations");
       expect(functions[1].name).toEqual("getTestStationsEmails");
 
@@ -82,7 +82,7 @@ describe("The configuration service", () => {
       process.env.BRANCH = "local-global";
       const configService = Configuration.getInstance();
       const functions = configService.getFunctions();
-      expect(functions.length).toEqual(2);
+      expect(functions.length).toEqual(4);
       expect(functions[0].name).toEqual("getTestStations");
 
       const DBConfig = configService.getDynamoDBConfig();
@@ -95,7 +95,7 @@ describe("The configuration service", () => {
       process.env.BRANCH = "CVSB-XXX";
       const configService = Configuration.getInstance();
       const functions = configService.getFunctions();
-      expect(functions.length).toEqual(2);
+      expect(functions.length).toEqual(4);
       expect(functions[0].name).toEqual("getTestStations");
 
       const DBConfig = configService.getDynamoDBConfig();

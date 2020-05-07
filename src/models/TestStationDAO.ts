@@ -117,6 +117,28 @@ export class TestStationDAO {
     return TestStationDAO.dbClient.batchWrite(params).promise();
   }
 
+
+  /**
+   * Performs a write transaction on the specified table.
+   * @param item - the item to be inserted or updated during the transaciton.
+   * @param oldItem - the current item that already exists in the database.
+   */
+  public transactWrite(item: any, transactExpression: { ConditionExpression: string, ExpressionAttributeValues: any }): Promise<PromiseResult<DocumentClient.TransactWriteItemsOutput, AWS.AWSError>> {
+    const query: DocumentClient.TransactWriteItemsInput = {
+      TransactItems: [
+        {
+          Put: {
+            TableName: this.tableName,
+            Item: item,
+            ConditionExpression: transactExpression.ConditionExpression,
+            ExpressionAttributeValues: transactExpression.ExpressionAttributeValues
+          }
+        }
+      ]
+    };
+    return TestStationDAO.dbClient.transactWrite(query).promise();
+  }
+
   /**
    * Internal method for getting a common parameter template
    */

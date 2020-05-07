@@ -68,6 +68,29 @@ export class TestStationService {
   }
 
   /**
+   * Add the provided Test Stations (ATFs) details to the DB. Currently unused.
+   * @param testStationItems (TestStation array)
+   */
+  public updateTestStation(testStationItems: ITestStation[], id: string) {
+    const transactExpression = {
+      ConditionExpression: "testStationId = :testStationId",
+      ExpressionAttributeValues: {
+        ":testStationId": id
+      }
+    };
+    return this.testStationDAO.transactWrite(testStationItems, transactExpression)
+      .then((data: any) => {
+        if (data.UnprocessedItems) { return data.UnprocessedItems; }
+      })
+      .catch((error: any) => {
+        if (error) {
+          console.error(error);
+        }
+        throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
+      });
+  }
+
+  /**
    * Remove specified Test Stations from the DB
    * @param testStationItemsKeys
    */
