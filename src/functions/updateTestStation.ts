@@ -9,7 +9,7 @@ export const updateTestStation = async (event: any) => {
   const testStationDAO = new TestStationDAO();
   const service = new TestStationService(testStationDAO);
 
-  const testStationId = event.queryStringParameters?.testStationId;
+  const testStationId = event.pathParameters?.testStationId;
 
   return service.updateTestStation(event.body, testStationId)
     .then((data: ITestStation[]) => {
