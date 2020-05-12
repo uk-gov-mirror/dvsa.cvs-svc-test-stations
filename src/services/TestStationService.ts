@@ -54,8 +54,8 @@ export class TestStationService {
    * Add the provided Test Stations (ATFs) details to the DB. Currently unused.
    * @param testStationItems (TestStation array)
    */
-  public insertTestStationList(testStationItems: ITestStation[]) {
-    return this.testStationDAO.createMultiple(testStationItems)
+  public insertTestStation(testStationItem: ITestStation) {
+    return this.testStationDAO.createItem(testStationItem)
         .then((data: any) => {
           if (data.UnprocessedItems) { return data.UnprocessedItems; }
         })

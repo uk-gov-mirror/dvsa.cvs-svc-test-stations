@@ -8,7 +8,7 @@ export const createTestStation = async (event: any) => {
   console.log("Event: ", event);
   const testStationDAO = new TestStationDAO();
   const service = new TestStationService(testStationDAO);
-  return service.insertTestStationList([event.body])
+  return service.insertTestStation(event.body)
     .then((data: ITestStation[]) => {
       return new HTTPResponse(200, data);
     })

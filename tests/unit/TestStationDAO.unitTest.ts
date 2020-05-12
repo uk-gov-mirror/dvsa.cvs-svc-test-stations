@@ -73,9 +73,9 @@ describe("TestStationDAO", () => {
             const stub = mockDocumentClientWithReturn("batchWrite", "success");
             const expectedParams = [{
                 PutRequest:
-                    {
-                        Item: stations[0]
-                    }
+                  {
+                      Item: stations[0]
+                  }
             }];
             const dao = new TestStationDAO();
             const output = await dao.createMultiple([stations[0]]);
@@ -88,7 +88,32 @@ describe("TestStationDAO", () => {
             mockDocumentClientWithReject("batchWrite", myError);
             const dao = new TestStationDAO();
             try {
-                const output = await dao.createMultiple([stations[0]]);
+                await dao.createMultiple([stations[0]]);
+            } catch (err) {
+                expect(err).toEqual(myError);
+            }
+        });
+    });
+
+    context("createItem", () => {
+        beforeEach(() => {jest.resetModules(); });
+        afterEach(() => {sandbox.restore(); });
+
+        it("builds correct query and returns data on successful query", async () => {
+            const stub = mockDocumentClientWithReturn("put", "success");
+            const expectedParams = stations[0];
+            const dao = new TestStationDAO();
+            const output = await dao.createItem(stations[0]);
+            expect(output).toEqual("success");
+            expect(stub.args[0][0].Item).toStrictEqual(expectedParams);
+        });
+
+        it("returns error on failed query", async () => {
+            const myError = new HTTPError(418, "It broke");
+            mockDocumentClientWithReject("put", myError);
+            const dao = new TestStationDAO();
+            try {
+                const output = await dao.createItem(stations[0]);
             } catch (err) {
                 expect(err).toEqual(myError);
             }
@@ -135,7 +160,7 @@ const getRequestItemsBodyFromStub = (input: SinonStub) => {
     return requestItems[table];
 };
 
-function mockDocumentClientWithReturn(method: "batchWrite" | "scan" | "query", retVal: any) {
+function mockDocumentClientWithReturn(method: "batchWrite" | "scan" | "query" | "put", retVal: any) {
     const myStub = sinon.stub().callsFake(() => {
         return {
             promise: sinon.fake.resolves(retVal)
@@ -144,7 +169,7 @@ function mockDocumentClientWithReturn(method: "batchWrite" | "scan" | "query", r
     sandbox.replace(AWS.DynamoDB.DocumentClient.prototype, method, myStub);
     return myStub;
 }
-function mockDocumentClientWithReject(method: "batchWrite" | "scan" | "query", retVal: any) {
+function mockDocumentClientWithReject(method: "batchWrite" | "scan" | "query" | "put", retVal: any) {
     const myStub = sinon.stub().callsFake(() => {
         return {
             promise: sinon.fake.rejects(retVal)
