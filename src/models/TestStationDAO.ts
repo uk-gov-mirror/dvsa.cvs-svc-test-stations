@@ -102,7 +102,7 @@ export class TestStationDAO {
     const params = {
       TableName: this.tableName,
       Item: testStationItem,
-      ConditionExpression: "attribute_not_exists(id)"
+      ConditionExpression: "attribute_not_exists(testStationId)"
     };
     return TestStationDAO.dbClient.put(params).promise();
   }
