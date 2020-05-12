@@ -81,16 +81,30 @@ export class TestStationDAO {
     const params = this.generatePartialParams();
 
     testStationItems.map((testStationItem: ITestStation) => {
-    params.RequestItems[this.tableName].push(
-      {
-        PutRequest: {
-          Item: testStationItem
+      params.RequestItems[this.tableName].push(
+        {
+          PutRequest: {
+            Item: testStationItem
+          }
         }
-      }
-    );
-  });
+      );
+    });
 
     return TestStationDAO.dbClient.batchWrite(params).promise();
+  }
+
+  /**
+   * Write data about multiple Test Stations to the DB.
+   * @param testStationItem: ITestStation[]
+   * @returns DynamoDB BatchWriteItemOutput, wrapped in promises
+   */
+  public createItem(testStationItem: ITestStation): Promise<PromiseResult<DocumentClient.PutItemOutput, AWS.AWSError>> {
+    const params = {
+      TableName: this.tableName,
+      Item: testStationItem,
+      ConditionExpression: "attribute_not_exists(id)"
+    };
+    return TestStationDAO.dbClient.put(params).promise();
   }
 
   /**

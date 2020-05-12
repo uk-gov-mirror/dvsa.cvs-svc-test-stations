@@ -172,12 +172,12 @@ describe("TestStationService", () => {
         });
     });
 
-    describe("insertTestStationList", () => {
+    describe("insertTestStation", () => {
         context("database call inserts items", () => {
             it("should return nothing", () => {
                 const TestStationDAOMock = jest.fn().mockImplementation(() => {
                     return {
-                        createMultiple: () => {
+                        createItem: () => {
                             return Promise.resolve({});
                         }
                     };
@@ -185,7 +185,7 @@ describe("TestStationService", () => {
 
                 const testStationService = new TestStationService(new TestStationDAOMock());
 
-                return testStationService.insertTestStationList([...stations])
+                return testStationService.insertTestStation(stations[0])
                     .then((data: any) => {
                         expect(data).toEqual(undefined);
                     }).catch((e: any) => {
@@ -196,14 +196,14 @@ describe("TestStationService", () => {
             it("should return the unprocessed items", () => {
                 const TestStationDAOMock = jest.fn().mockImplementation(() => {
                     return {
-                        createMultiple: () => {
+                        createItem: () => {
                             return Promise.resolve({UnprocessedItems: [...stations]});
                         }
                     };
                 });
 
                 const testStationService = new TestStationService(new TestStationDAOMock());
-                return testStationService.insertTestStationList([...stations])
+                return testStationService.insertTestStation(stations[0])
                     .then((data: any) => {
                         expect(data).toHaveLength(20);
                     });
@@ -215,7 +215,7 @@ describe("TestStationService", () => {
                 const spy = jest.spyOn(console, "error").mockImplementation(() => {return; });
                 const TestStationDAOMock = jest.fn().mockImplementation(() => {
                     return {
-                        createMultiple: () => {
+                        createItem: () => {
                             return Promise.reject();
                         }
                     };
@@ -223,7 +223,7 @@ describe("TestStationService", () => {
 
                 const testStationService = new TestStationService(new TestStationDAOMock());
 
-                return testStationService.insertTestStationList([...stations])
+                return testStationService.insertTestStation(stations[0])
                     .then(() => {return; })
                     .catch((errorResponse: any) => {
                         expect(spy.mock.calls).toHaveLength(0);
@@ -237,7 +237,7 @@ describe("TestStationService", () => {
                 const spy = jest.spyOn(console, "error").mockImplementation(() => {return; });
                 const TestStationDAOMock = jest.fn().mockImplementation(() => {
                     return {
-                        createMultiple: () => {
+                        createItem: () => {
                             return Promise.reject(new Error("It broke"));
                         }
                     };
@@ -245,7 +245,7 @@ describe("TestStationService", () => {
 
                 const testStationService = new TestStationService(new TestStationDAOMock());
 
-                return testStationService.insertTestStationList([...stations])
+                return testStationService.insertTestStation(stations[0])
                     .then(() => {return; })
                     .catch((errorResponse: any) => {
                         expect(spy.mock.calls).toHaveLength(1);
