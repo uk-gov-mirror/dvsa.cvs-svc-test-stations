@@ -10,9 +10,8 @@ export const updateTestStation = async (event: any) => {
   const service = new TestStationService(testStationDAO);
 
   const testStationId = event.queryStringParameters?.testStationId;
-  const payload = JSON.parse(event.body);
 
-  return service.updateTestStation(payload, testStationId)
+  return service.updateTestStation(event.body, testStationId)
     .then((data: ITestStation[]) => {
       return new HTTPResponse(200, data);
     })
