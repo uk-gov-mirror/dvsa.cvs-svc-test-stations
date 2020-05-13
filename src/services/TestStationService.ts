@@ -69,16 +69,17 @@ export class TestStationService {
 
   /**
    * Add the provided Test Stations (ATFs) details to the DB. Currently unused.
-   * @param testStationItems (TestStation array)
+   * @param testStationItem: new body of the test station
+   * @param id: the id of the test station being updated
    */
-  public updateTestStation(testStationItems: ITestStation[], id: string) {
+  public updateTestStation(testStationItem: ITestStation, id: string) {
     const transactExpression = {
       ConditionExpression: "testStationId = :testStationId",
       ExpressionAttributeValues: {
         ":testStationId": id
       }
     };
-    return this.testStationDAO.transactWrite(testStationItems, transactExpression)
+    return this.testStationDAO.transactWrite(testStationItem, transactExpression)
       .then((data: any) => {
         if (data.UnprocessedItems) { return data.UnprocessedItems; }
       })
@@ -86,7 +87,7 @@ export class TestStationService {
         if (error) {
           console.error(error);
         }
-        throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
+        throw new HTTPError(500, error);
       });
   }
 

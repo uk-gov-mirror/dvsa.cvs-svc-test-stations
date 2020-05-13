@@ -119,6 +119,33 @@ describe("TestStationDAO", () => {
             }
         });
     });
+    context("transactWrite", () => {
+        beforeEach(() => {jest.resetModules(); });
+        afterEach(() => {sandbox.restore(); });
+
+        it("builds correct query and returns data on successful query", async () => {
+            const stub = mockDocumentClientWithReturn("transactWrite", "success");
+            const cond = { ConditionExpression: "something", ExpressionAttributeValues: "something" };
+            const expectedParams = stations[0];
+            const dao = new TestStationDAO();
+            expect.assertions(1);
+            const output = await dao.transactWrite(stations[0], cond);
+            expect(output).toEqual("success");
+        });
+
+        it("returns error on failed query", async () => {
+            const myError = new HTTPError(418, "It broke");
+            mockDocumentClientWithReject("transactWrite", myError);
+            const cond = { ConditionExpression: "something", ExpressionAttributeValues: "something" };
+            const dao = new TestStationDAO();
+            expect.assertions(1);
+            try {
+                await dao.transactWrite(stations[0], cond);
+            } catch (err) {
+                expect(err).toEqual(myError);
+            }
+        });
+    });
 
     context("deleteMultiple", () => {
         beforeEach(() => {jest.resetModules(); });
@@ -160,7 +187,7 @@ const getRequestItemsBodyFromStub = (input: SinonStub) => {
     return requestItems[table];
 };
 
-function mockDocumentClientWithReturn(method: "batchWrite" | "scan" | "query" | "put", retVal: any) {
+function mockDocumentClientWithReturn(method: "batchWrite" | "scan" | "query" | "put" | "transactWrite", retVal: any) {
     const myStub = sinon.stub().callsFake(() => {
         return {
             promise: sinon.fake.resolves(retVal)
@@ -169,7 +196,7 @@ function mockDocumentClientWithReturn(method: "batchWrite" | "scan" | "query" | 
     sandbox.replace(AWS.DynamoDB.DocumentClient.prototype, method, myStub);
     return myStub;
 }
-function mockDocumentClientWithReject(method: "batchWrite" | "scan" | "query" | "put", retVal: any) {
+function mockDocumentClientWithReject(method: "batchWrite" | "scan" | "query" | "put" | "transactWrite", retVal: any) {
     const myStub = sinon.stub().callsFake(() => {
         return {
             promise: sinon.fake.rejects(retVal)
