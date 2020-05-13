@@ -257,6 +257,92 @@ describe("TestStationService", () => {
         });
     });
 
+    describe("updateTestStation", () => {
+        context("database call updates items", () => {
+            it("should return nothing", () => {
+                const TestStationDAOMock = jest.fn().mockImplementation(() => {
+                    return {
+                        transactWrite: () => {
+                            return Promise.resolve({});
+                        }
+                    };
+                });
+
+                const testStationService = new TestStationService(new TestStationDAOMock());
+
+                return testStationService.updateTestStation(stations[0], "123")
+                  .then((data: any) => {
+                      expect(data).toEqual(undefined);
+                  }).catch((e: any) => {
+                      expect.assertions(1); // should have thrown an error, test failed
+                  });
+            });
+
+            it("should return the unprocessed items", () => {
+                const TestStationDAOMock = jest.fn().mockImplementation(() => {
+                    return {
+                        transactWrite: () => {
+                            return Promise.resolve({UnprocessedItems: [...stations]});
+                        }
+                    };
+                });
+
+                const testStationService = new TestStationService(new TestStationDAOMock());
+                return testStationService.updateTestStation(stations[0], "123")
+                  .then((data: any) => {
+                      expect(data).toHaveLength(20);
+                  });
+            });
+        });
+        context("database call fails updating items", () => {
+            it("should return error 500, irrespective of the error", () => {
+                const spy = jest.spyOn(console, "error").mockImplementation(() => {return; });
+                const TestStationDAOMock = jest.fn().mockImplementation(() => {
+                    return {
+                        transactWrite: () => {
+                            return Promise.reject();
+                        }
+                    };
+                });
+
+                const testStationService = new TestStationService(new TestStationDAOMock());
+
+                return testStationService.updateTestStation(stations[0], "123")
+                  .then(() => {return; })
+                  .catch((errorResponse: any) => {
+                      expect(spy.mock.calls).toHaveLength(0);
+                      expect(errorResponse).toBeInstanceOf(HTTPError);
+                      expect(errorResponse.statusCode).toEqual(500);
+                      expect(errorResponse.body).toEqual(undefined);
+                  });
+            });
+
+            it("should console log the error message, if a error is passed", () => {
+                const spy = jest.spyOn(console, "error").mockImplementation(() => {return; });
+                const error = new Error("It broke");
+                const TestStationDAOMock = jest.fn().mockImplementation(() => {
+                    return {
+                        transactWrite: () => {
+                            return Promise.reject(error);
+                        }
+                    };
+                });
+
+                const testStationService = new TestStationService(new TestStationDAOMock());
+
+                return testStationService.updateTestStation(stations[0], "123")
+                  .then(() => {return; })
+                  .catch((errorResponse: any) => {
+                      expect(spy.mock.calls).toHaveLength(1);
+                      expect(errorResponse).toBeInstanceOf(HTTPError);
+                      expect(errorResponse.statusCode).toEqual(500);
+                      expect(errorResponse.body).toEqual(error);
+                  });
+            });
+        });
+
+    });
+
     describe("deleteTestStationsList", () => {
         afterEach(() => {
             jest.resetAllMocks();
