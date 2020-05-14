@@ -13,7 +13,7 @@ describe("createTestStation Handler", () => {
       });
       const res: HTTPResponse | HTTPError = await createTestStation({});
       expect(res).toBeInstanceOf(HTTPResponse);
-      expect(res.statusCode).toEqual(200);
+      expect(res.statusCode).toEqual(202);
       expect(res.body).toEqual(JSON.stringify("all good"));
     });
   });

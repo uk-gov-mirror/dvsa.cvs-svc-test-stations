@@ -10,7 +10,7 @@ export const createTestStation = async (event: any) => {
   const service = new TestStationService(testStationDAO);
   return service.insertTestStation(event.body)
     .then((data: ITestStation[]) => {
-      return new HTTPResponse(200, data);
+      return new HTTPResponse(202, data);
     })
     .catch((error: any) => {
       console.error(error);
