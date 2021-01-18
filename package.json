@@ -8,7 +8,7 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "start": "npm run tslint && BRANCH=local && node $NODE_DEBUG_OPTION ./node_modules/serverless/bin/serverless offline start",
+    "start": "BRANCH=local serverless offline start",
     "start:test": "npm run tslint && node_modules/gulp/bin/gulp.js start-serverless",
     "build:dev": "node_modules/typescript/bin/tsc && npm run build:copy",
     "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
@@ -24,7 +24,8 @@
     "tslint": "tslint tests/**/*.ts src/**/*.ts",
     "sonar-scanner": "npm run tslint && npm run coverage && sonar-scanner",
     "coverage": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.*Test.ts\" --coverage --runInBand",
-    "audit-dep": "npm audit --json | node_modules/.bin/audit-filter --nsp-config=.nsprc --audit=-",
+    "audit:check": "npm audit --json | node_modules/.bin/audit-filter --nsp-config=.nsprc --audit=-",
+    "audit-dep": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
     "tools-setup": "sls dynamodb migrate && BRANCH=local node_modules/gulp/bin/gulp.js start-serverless && sls dynamodb seed --seed=test-stations"
   },
@@ -54,7 +55,7 @@
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
     "lambda-tester": "^3.6.0",
-    "serverless": "1.59.3",
+    "serverless": "^2.19.0",
     "serverless-dynamodb-local": "0.2.38",
     "serverless-offline": "^5.12.1",
     "serverless-plugin-tracing": "^2.0.0",
