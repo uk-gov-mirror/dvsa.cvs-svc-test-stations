@@ -8,23 +8,24 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "start": "npm run tslint && BRANCH=local && node $NODE_DEBUG_OPTION ./node_modules/serverless/bin/serverless offline start",
+    "start": "BRANCH=local serverless offline start",
     "start:test": "npm run tslint && node_modules/gulp/bin/gulp.js start-serverless",
     "build:dev": "node_modules/typescript/bin/tsc && npm run build:copy",
     "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
     "build:copy": "find src -type f \\( -name \"*.yml\" -or -name \"*.json\" \\) | cpio -pdm .build && find tests -type f \\( -name \"*.yml\" -or -name \"*.json\" \\)  | cpio -pdm .build",
     "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
     "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/serverless/bin/serverless offline start",
-    "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\" --coverage",
+    "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\"",
     "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
     "test:dev": "npm run build:dev && npm run test",
-    "prepush": "npm test && npm run tslint && npm run security-checks",
+    "prepush": "npm run build && npm run coverage",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
     "tslint": "tslint tests/**/*.ts src/**/*.ts",
     "sonar-scanner": "npm run tslint && npm run coverage && sonar-scanner",
-    "coverage": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.*Test.ts\" --coverage --runInBand",
-    "audit-dep": "npm audit --json | node_modules/.bin/audit-filter --nsp-config=.nsprc --audit=-",
+    "coverage": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\" --coverage --runInBand",
+    "audit:check": "npm audit --json | node_modules/.bin/audit-filter --nsp-config=.nsprc --audit=-",
+    "audit-dep": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
     "tools-setup": "sls dynamodb migrate && BRANCH=local node_modules/gulp/bin/gulp.js start-serverless && sls dynamodb seed --seed=test-stations"
   },
@@ -38,7 +39,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.1",
+    "@types/jest": "25.2.1",
     "@types/jest-plugin-context": "^2.9.3",
     "@types/lambda-tester": "^3.6.0",
     "@types/node": "^13.13.5",
@@ -50,11 +51,11 @@
     "expect": "^24.9.0",
     "gulp": "^4.0.2",
     "husky": "^3.1.0",
-    "jest": "^26.0.1",
+    "jest": "^26.6.3",
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
     "lambda-tester": "^3.6.0",
-    "serverless": "1.59.3",
+    "serverless": "^2.45.2",
     "serverless-dynamodb-local": "0.2.38",
     "serverless-offline": "^5.12.1",
     "serverless-plugin-tracing": "^2.0.0",
@@ -62,7 +63,7 @@
     "sinon": "^7.5.0",
     "standard": "^12.0.1",
     "supertest": "^4.0.2",
-    "ts-jest": "^25.5.0",
+    "ts-jest": "^26.5.4",
     "ts-node": "^8.10.1",
     "tslint": "^5.20.1",
     "tslint-jsdoc-rules": "^0.2.0",
@@ -82,7 +83,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prepush && npm run security-checks",
+      "pre-commit": "npm run audit-dep && npm run security-checks && npm run tslint",
       "pre-push": "npm run prepush"
     }
   }
