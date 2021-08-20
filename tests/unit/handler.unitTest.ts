@@ -1,21 +1,23 @@
 import sinon from "sinon";
-import {handler} from "../../src/handler";
+import { handler } from "../../src/handler";
 import * as getTestStations from "../../src/functions/getTestStations";
 import { Configuration } from "../../src/utils/Configuration";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
 import mockContext from "aws-lambda-mock-context";
 const ctx = mockContext();
 
-
 describe("The lambda function handler", () => {
   context("With correct Config", () => {
-    const event = {path : "/test-stations", httpMethod: "GET", body: ""};
+    const event = { path: "/test-stations", httpMethod: "GET", body: "" };
     context("should correctly handle incoming events", () => {
-      it("should call functions with correct event payload", async () => {// Specify your event, with correct path, payload etc
+      it("should call functions with correct event payload", async () => {
+        // Specify your event, with correct path, payload etc
 
         // Stub out the actual functions
         const getTestStationsStub = sinon.stub(getTestStations);
-        getTestStationsStub.getTestStations.returns(Promise.resolve(new HTTPResponse(200, {})));
+        getTestStationsStub.getTestStations.returns(
+          Promise.resolve(new HTTPResponse(200, {}))
+        );
 
         const result = await handler(event, ctx);
         expect(result.statusCode).toEqual(200);
@@ -27,7 +29,9 @@ describe("The lambda function handler", () => {
 
         expect(result).toBeInstanceOf(HTTPResponse);
         expect(result.statusCode).toEqual(400);
-        expect(result.body).toEqual(JSON.stringify("AWS event is empty. Check your test event."));
+        expect(result.body).toEqual(
+          JSON.stringify("AWS event is empty. Check your test event.")
+        );
       });
 
       it("should return error on invalid body json", async () => {
@@ -36,15 +40,24 @@ describe("The lambda function handler", () => {
         const result = await handler(event, ctx);
         expect(result).toBeInstanceOf(HTTPResponse);
         expect(result.statusCode).toEqual(400);
-        expect(result.body).toEqual(JSON.stringify("Body is not a valid JSON."));
+        expect(result.body).toEqual(
+          JSON.stringify("Body is not a valid JSON.")
+        );
       });
 
       it("should return a Route Not Found error on invalid path", async () => {
-        const invalidPathEvent = {path : "/something/that/doesntExist", httpMethod: "GET"};
+        const invalidPathEvent = {
+          path: "/something/that/doesntExist",
+          httpMethod: "GET",
+        };
 
         const result = await handler(invalidPathEvent, ctx);
         expect(result.statusCode).toEqual(400);
-        expect(result.body).toStrictEqual(JSON.stringify({ error: `Route ${invalidPathEvent.httpMethod} ${invalidPathEvent.path} was not found.` }));
+        expect(result.body).toStrictEqual(
+          JSON.stringify({
+            error: `Route ${invalidPathEvent.httpMethod} ${invalidPathEvent.path} was not found.`,
+          })
+        );
       });
     });
   });
@@ -52,11 +65,17 @@ describe("The lambda function handler", () => {
   context("With no routes defined in config", () => {
     it("should return a Route Not Found error", async () => {
       // Stub Config getFunctions method and return empty array instead
-      const configStub = sinon.stub(Configuration.prototype, "getFunctions").returns([]);
-      const event = {httpMethod: "GET", path: ""};
+      const configStub = sinon
+        .stub(Configuration.prototype, "getFunctions")
+        .returns([]);
+      const event = { httpMethod: "GET", path: "" };
       const result = await handler(event, ctx);
       expect(result.statusCode).toEqual(400);
-      expect(result.body).toStrictEqual(JSON.stringify({ error: `Route ${event.httpMethod} ${event.path} was not found.` }));
+      expect(result.body).toStrictEqual(
+        JSON.stringify({
+          error: `Route ${event.httpMethod} ${event.path} was not found.`,
+        })
+      );
       configStub.restore();
     });
   });
@@ -86,7 +105,9 @@ describe("The configuration service", () => {
       expect(functions[0].name).toEqual("getTestStations");
 
       const DBConfig = configService.getDynamoDBConfig();
-      expect(DBConfig).toEqual(configService.getConfig().dynamodb["local-global"]);
+      expect(DBConfig).toEqual(
+        configService.getConfig().dynamodb["local-global"]
+      );
 
       // No Endpoints for this service
     });
@@ -111,7 +132,9 @@ describe("The configuration service", () => {
       try {
         config.getFunctions();
       } catch (e) {
-        expect(e.message).toEqual("Functions were not defined in the config file.");
+        expect(e.message).toEqual(
+          "Functions were not defined in the config file."
+        );
       }
     });
 
@@ -120,7 +143,9 @@ describe("The configuration service", () => {
       try {
         config.getDynamoDBConfig();
       } catch (e) {
-        expect(e.message).toEqual("DynamoDB config is not defined in the config file.");
+        expect(e.message).toEqual(
+          "DynamoDB config is not defined in the config file."
+        );
       }
     });
   });

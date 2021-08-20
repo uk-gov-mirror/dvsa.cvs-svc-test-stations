@@ -1,0 +1,71 @@
+openapi: 3.0.0
+components:
+  schemas:
+    testStations:
+      type: array
+      items:
+        $ref: "#/components/schemas/testStation"
+    testStation:
+      type: object
+      additionalProperties: false
+      properties:
+        testStationId:
+          type: string
+        testStationPNumber:
+          type: string
+        testStationStatus:
+          type: string
+          description: When retrieving the test stations list, the data is filtered using this attribute. If status = "active" then the object will be retrieved using the GET method, else it will not be retrieved.
+          nullable: true
+        testStationName:
+          type: string
+        testStationContactNumber:
+          type: string
+        testStationAccessNotes:
+          type: string
+        testStationGeneralNotes:
+          type: string
+        testStationTown:
+          type: string
+        testStationAddress:
+          type: string
+        testStationPostcode:
+          type: string
+        testStationLongitude:
+          type: number
+        testStationLatitude:
+          type: number
+        testStationType:
+          type: string
+          enum:
+            - atf
+            - gvts
+            - hq
+        testStationEmails:
+          type: array
+          items:
+            type: string
+  securitySchemes: {}
+info:
+  title: Get Test Stations List API
+  description: This is the API spec for retrieving all existing Test Stations
+  version: "1"
+paths:
+  /test-stations:
+    get:
+      operationId: getTestStations
+      summary: Get Test Stations List
+      description: Returns all existing Test Stations from the database, that have the testStationStatus = active. The rest of the test stations are not returned.
+      responses:
+        "200":
+          description: List of Test Stations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/testStations"
+        "401":
+          description: Not authenticated
+        "403":
+          description: Unauthorised Access
+        "404":
+          description: Test stations not found

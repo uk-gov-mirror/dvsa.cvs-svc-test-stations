@@ -1,11 +1,10 @@
-import {Handler} from "aws-lambda";
+import { Handler } from "aws-lambda";
 // @ts-ignore
 import * as yml from "node-yaml";
-import {IFunctionConfig} from "../models";
-import {ERRORS} from "./Enum";
+import { IFunctionConfig } from "../models";
+import { ERRORS } from "./Enum";
 
 class Configuration {
-
   private static instance: Configuration;
   private readonly config: any;
 
@@ -20,10 +19,15 @@ class Configuration {
     if (matches) {
       matches.forEach((match: string) => {
         envRegex.lastIndex = 0;
-        const captureGroups: RegExpExecArray = envRegex.exec(match) as RegExpExecArray;
+        const captureGroups: RegExpExecArray = envRegex.exec(
+          match
+        ) as RegExpExecArray;
 
         // Insert the environment variable if available. If not, insert placeholder. If no placeholder, leave it as is.
-        stringifiedConfig = stringifiedConfig.replace(match, (process.env[captureGroups[1]] || captureGroups[2] || captureGroups[1]));
+        stringifiedConfig = stringifiedConfig.replace(
+          match,
+          process.env[captureGroups[1]] || captureGroups[2] || captureGroups[1]
+        );
       });
     }
 
@@ -61,13 +65,15 @@ class Configuration {
 
     return this.config.functions.map((fn: Handler) => {
       const [name, params]: any = Object.entries(fn)[0];
-      const path: string = (params.proxy) ? params.path.replace("{+proxy}", params.proxy) : params.path;
+      const path: string = params.proxy
+        ? params.path.replace("{+proxy}", params.proxy)
+        : params.path;
 
       return {
         name,
         method: params.method.toUpperCase(),
         path,
-        function: require(`../functions/${name}`)[name]
+        function: require(`../functions/${name}`)[name],
       };
     });
   }

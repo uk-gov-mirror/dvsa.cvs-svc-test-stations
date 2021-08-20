@@ -2,7 +2,7 @@ import { TestStationService } from "../services/TestStationService";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { HTTPResponse } from "../models/HTTPResponse";
 import { ITestStation } from "../models/ITestStation";
-import {HTTPError} from "../models/HTTPError";
+import { HTTPError } from "../models/HTTPError";
 
 export const updateTestStation = async (event: any) => {
   console.log("Event: ", event);
@@ -11,7 +11,8 @@ export const updateTestStation = async (event: any) => {
 
   const testStationId = event.pathParameters?.testStationId;
 
-  return service.updateTestStation(event.body, testStationId)
+  return service
+    .updateTestStation(event.body, testStationId)
     .then((data: ITestStation[]) => {
       return new HTTPResponse(202, data);
     })

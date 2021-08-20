@@ -1,6 +1,5 @@
-service:
-  name: cvs-svc-stum-crm-test-station
-
+service: cvs-svc-test-station
+configValidationMode: warn
 plugins:
   - serverless-offline
   - serverless-dynamodb-local
@@ -8,16 +7,21 @@ plugins:
   - serverless-plugin-tracing
 
 provider:
+  lambdaHashingVersion: 20201221
   name: aws
-  runtime: nodejs8.10
-  tracing: true # enable tracing
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "xray:PutTraceSegments"
-        - "xray:PutTelemetryRecords"
-      Resource:
-        - "*"
+  runtime: nodejs14.x
+  tracing:
+    apiGateway: true
+    lambda: true
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "xray:PutTraceSegments"
+            - "xray:PutTelemetryRecords"
+          Resource:
+            - "*"
 
 functions:
   getTestStations:
@@ -43,9 +47,9 @@ custom:
     start:
       port: 8007
       inMemory: true
-      migrate: false
-      seed: false
-      noStart: true
+      migrate: true
+      seed: true
+      noStart: false
     seed:
       test-stations:
         sources:
@@ -59,13 +63,13 @@ resources:
       Properties:
         TableName: cvs-local-test-stations
         AttributeDefinitions:
-        - AttributeName: testStationId
-          AttributeType: S
-        - AttributeName: testStationPNumber
-          AttributeType: S
+          - AttributeName: testStationId
+            AttributeType: S
+          - AttributeName: testStationPNumber
+            AttributeType: S
         KeySchema:
-        - AttributeName: testStationId
-          KeyType: HASH
+          - AttributeName: testStationId
+            KeyType: HASH
         GlobalSecondaryIndexes:
           - IndexName: testStationPNumberIndex
             KeySchema:
@@ -76,8 +80,8 @@ resources:
                 - testStationEmails
               ProjectionType: INCLUDE
             ProvisionedThroughput:
-              ReadCapacityUnits: '1'
-              WriteCapacityUnits: '1'
+              ReadCapacityUnits: "1"
+              WriteCapacityUnits: "1"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

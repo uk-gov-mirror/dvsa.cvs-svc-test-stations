@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-no-unused-expression-chai"
-  ],
+  "extends": ["tslint:recommended", "tslint-no-unused-expression-chai"],
   "rules": {
     "max-line-length": {
       "options": [240]
@@ -18,6 +15,7 @@
     "member-ordering": false,
     "ordered-imports": false,
     "jsdoc-format": true,
-    "completed-docs": [true, "methods"]
+    "completed-docs": [true, "methods"],
+    "semicolon": [true, "always", "strict-bound-class-methods"]
   }
 }
