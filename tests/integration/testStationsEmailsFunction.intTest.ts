@@ -6,7 +6,6 @@ import { emptyDatabase, populateDatabase } from "../util/dbOperations";
 
 describe("getTestStationsEmail", () => {
   beforeAll(async () => {
-    jest.restoreAllMocks();
     await emptyDatabase();
   });
 

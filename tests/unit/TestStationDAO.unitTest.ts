@@ -76,42 +76,7 @@ describe("TestStationDAO", () => {
     });
   });
 
-  context("createMultiple", () => {
-    beforeEach(() => {
-      jest.resetModules();
-    });
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it("builds correct query and returns data on successful query", async () => {
-      const stub = mockDocumentClientWithReturn("batchWrite", "success");
-      const expectedParams = [
-        {
-          PutRequest: {
-            Item: stations[0],
-          },
-        },
-      ];
-      const dao = new TestStationDAO();
-      const output = await dao.createMultiple([stations[0]]);
-      expect(output).toEqual("success");
-      expect(getRequestItemsBodyFromStub(stub)).toStrictEqual(expectedParams);
-    });
-
-    it("returns error on failed query", async () => {
-      const myError = new HTTPError(418, "It broke");
-      mockDocumentClientWithReject("batchWrite", myError);
-      const dao = new TestStationDAO();
-      try {
-        await dao.createMultiple([stations[0]]);
-      } catch (err) {
-        expect(err).toEqual(myError);
-      }
-    });
-  });
-
-  context("createItem", () => {
+  context("putItem", () => {
     beforeEach(() => {
       jest.resetModules();
     });
@@ -123,7 +88,7 @@ describe("TestStationDAO", () => {
       const stub = mockDocumentClientWithReturn("put", "success");
       const expectedParams = stations[0];
       const dao = new TestStationDAO();
-      const output = await dao.createItem(stations[0]);
+      const output = await dao.putItem(stations[0]);
       expect(output).toEqual("success");
       expect(stub.args[0][0].Item).toStrictEqual(expectedParams);
     });
@@ -133,81 +98,7 @@ describe("TestStationDAO", () => {
       mockDocumentClientWithReject("put", myError);
       const dao = new TestStationDAO();
       try {
-        const output = await dao.createItem(stations[0]);
-      } catch (err) {
-        expect(err).toEqual(myError);
-      }
-    });
-  });
-  context("transactWrite", () => {
-    beforeEach(() => {
-      jest.resetModules();
-    });
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it("builds correct query and returns data on successful query", async () => {
-      const stub = mockDocumentClientWithReturn("transactWrite", "success");
-      const cond = {
-        ConditionExpression: "something",
-        ExpressionAttributeValues: "something",
-      };
-      const expectedParams = stations[0];
-      const dao = new TestStationDAO();
-      expect.assertions(1);
-      const output = await dao.transactWrite(stations[0], cond);
-      expect(output).toEqual("success");
-    });
-
-    it("returns error on failed query", async () => {
-      const myError = new HTTPError(418, "It broke");
-      mockDocumentClientWithReject("transactWrite", myError);
-      const cond = {
-        ConditionExpression: "something",
-        ExpressionAttributeValues: "something",
-      };
-      const dao = new TestStationDAO();
-      expect.assertions(1);
-      try {
-        await dao.transactWrite(stations[0], cond);
-      } catch (err) {
-        expect(err).toEqual(myError);
-      }
-    });
-  });
-
-  context("deleteMultiple", () => {
-    beforeEach(() => {
-      jest.resetModules();
-    });
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it("builds correct query and returns data on successful query", async () => {
-      const stub = mockDocumentClientWithReturn("batchWrite", "success");
-      const expectedParams = [
-        {
-          DeleteRequest: {
-            Key: {
-              testStationId: "testItem",
-            },
-          },
-        },
-      ];
-      const dao = new TestStationDAO();
-      const output = await dao.deleteMultiple(["testItem"]);
-      expect(output).toEqual("success");
-      expect(getRequestItemsBodyFromStub(stub)).toStrictEqual(expectedParams);
-    });
-
-    it("returns error on failed query", async () => {
-      const myError = new HTTPError(418, "It broke");
-      mockDocumentClientWithReject("batchWrite", myError);
-      const dao = new TestStationDAO();
-      try {
-        const output = await dao.deleteMultiple(["testItem"]);
+        const output = await dao.putItem(stations[0]);
       } catch (err) {
         expect(err).toEqual(myError);
       }

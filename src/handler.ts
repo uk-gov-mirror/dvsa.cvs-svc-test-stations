@@ -2,27 +2,42 @@ import { HTTPRESPONSE } from "./utils/Enum";
 import Path from "path-parser";
 import { Configuration } from "./utils/Configuration";
 import { HTTPResponse } from "./models/HTTPResponse";
-import { Context } from "aws-lambda";
+import { APIGatewayEvent, EventBridgeEvent, Context } from "aws-lambda";
 import { IFunctionConfig } from "./models";
+import { putTestStation } from "./functions/putTestStation";
 
-const handler = async (event: any, context: Context) => {
+const handler = async (
+  event: EventBridgeEvent<any, any> | APIGatewayEvent,
+  context: Context
+): Promise<void | HTTPResponse> => {
   // Request integrity checks
   if (!event) {
     return new HTTPResponse(400, HTTPRESPONSE.AWS_EVENT_EMPTY);
   }
 
-  if (event.body) {
-    let payload = {};
-
+  if ("detail" in event) {
     try {
-      payload = JSON.parse(event.body);
-    } catch {
-      return new HTTPResponse(400, HTTPRESPONSE.NOT_VALID_JSON);
+      await handleEventBridge(event);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  } else {
+    return handleApiGateway(event, context);
+  }
+};
+
+async function handleEventBridge(event: EventBridgeEvent<any, any>) {
+  if (event.detail) {
+    if (event.source !== process.env.AWS_EVENT_BUS_SOURCE) {
+      throw new Error(HTTPRESPONSE.INVALID_SOURCE);
     }
 
-    Object.assign(event, { body: payload });
+    await putTestStation(event.detail);
   }
+}
 
+function handleApiGateway(event: APIGatewayEvent, context: Context) {
   // Finding an appropriate λ matching the request
   const config: Configuration = Configuration.getInstance();
   const functions: IFunctionConfig[] = config.getFunctions();
@@ -78,6 +93,6 @@ const handler = async (event: any, context: Context) => {
   return new HTTPResponse(400, {
     error: `Route ${event.httpMethod} ${event.path} was not found.`,
   });
-};
+}
 
 export { handler };

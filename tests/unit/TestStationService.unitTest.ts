@@ -1,8 +1,8 @@
-import { ITestStation } from "../../src/models/ITestStation";
 import { HTTPError } from "../../src/models/HTTPError";
 import { TestStationService } from "../../src/services/TestStationService";
 import stations from "../resources/test-stations.json";
 import { ERRORS } from "../../src/utils/Enum";
+import { TestStationDAO } from "../../src/models/TestStationDAO";
 const stationIds = stations.map((station) => station.testStationId);
 
 describe("TestStationService", () => {
@@ -119,7 +119,7 @@ describe("TestStationService", () => {
           try {
             const returnedRecords =
               await testStationService.getTestStationEmails("87-1369569");
-            expect(returnedRecords.length).toEqual(3);
+            expect(returnedRecords.length).toEqual(2);
           } catch (e) {
             expect.assertions(1); // should have thrown an error, test failed
           }
@@ -207,12 +207,12 @@ describe("TestStationService", () => {
     });
   });
 
-  describe("insertTestStation", () => {
+  describe("putTestStation", () => {
     context("database call inserts items", () => {
       it("should return nothing", () => {
         const TestStationDAOMock = jest.fn().mockImplementation(() => {
           return {
-            createItem: () => {
+            putItem: () => {
               return Promise.resolve({});
             },
           };
@@ -223,7 +223,7 @@ describe("TestStationService", () => {
         );
 
         return testStationService
-          .insertTestStation(stations[0])
+          .putTestStation(stations[0])
           .then((data: any) => {
             expect(data).toEqual(undefined);
           })
@@ -232,35 +232,48 @@ describe("TestStationService", () => {
           });
       });
 
-      it("should return the unprocessed items", () => {
+      it("should log an error if an unprocessed item is returned", async () => {
         const TestStationDAOMock = jest.fn().mockImplementation(() => {
           return {
-            createItem: () => {
+            putItem: () => {
               return Promise.resolve({ UnprocessedItems: [...stations] });
             },
           };
         });
+        const consoleSpy = jest
+          .spyOn(console, "error")
+          .mockImplementation(() => {
+            return;
+          });
 
         const testStationService = new TestStationService(
           new TestStationDAOMock()
         );
-        return testStationService
-          .insertTestStation(stations[0])
-          .then((data: any) => {
-            expect(data).toHaveLength(20);
-          });
+
+        let err;
+        try {
+          await testStationService.putTestStation(stations[0]);
+        } catch (error) {
+          err = error;
+        }
+
+        expect(consoleSpy).toBeCalledTimes(1);
+        expect(consoleSpy).toBeCalledWith(
+          `Item not added: ${JSON.stringify([...stations])}`
+        );
+        expect(err).toEqual(new Error("Failed to add item to dynamo table."));
       });
     });
 
     context("database call fails inserting items", () => {
-      it("should return error 500, irrespective of the error", () => {
+      it("should throw an error", () => {
         const spy = jest.spyOn(console, "error").mockImplementation(() => {
           return;
         });
         const TestStationDAOMock = jest.fn().mockImplementation(() => {
           return {
-            createItem: () => {
-              return Promise.reject();
+            putItem: () => {
+              return Promise.reject(new Error("DynamoDB goes bang!"));
             },
           };
         });
@@ -270,264 +283,13 @@ describe("TestStationService", () => {
         );
 
         return testStationService
-          .insertTestStation(stations[0])
+          .putTestStation(stations[0])
           .then(() => {
             return;
           })
-          .catch((errorResponse: any) => {
+          .catch((error: any) => {
             expect(spy.mock.calls).toHaveLength(0);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual("Internal Server Error");
-          });
-      });
-
-      it("should console log the error message, if a error is passed", () => {
-        const spy = jest.spyOn(console, "error").mockImplementation(() => {
-          return;
-        });
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            createItem: () => {
-              return Promise.reject(new Error("It broke"));
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-
-        return testStationService
-          .insertTestStation(stations[0])
-          .then(() => {
-            return;
-          })
-          .catch((errorResponse: any) => {
-            expect(spy.mock.calls).toHaveLength(1);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual("Internal Server Error");
-          });
-      });
-    });
-  });
-
-  describe("updateTestStation", () => {
-    context("database call updates items", () => {
-      it("should return nothing", () => {
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            transactWrite: () => {
-              return Promise.resolve({});
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-
-        return testStationService
-          .updateTestStation(stations[0], "123")
-          .then((data: any) => {
-            expect(data).toEqual(undefined);
-          })
-          .catch((e: any) => {
-            expect.assertions(1); // should have thrown an error, test failed
-          });
-      });
-
-      it("should return the unprocessed items", () => {
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            transactWrite: () => {
-              return Promise.resolve({ UnprocessedItems: [...stations] });
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-        return testStationService
-          .updateTestStation(stations[0], "123")
-          .then((data: any) => {
-            expect(data).toHaveLength(20);
-          });
-      });
-    });
-    context("database call fails updating items", () => {
-      it("should return error 500, irrespective of the error", () => {
-        const spy = jest.spyOn(console, "error").mockImplementation(() => {
-          return;
-        });
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            transactWrite: () => {
-              return Promise.reject();
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-
-        return testStationService
-          .updateTestStation(stations[0], "123")
-          .then(() => {
-            return;
-          })
-          .catch((errorResponse: any) => {
-            expect(spy.mock.calls).toHaveLength(0);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual(undefined);
-          });
-      });
-
-      it("should console log the error message, if a error is passed", () => {
-        const spy = jest.spyOn(console, "error").mockImplementation(() => {
-          return;
-        });
-        const error = new Error("It broke");
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            transactWrite: () => {
-              return Promise.reject(error);
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-
-        return testStationService
-          .updateTestStation(stations[0], "123")
-          .then(() => {
-            return;
-          })
-          .catch((errorResponse: any) => {
-            expect(spy.mock.calls).toHaveLength(1);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual(error);
-          });
-      });
-    });
-  });
-
-  describe("deleteTestStationsList", () => {
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
-
-    context("database call deletes items", () => {
-      it("should return nothing", () => {
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            deleteMultiple: () => {
-              return Promise.resolve({ UnprocessedItems: null });
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-        return testStationService
-          .deleteTestStationsList(stationIds)
-          .then((data: ITestStation[]) => {
-            expect(data).toEqual(undefined);
-          });
-      });
-
-      it("should return the unprocessed items", () => {
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            deleteMultiple: () => {
-              return Promise.resolve({ UnprocessedItems: [...stations] });
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-        return testStationService
-          .deleteTestStationsList(stationIds)
-          .then((data: ITestStation[]) => {
-            return expect(data.length).toEqual(20);
-          })
-          .catch(() => {
-            expect.assertions(1); // should have thrown an error, test failed
-          });
-      });
-    });
-
-    context("database call fails deleting items", () => {
-      afterEach(() => {
-        jest.restoreAllMocks();
-      });
-
-      it("should return error 500, irrespective of the error", () => {
-        const spy = jest.spyOn(console, "error").mockImplementation(() => {
-          return;
-        });
-
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            deleteMultiple: () => {
-              return Promise.reject();
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-
-        return testStationService
-          .deleteTestStationsList(stationIds)
-          .then(() => {
-            expect.assertions(1); // should have thrown an error, test failed
-          })
-          .catch((errorResponse: HTTPError) => {
-            expect(spy.mock.calls).toHaveLength(0);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual("Internal Server Error");
-          });
-      });
-
-      it("should console log the error message, if a error is passed", () => {
-        const spy = jest.spyOn(console, "error").mockImplementation(() => {
-          return;
-        });
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            deleteMultiple: () => {
-              return Promise.reject(new Error("It broke"));
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-
-        return testStationService
-          .deleteTestStationsList(stationIds)
-          .then(() => {
-            expect.assertions(1); // should have thrown an error, test failed
-          })
-          .catch((errorResponse: HTTPError) => {
-            expect(spy.mock.calls).toHaveLength(1);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual("Internal Server Error");
+            expect(error).toEqual(new Error("DynamoDB goes bang!"));
           });
       });
     });

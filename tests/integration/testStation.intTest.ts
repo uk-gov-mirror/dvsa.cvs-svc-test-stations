@@ -8,7 +8,6 @@ const request = supertest(url);
 
 describe("getTestStation", () => {
   beforeAll(async () => {
-    jest.restoreAllMocks();
     await emptyDatabase();
   });
 

@@ -5,7 +5,6 @@ import testStations from "../resources/test-stations.json";
 
 describe("getTestStations", () => {
   beforeAll(async () => {
-    jest.restoreAllMocks();
     await emptyDatabase();
   });
 

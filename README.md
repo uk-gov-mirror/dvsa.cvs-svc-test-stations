@@ -40,6 +40,14 @@ This code repository uses [serverless framework](https://www.serverless.com/fram
 You will also require to install dynamodb serverless to run your project with by running the following command `npm run tools-setup` in your preferred shell.
 Please refer to the local development section to [configure your project locally](#developing-locally).
 
+The project has multiple hooks configured using [husky](https://github.com/typicode/husky#readme) which will execute the following scripts: `security-checks`, `audit`, `tslint`, `prepush`.  
+The latest version of husky has changed in two important ways.
+
+- Hooks are no longer specified in package.json, but are in the .husky folder. They still point back to the npm scripts in package.json. Details of why can be seen on [github](https://blog.typicode.com/husky-git-hooks-javascript-config/).
+- Hooks are not automatically installed via `npm install` any more. The installation of the hooks has been added to the `npm run tools-setup` script. Details of why can be seen on [github](https://blog.typicode.com/husky-git-hooks-autoinstall/).
+
+**_It is very important that husky is installed, otherwise none of the security and code standard checks will run prior to commiting or pushing to github._**
+
 ### Environmental variables
 
 - The `BRANCH` environment variable indicates in which environment is this application running. Use `BRANCH=local` for local development. This variable is required when starting the application or running tests.
@@ -136,9 +144,8 @@ Please familiarise yourself with [commitlint](https://commitlint.js.org/#/) and 
 
 The project follow the a Kanban [delivery workflow](https://wiki.dvsacloud.uk/display/HVT/Project+Roadmap+and+Delivery+Workflow?preview=/42796907/72550114/CVS%20Delivery%20Workflow%20V0.10.pdf#ProjectRoadmapandDeliveryWorkflow-CVSDeliveryWorkflow).
 
-### Hooks and code standards
+### Code standards
 
-The projects has multiple hooks configured using [husky](https://github.com/typicode/husky#readme) which will execute the following scripts: `security-checks`, `audit`, `tslint`, `prepush`.
 The codebase uses [typescript clean code standards](https://github.com/labs42io/clean-code-typescript) as well as sonarqube for static analysis.
 
 SonarQube is available locally, please follow the instructions below if you wish to run the service locally (brew is the preferred approach).
