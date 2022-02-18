@@ -6,8 +6,8 @@ module.exports = {
   setupFiles: ["jest-plugin-context/setup"],
   moduleFileExtensions: ["js", "ts"],
   coverageDirectory: "coverage",
-  collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.{js,ts}', '!**/node_modules/**'],
+  collectCoverage: false,
+  collectCoverageFrom: ["src/**/*.{js,ts}", "!**/node_modules/**"],
   coverageThreshold: {
     global: {
       branches: 80,
