@@ -48,6 +48,16 @@ The latest version of husky has changed in two important ways.
 
 **_It is very important that husky is installed, otherwise none of the security and code standard checks will run prior to commiting or pushing to github._**
 
+SonarQube code coverage analysis has been added as part of the git prepush hook. This is to better align with what happens in the pipeline.  
+To get it working locally, follow these steps:
+
+- Ensure husky hooks are installed by running `npm i && npm run tools-setup`.
+- Ensure SonarQube is installed. Running in a [container](https://hub.docker.com/_/sonarqube) is a great option.
+- Within SonarQube, Disable Force user authentication via Administration -> Configuration -> Security.
+- Install jq with `sudo apt install jq` or `brew install jq`.
+
+When running `git push`, it will run tests followed by the sonarqube scan. If the scan fails or the unit test coverage is below 80%, the push is cancelled.
+
 ### Environmental variables
 
 - The `BRANCH` environment variable indicates in which environment is this application running. Use `BRANCH=local` for local development. This variable is required when starting the application or running tests.
