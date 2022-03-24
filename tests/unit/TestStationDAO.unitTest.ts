@@ -85,17 +85,19 @@ describe("TestStationDAO", () => {
     });
 
     it("builds correct query and returns data on successful query", async () => {
-      const stub = mockDocumentClientWithReturn("put", "success");
+      const putstub = mockDocumentClientWithReturn("put", "success");
+      mockDocumentClientWithReturn("query", "success");
       const expectedParams = stations[0];
       const dao = new TestStationDAO();
       const output = await dao.putItem(stations[0]);
       expect(output).toEqual("success");
-      expect(stub.args[0][0].Item).toStrictEqual(expectedParams);
+      expect(putstub.args[0][0].Item).toStrictEqual(expectedParams);
     });
 
     it("returns error on failed query", async () => {
       const myError = new HTTPError(418, "It broke");
       mockDocumentClientWithReject("put", myError);
+      mockDocumentClientWithReturn("query", "success");
       const dao = new TestStationDAO();
       try {
         const output = await dao.putItem(stations[0]);

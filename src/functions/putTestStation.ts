@@ -1,8 +1,9 @@
 import Joi from "joi";
 import { TestStationService } from "../services/TestStationService";
 import { TestStationDAO } from "../models/TestStationDAO";
+import { ITestStation } from "../models/ITestStation";
 
-export const putTestStation = async (testStation: any) => {
+export const putTestStation = async (testStation: ITestStation) => {
   await validateTestStation(testStation);
   const testStationDAO = new TestStationDAO();
   const service = new TestStationService(testStationDAO);
