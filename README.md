@@ -113,6 +113,52 @@ SLS_DEBUG = *
 BRANCH = local
 ```
 
+*GET* operations are exposed to the VTA App via API Gateway.
+
+**In AWS:**  
+https://api.gateway.uri/develop/test-stations/P12345
+
+**Locally:**  
+http://localhost:3004/test-stations/P12345
+
+*UPSERT* operations are via direct lambda invocation with an EventBridgeEvent object.
+```
+{
+  "version":"0",
+  "id":"3b8d813d-9e1c-0c30-72f9-7539de987e31",
+  "detail-type":"CVS Update Test Stations",
+  "source":"cvs.update.test.stations",
+  "account":"1234567890",
+  "time":"2022-01-26T12:18:26Z",
+  "region":"eu-west-1",
+  "resources":[],
+  "detail":{
+    "testStationId": "fb342fef-725e-ec11-8f8f-002248437f2d",
+    "testStationAccessNotes": null,
+    "testStationAddress": "Test Street 1, null",
+    "testStationContactNumber": "0115 0115115,
+    "testStationEmails": [ "test@test.com" ],
+    "testStationGeneralNotes": "Some words.",
+    "testStationLongitude": -1.5882060527801514,
+    "testStationLatitude": 55.01923751831055,
+    "testStationName": "Test ATF",
+    "testStationPNumber": "P12345",
+    "testStationPostcode": "NE12 3AB",
+    "testStationStatus": "active",
+    "testStationTown": "Testtown",
+    "testStationType": "atf"
+  }
+}
+```
+
+**In AWS:**  
+Either via direct lambda invocation via the AWS CLI or the Lambda Test Event feature in the AWS Console.
+
+**Locally:**  
+Upsert operations can be achieved locally via a POST to http://localhost:3004/{apiVersion}/functions/cvs-svc-test-station-dev-getTestStations/invocations.
+
+The test station will either be inserted or updated based on the absence or presense of a test station with the same testStationPNumber.
+
 ## Testing
 
 Jest is used for unit testing.
