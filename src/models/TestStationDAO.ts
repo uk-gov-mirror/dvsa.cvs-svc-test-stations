@@ -54,22 +54,22 @@ export class TestStationDAO {
    * If the statusFilter is set to null, get all test stations
    * @returns ultimately, an array of TestStation objects, wrapped in a PromiseResult, wrapped in a Promise
    */
-  public getAll(
-    statusFilter: TEST_STATION_STATUS | null
-  ): Promise<PromiseResult<DocumentClient.ScanOutput, AWS.AWSError>> {
+  public getAll(): Promise<
+    PromiseResult<DocumentClient.ScanOutput, AWS.AWSError>> {
     let scanParams = { TableName: this.tableName };
-    if (statusFilter) {
-      const filter = {
-        FilterExpression: "#testStationStatus = :testStationStatus",
-        ExpressionAttributeNames: {
-          "#testStationStatus": "testStationStatus",
-        },
-        ExpressionAttributeValues: {
-          ":testStationStatus": statusFilter,
-        },
-      };
-      scanParams = { ...scanParams, ...filter };
-    }
+    const filter = {
+      FilterExpression:
+        "#testStationStatus IN(:activeStatus, :terminationReqStatus) ",
+      ExpressionAttributeNames: {
+        "#testStationStatus": "testStationStatus",
+      },
+      ExpressionAttributeValues: {
+        ":activeStatus": TEST_STATION_STATUS.ACTIVE,
+        ":terminationReqStatus": TEST_STATION_STATUS.TERMINATION_REQUESTED,
+      },
+    };
+    scanParams = { ...scanParams, ...filter };
+
     return TestStationDAO.dbClient.scan(scanParams).promise();
   }
 

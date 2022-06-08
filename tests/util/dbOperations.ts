@@ -18,7 +18,7 @@ export const populateDatabase = async () => {
 export const emptyDatabase = async () => {
   const testStationDAO = new TestStationDAO();
   let currentTestStations: ITestStation[] = [];
-  await testStationDAO.getAll(null).then(async (data: any) => {
+  await testStationDAO.getAll().then(async (data: any) => {
     currentTestStations = data.Items;
     const mockBuffer = _.cloneDeep(currentTestStations).map(
       (station) => station.testStationId

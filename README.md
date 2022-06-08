@@ -113,7 +113,7 @@ SLS_DEBUG = *
 BRANCH = local
 ```
 
-*GET* operations are exposed to the VTA App via API Gateway.
+_GET_ operations are exposed to the VTA App via API Gateway.
 
 **In AWS:**  
 https://api.gateway.uri/develop/test-stations/P12345
@@ -121,7 +121,8 @@ https://api.gateway.uri/develop/test-stations/P12345
 **Locally:**  
 http://localhost:3004/test-stations/P12345
 
-*UPSERT* operations are via direct lambda invocation with an EventBridgeEvent object.
+_UPSERT_ operations are via direct lambda invocation with an EventBridgeEvent object.
+
 ```
 {
   "version":"0",

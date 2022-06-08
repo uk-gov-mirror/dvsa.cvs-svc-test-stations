@@ -20,17 +20,8 @@ describe("TestStationDAO", () => {
     it("returns data on successful query", async () => {
       mockDocumentClientWithReturn("scan", "success");
       const dao = new TestStationDAO();
-      const output = await dao.getAll(TEST_STATION_STATUS.ACTIVE);
+      const output = await dao.getAll();
       expect(output).toEqual(RESPONSE_STATUS.SUCCESS);
-    });
-
-    it("does not set filter test stations if the statusFilter is null", async () => {
-      const stub = mockDocumentClientWithReturn("scan", "success");
-      const dao = new TestStationDAO();
-      await dao.getAll(null);
-      expect(stub.args[0]).toStrictEqual([
-        { TableName: Configuration.getInstance().getDynamoDBConfig().table },
-      ]);
     });
 
     it("throw error on failed query", async () => {
@@ -38,7 +29,7 @@ describe("TestStationDAO", () => {
       mockDocumentClientWithReject("scan", myError);
       const dao = new TestStationDAO();
       try {
-        await dao.getAll(TEST_STATION_STATUS.ACTIVE);
+        await dao.getAll();
       } catch (e) {
         expect(e).toEqual(myError);
       }

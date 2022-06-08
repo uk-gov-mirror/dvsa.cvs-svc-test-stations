@@ -15,7 +15,7 @@ export class TestStationService {
    */
   public getTestStationList() {
     return this.testStationDAO
-      .getAll(TEST_STATION_STATUS.ACTIVE)
+      .getAll()
       .then((data: any) => {
         if (data.Count === 0) {
           throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
