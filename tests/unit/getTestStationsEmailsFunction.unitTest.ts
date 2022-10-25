@@ -52,6 +52,51 @@ describe("getTestStationsEmails Handler", () => {
         expect(e.statusCode).toEqual(400);
       }
     });
+    it("triggers validation when path parameters is null", async () => {
+      const event = { pathParameters: null };
+      try {
+        await getTestStationsEmails(event, ctx, () => {
+          return;
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(HTTPError);
+        expect(e.statusCode).toEqual(400);
+      }
+    });
+
+    it("triggers validation when path parameters testPNumber is null", async () => {
+      const event = { pathParameters: { testStationPNumber: null } };
+      try {
+        await getTestStationsEmails(event, ctx, () => {
+          return;
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(HTTPError);
+        expect(e.statusCode).toEqual(400);
+      }
+    });
+    it("triggers validation when path parameters testPNumber is undefined", async () => {
+      const event = { pathParameters: { testStationPNumber: undefined } };
+      try {
+        await getTestStationsEmails(event, ctx, () => {
+          return;
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(HTTPError);
+        expect(e.statusCode).toEqual(400);
+      }
+    });
+    it("triggers validation when path parameters testPNumber is empty string", async () => {
+      const event = { pathParameters: { testStationPNumber: " " } };
+      try {
+        await getTestStationsEmails(event, ctx, () => {
+          return;
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(HTTPError);
+        expect(e.statusCode).toEqual(400);
+      }
+    });
   });
 
   context("Service throws error", () => {
