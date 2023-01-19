@@ -34,7 +34,7 @@ async function validateTestStation(testStation: any) {
     testStationLatitude: Joi.number().allow(null),
     testStationType: Joi.any()
       .required()
-      .valid("atf", "tass", "gvts", "potf", "other"),
+      .valid("atf", "tass", "gvts", "potf", "hq", "other"),
     testStationEmails: Joi.array().items(Joi.string()).required(),
   });
   await schema.validateAsync(testStation);
