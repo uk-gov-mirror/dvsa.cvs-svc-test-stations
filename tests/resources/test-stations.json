@@ -325,5 +325,20 @@
     "testStationLatitude": 14.6489525,
     "testStationType": "atf",
     "testStationEmails": ["Cvs.Test2@dvsagov.onmicrosoft.com"]
+  }, {
+    "testStationId": "21",
+    "testStationPNumber": "14-7160003",
+    "testStationStatus": "active",
+    "testStationName": "Swansea Test HQ",
+    "testStationContactNumber": "+01 2345 67890",
+    "testStationAccessNotes": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.",
+    "testStationGeneralNotes": "sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur.",
+    "testStationTown": "Tillabéri",
+    "testStationAddress": "13 Swansea Drive",
+    "testStationPostcode": "12345-789",
+    "testStationLongitude": 4,
+    "testStationLatitude": 3,
+    "testStationType": "hq",
+    "testStationEmails": ["teststationname@dvsagov.onmicrosoft.com"]
   }
 ]
