@@ -55,7 +55,8 @@ export class TestStationDAO {
    * @returns ultimately, an array of TestStation objects, wrapped in a PromiseResult, wrapped in a Promise
    */
   public getAll(): Promise<
-    PromiseResult<DocumentClient.ScanOutput, AWS.AWSError>> {
+    PromiseResult<DocumentClient.ScanOutput, AWS.AWSError>
+  > {
     let scanParams = { TableName: this.tableName };
     const filter = {
       FilterExpression:

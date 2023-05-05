@@ -9,7 +9,7 @@ export enum ERRORS {
 export enum HTTPRESPONSE {
   AWS_EVENT_EMPTY = "AWS event is empty. Check your test event.",
   INVALID_SOURCE = "Invalid event source for PUT.",
-  MISSING_PARAMETERS = "Missing parameter value."
+  MISSING_PARAMETERS = "Missing parameter value.",
 }
 
 export enum TEST_STATION_STATUS {

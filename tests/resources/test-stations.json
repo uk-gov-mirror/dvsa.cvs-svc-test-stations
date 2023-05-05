@@ -325,7 +325,8 @@
     "testStationLatitude": 14.6489525,
     "testStationType": "atf",
     "testStationEmails": ["Cvs.Test2@dvsagov.onmicrosoft.com"]
-  }, {
+  },
+  {
     "testStationId": "21",
     "testStationPNumber": "14-7160003",
     "testStationStatus": "active",
@@ -340,5 +341,21 @@
     "testStationLatitude": 3,
     "testStationType": "hq",
     "testStationEmails": ["teststationname@dvsagov.onmicrosoft.com"]
+  },
+  {
+    "testStationId": "22",
+    "testStationAddress": "3 New Bre Lane",
+    "testStationContactNumber": "8000000277",
+    "testStationEmails": [],
+    "testStationGeneralNotes": " Open Closed Start End\r\nMonday    X  08:00hrs 16:00hrs\r\nTuesday    X  08:00hrs 16:00hrs\r\nWednesday  X  08:00hrs 16:00hrs\r\nThursday    X  08:00hrs 16:00hrs\r\nFriday    X  08:00hrs 16:00hrs\r\nSaturday     X\r\nSunday     X\r\n\r\nPreferred method of booking\r\nTelephone 01945 584 228\r\nFax 01945 474 427\r\nEmail: test@test.co.uk",
+    "testStationAccessNotes": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.",
+    "testStationLatitude": 52.6489647,
+    "testStationLongitude": 0.1438319,
+    "testStationName": "Welbour of Wis Ltd",
+    "testStationPNumber": "P50399",
+    "testStationPostcode": "PE24 1SE",
+    "testStationStatus": "active",
+    "testStationTown": "Wis",
+    "testStationType": "atf"
   }
 ]

@@ -25,18 +25,20 @@
     "tools-setup": "sls dynamodb install && husky install",
     "commit-msg": "commitlint --edit $1",
     "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
-    "predeploy": "npm install && npm run prepush"
+    "predeploy": "npm install && npm run prepush",
+    "postinstall": "patch-package"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "2.1062.0",
+    "aws-sdk": "2.1354.0",
     "aws-xray-sdk": "3.0.1",
     "joi": "17.6.0",
     "node-yaml": "4.0.1",
     "js-yaml": "4.1.0",
     "path-parser": "4.2.0",
-    "reflect-metadata": "0.1.13"
+    "reflect-metadata": "0.1.13",
+    "patch-package": "^6.5.1"
   },
   "devDependencies": {
     "@commitlint/cli": "16.1.0",

@@ -15,8 +15,8 @@ describe("getTestStations", () => {
   context("when database is populated", () => {
     it("should return only the active test stations", () => {
       return LambdaTester(getTestStations).expectResolve((result: any) => {
-        expect(testStations).toHaveLength(21);
-        expect(JSON.parse(result.body)).toHaveLength(20);
+        expect(testStations).toHaveLength(22);
+        expect(JSON.parse(result.body)).toHaveLength(21);
         expect(result.statusCode).toEqual(200);
       });
     });
