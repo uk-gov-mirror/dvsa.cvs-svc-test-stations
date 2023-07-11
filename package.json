@@ -38,7 +38,7 @@
     "js-yaml": "4.1.0",
     "path-parser": "4.2.0",
     "reflect-metadata": "0.1.13",
-    "patch-package": "^6.5.1"
+    "patch-package": "^7.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "16.1.0",
