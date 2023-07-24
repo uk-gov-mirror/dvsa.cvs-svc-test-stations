@@ -30,6 +30,7 @@ async function validateTestStation(testStation: any) {
     testStationTown: Joi.string().required(),
     testStationAddress: Joi.string().required(),
     testStationPostcode: Joi.string().required(),
+    testStationCountry: Joi.string().allow(null),
     testStationLongitude: Joi.number().allow(null),
     testStationLatitude: Joi.number().allow(null),
     testStationType: Joi.any()

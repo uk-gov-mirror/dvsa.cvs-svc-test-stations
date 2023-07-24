@@ -9,6 +9,7 @@ export interface ITestStation {
   testStationTown: string;
   testStationAddress: string;
   testStationPostcode: string;
+  testStationCountry?: string;
   testStationLongitude: number;
   testStationLatitude: number;
   testStationType: string;
