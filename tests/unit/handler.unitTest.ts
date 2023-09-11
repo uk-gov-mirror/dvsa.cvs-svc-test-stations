@@ -1,6 +1,6 @@
 import * as getTestStations from "../../src/functions/getTestStations";
 import * as putTestStation from "../../src/functions/putTestStation";
-import mockContext, { Context} from "aws-lambda";
+import mockContext, { Context } from "aws-lambda";
 import sinon from "sinon";
 import stations from "../resources/test-stations.json";
 import { handler } from "../../src/handler";
