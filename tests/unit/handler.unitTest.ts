@@ -1,6 +1,6 @@
 import * as getTestStations from "../../src/functions/getTestStations";
 import * as putTestStation from "../../src/functions/putTestStation";
-import mockContext from "aws-lambda-mock-context";
+import mockContext, { Context} from "aws-lambda";
 import sinon from "sinon";
 import stations from "../resources/test-stations.json";
 import { handler } from "../../src/handler";
@@ -9,7 +9,7 @@ import { TestStationDAO } from "../../src/models/TestStationDAO";
 import { Configuration } from "../../src/utils/Configuration";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
 import { APIGatewayEvent, EventBridgeEvent } from "aws-lambda";
-const ctx = mockContext();
+const ctx = mockContext as Context;
 const sandbox = sinon.createSandbox();
 
 describe("The lambda function handling EventBridgeEvent", () => {
@@ -280,7 +280,7 @@ describe("The configuration service", () => {
       try {
         config.getFunctions();
       } catch (e) {
-        expect(e.message).toEqual(
+        expect((e as Error).message).toEqual(
           "Functions were not defined in the config file."
         );
       }
@@ -291,7 +291,7 @@ describe("The configuration service", () => {
       try {
         config.getDynamoDBConfig();
       } catch (e) {
-        expect(e.message).toEqual(
+        expect((e as Error).message).toEqual(
           "DynamoDB config is not defined in the config file."
         );
       }

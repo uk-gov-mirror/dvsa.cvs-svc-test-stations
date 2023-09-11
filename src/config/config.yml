@@ -13,12 +13,12 @@ dynamodb:
   local:
     params:
       region: localhost
-      endpoint: http://localhost:8007
+      endpoint: http://127.0.0.1:8007
     table: cvs-local-test-stations
   local-global:
     params:
       region: localhost
-      endpoint: http://localhost:8000
+      endpoint: http://127.0.0.1:8000
     table: cvs-local-global-test-stations
   remote:
     params: {}

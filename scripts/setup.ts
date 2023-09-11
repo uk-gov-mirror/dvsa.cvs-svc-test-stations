@@ -10,6 +10,7 @@ const DYNAMO_LOCAL_ERROR_THREAD = `Exception in thread "main"`;
 const setupServer = (process: any) => {
   return new Promise((resolve, reject) => {
     process.stdout.setEncoding("utf-8").on("data", (stream: any) => {
+      console.log(stream);
       if (stream.includes(SERVER_OK)) {
         resolve(process);
       }

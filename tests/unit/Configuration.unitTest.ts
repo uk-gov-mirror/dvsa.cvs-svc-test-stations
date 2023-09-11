@@ -30,7 +30,7 @@ describe("ConfigurationUtil", () => {
         try {
           emptyConfig.getDynamoDBConfig();
         } catch (e) {
-          expect(e.message).toEqual(ERRORS.DYNAMODB_CONFIG_NOT_DEFINED);
+          expect((e as Error).message).toEqual(ERRORS.DYNAMODB_CONFIG_NOT_DEFINED);
         }
       });
     });
@@ -92,7 +92,7 @@ describe("ConfigurationUtil", () => {
         try {
           emptyConfig.getFunctions();
         } catch (e) {
-          expect(e.message).toEqual(ERRORS.FUNCTION_CONFIG_NOT_DEFINED);
+          expect((e as Error).message).toEqual(ERRORS.FUNCTION_CONFIG_NOT_DEFINED);
         }
       });
     });
