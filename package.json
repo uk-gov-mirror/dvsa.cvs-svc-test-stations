@@ -36,7 +36,6 @@
     "aws-xray-sdk": "3.0.1",
     "joi": "17.6.0",
     "node-yaml": "4.0.1",
-    "js-yaml": "4.1.0",
     "path-parser": "4.2.0",
     "reflect-metadata": "0.1.13",
     "patch-package": "^6.5.1"
@@ -64,7 +63,7 @@
     "serverless-dynamodb-local": "0.2.40",
     "serverless-offline": "5.12.1",
     "serverless-plugin-tracing": "2.0.0",
-    "serverless-plugin-typescript": "2.1.0",
+    "serverless-plugin-typescript": "2.1.5",
     "sinon": "7.5.0",
     "standard": "16.0.4",
     "supertest": "4.0.2",
