@@ -8,6 +8,7 @@ let testStation: ITestStation;
 
 describe("getTestStation", () => {
   beforeAll(async () => {
+    jest.setTimeout(10000);
     await emptyDatabase();
   });
 
@@ -22,6 +23,7 @@ describe("getTestStation", () => {
 
   afterAll(async () => {
     await populateDatabase();
+    jest.setTimeout(5000);
   });
 
   context("when updating a record", () => {
