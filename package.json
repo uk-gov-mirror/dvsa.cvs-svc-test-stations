@@ -14,7 +14,7 @@
     "test": "npm run test:unit -- --coverage",
     "test:unit": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\" --runInBand --detectOpenHandles",
     "test:integration": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\"",
-    "test-i": "npm run test:integration -- --runInBand --globalSetup='./scripts/setup.ts' --globalTeardown='./scripts/teardown.ts'",
+    "test-i": "AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 npm run test:integration -- --runInBand --globalSetup='./scripts/setup.ts' --globalTeardown='./scripts/teardown.ts'",
     "prepush": "npm run test && npm run build && npm run test-i",
     "security-checks": "git secrets --scan",
     "lint": "tslint tests/**/*.ts src/**/*.ts",
