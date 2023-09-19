@@ -36,7 +36,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(testStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual(errorMessage);
+        expect((e as Error).message).toEqual(errorMessage);
       }
     });
   });
@@ -50,7 +50,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"invalidKey" is not allowed');
+        expect((e as Error).message).toEqual('"invalidKey" is not allowed');
       }
     });
 
@@ -62,7 +62,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual(
+        expect((e as Error).message).toEqual(
           '"testStationStatus" must be one of [pending, active, suspended, termination requested, terminated]'
         );
       }
@@ -76,7 +76,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual(
+        expect((e as Error).message).toEqual(
           '"testStationType" must be one of [atf, tass, gvts, potf, hq, other]'
         );
       }
@@ -90,7 +90,9 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationLongitude" must be a number');
+        expect((e as Error).message).toEqual(
+          '"testStationLongitude" must be a number'
+        );
       }
     });
 
@@ -124,7 +126,9 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationAddress" is required');
+        expect((e as Error).message).toEqual(
+          '"testStationAddress" is required'
+        );
       }
     });
 
@@ -136,7 +140,9 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationContactNumber" is required');
+        expect((e as Error).message).toEqual(
+          '"testStationContactNumber" is required'
+        );
       }
     });
 
@@ -148,7 +154,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationEmails" is required');
+        expect((e as Error).message).toEqual('"testStationEmails" is required');
       }
     });
 
@@ -182,7 +188,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationId" is required');
+        expect((e as Error).message).toEqual('"testStationId" is required');
       }
     });
 
@@ -238,7 +244,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationName" is required');
+        expect((e as Error).message).toEqual('"testStationName" is required');
       }
     });
 
@@ -250,7 +256,9 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationPNumber" is required');
+        expect((e as Error).message).toEqual(
+          '"testStationPNumber" is required'
+        );
       }
     });
 
@@ -262,7 +270,9 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationPostcode" is required');
+        expect((e as Error).message).toEqual(
+          '"testStationPostcode" is required'
+        );
       }
     });
 
@@ -274,7 +284,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationStatus" is required');
+        expect((e as Error).message).toEqual('"testStationStatus" is required');
       }
     });
 
@@ -286,7 +296,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationTown" is required');
+        expect((e as Error).message).toEqual('"testStationTown" is required');
       }
     });
 
@@ -298,7 +308,7 @@ describe("putTestStation Handler", () => {
         await putTestStation(invalidTestStation);
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationType" is required');
+        expect((e as Error).message).toEqual('"testStationType" is required');
       }
     });
   });

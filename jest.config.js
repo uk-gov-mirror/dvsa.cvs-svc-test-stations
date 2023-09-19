@@ -17,7 +17,6 @@ module.exports = {
     },
   },
   testResultsProcessor: "jest-sonar-reporter",
-  testURL: "http://localhost",
   transform: {
     "^.+\\.ts$": "ts-jest",
   },

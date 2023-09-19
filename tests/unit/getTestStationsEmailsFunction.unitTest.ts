@@ -2,9 +2,9 @@ import { TestStationService } from "../../src/services/TestStationService";
 import { getTestStationsEmails } from "../../src/functions/getTestStationsEmails";
 import { HTTPError } from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
-import mockContext from "aws-lambda-mock-context";
+import mockContext, { Context } from "aws-lambda";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
-const ctx = mockContext();
+const ctx = mockContext as Context;
 
 jest.mock("../../src/services/TestStationService");
 
@@ -49,7 +49,7 @@ describe("getTestStationsEmails Handler", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(400);
+        expect((e as HTTPError).statusCode).toEqual(400);
       }
     });
     it("triggers validation when path parameters is null", async () => {
@@ -60,7 +60,7 @@ describe("getTestStationsEmails Handler", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(400);
+        expect((e as HTTPError).statusCode).toEqual(400);
       }
     });
 
@@ -72,7 +72,7 @@ describe("getTestStationsEmails Handler", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(400);
+        expect((e as HTTPError).statusCode).toEqual(400);
       }
     });
     it("triggers validation when path parameters testPNumber is undefined", async () => {
@@ -83,7 +83,7 @@ describe("getTestStationsEmails Handler", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(400);
+        expect((e as HTTPError).statusCode).toEqual(400);
       }
     });
     it("triggers validation when path parameters testPNumber is empty string", async () => {
@@ -94,7 +94,7 @@ describe("getTestStationsEmails Handler", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(400);
+        expect((e as HTTPError).statusCode).toEqual(400);
       }
     });
   });
@@ -114,8 +114,8 @@ describe("getTestStationsEmails Handler", () => {
         });
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(418);
-        expect(e.body).toEqual(errorMessage);
+        expect((e as HTTPError).statusCode).toEqual(418);
+        expect((e as HTTPError).body).toEqual(errorMessage);
       }
     });
   });

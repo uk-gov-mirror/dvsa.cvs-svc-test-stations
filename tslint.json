@@ -4,6 +4,7 @@
     "max-line-length": {
       "options": [240]
     },
+    "no-shadowed-variable": false,
     "new-parens": false,
     "no-arg": true,
     "no-bitwise": false,

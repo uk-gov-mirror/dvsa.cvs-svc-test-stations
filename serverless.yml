@@ -2,18 +2,21 @@ service: cvs-svc-test-station
 useDotenv: true
 configValidationMode: warn
 plugins:
-  - serverless-dynamodb-local
-  - serverless-offline
+  - serverless-dynamodb
   - serverless-plugin-typescript
   - serverless-plugin-tracing
+  - serverless-offline
+  - serverless-offline-aws-eventbridge
 
 provider:
   lambdaHashingVersion: 20201221
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
   tracing:
     apiGateway: true
     lambda: true
+  region: eu-west-1
+  stage: dev
   iam:
     role:
       statements:
@@ -26,6 +29,8 @@ provider:
 
 functions:
   getTestStations:
+    environment:
+      BRANCH: local
     handler: src/handler.handler
     events:
       - http:
@@ -38,26 +43,38 @@ functions:
             parameters:
               paths:
                 testStationPNumber: true
+      - eventBridge:
+          pattern:
+            source:
+              - cvs.update.test.stations
 
 custom:
   dotenv:
     basePath: "./"
   serverless-offline:
-    port: 3004
-  dynamodb:
+    httpPort: 3004
+  serverless-dynamodb:
     stages:
       - dev
+      - test
     start:
       port: 8007
       inMemory: true
       migrate: true
       seed: true
       noStart: false
+      host: 127.0.0.1
     seed:
       test-stations:
         sources:
           - table: cvs-local-test-stations
             sources: [./tests/resources/test-stations.json]
+  serverless-offline-aws-eventbridge:
+    port: 4010
+    mockEventBridgeServer: true
+    hostname: 127.0.0.1
+    debug: true
+    account: "1234567"
 
 resources:
   Resources:

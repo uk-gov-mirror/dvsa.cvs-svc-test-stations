@@ -2,9 +2,7 @@ import { TestStationService } from "../../src/services/TestStationService";
 import { getTestStations } from "../../src/functions/getTestStations";
 import { HTTPError } from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
-import mockContext from "aws-lambda-mock-context";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
-const ctx = mockContext();
 
 jest.mock("../../src/services/TestStationService");
 

@@ -1,10 +1,8 @@
-import supertest from "supertest";
 import LambdaTester from "lambda-tester";
 import { getTestStations } from "../../src/functions/getTestStations";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
 import { emptyDatabase, populateDatabase } from "../util/dbOperations";
-const url = "http://localhost:3004/";
-const request = supertest(url);
+import { getTestStationsEmails } from "../../src/functions/getTestStationsEmails";
 
 describe("getTestStation", () => {
   beforeAll(async () => {
@@ -45,9 +43,16 @@ describe("getTestStation", () => {
         },
       ];
 
-      const res = await request.get("test-stations/84-926821");
-      expect(res.status).toEqual(200);
-      expect(res.body).toStrictEqual(expectedResponse);
+      return LambdaTester(getTestStationsEmails)
+        .event({
+          pathParameters: {
+            testStationPNumber: "84-926821",
+          },
+        })
+        .expectResolve((result: any) => {
+          expect(result.statusCode).toEqual(200);
+          expect(JSON.parse(result.body)).toStrictEqual(expectedResponse);
+        });
     });
   });
 });
