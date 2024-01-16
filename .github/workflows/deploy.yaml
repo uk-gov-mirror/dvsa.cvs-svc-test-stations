@@ -16,6 +16,7 @@ jobs:
           node-version-file: '.nvmrc'
       - name: Install dependencies
         run: npm ci
+
       - name: Build Artifact
         run: npm run build 
 
@@ -26,11 +27,10 @@ jobs:
         run: npm run test-i
 
       - name: Create artifact zip
-        run: zip -r artifact.zip . -i dist/*
+        run: zip -r artifact.zip ./dist/*
         
       - name: Generate SHA256 hash
         run: |
-          # Replace 'your-file.txt' with the actual file for which you want to generate the hash
           HASH_VALUE=$(sha256sum artifact.zip | awk '{print $1}')
           echo "$HASH_VALUE" > hash.txt
   
