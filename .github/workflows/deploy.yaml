@@ -48,11 +48,8 @@ jobs:
           echo "$HASH_VALUE" > hash.txt
           echo "$HASH_VALUE" > $GITHUB_STEP_SUMMARY
   
-    #   - name: Display hash
-    #     run: cat hash.txt
-  
-    #   - name: Upload hash file as artifact
-    #     uses: actions/upload-artifact@v2
-    #     with:
-    #       name: hash-artifacts
-    #       path: hash.txt
+      - name: Upload hash file as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: hash-artifacts
+          path: hash.txt
