@@ -40,8 +40,8 @@ jobs:
 
       - name: Create artifact zip
         run: |
-            ls -la
-            # zip -r artifact.zip . -i dist/*
+            # ls -la
+            zip -qr ../${ZIP_NAME}.zip . # zip -r artifact.zip . -i dist/*
         
     #   - name: Generate SHA256 hash
     #     run: |
