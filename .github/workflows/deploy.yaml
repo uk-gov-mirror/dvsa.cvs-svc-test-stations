@@ -40,7 +40,7 @@ jobs:
 
       - name: Create artifact zip
         run: |
-            zip -qr ../${ZIP_NAME}.zip . 
+            ls -la
         
     #   - name: Generate SHA256 hash
     #     run: |
