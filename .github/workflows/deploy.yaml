@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Clear build cache
         run: rm -rf .build
 
@@ -33,19 +33,26 @@ jobs:
       - name: Test I
         run: npm run test-i
 
+      - name: Package Artifact
+        env:
+            ZIP_NAME: ${{ github.sha }} #   "TESTING1234"
+        run: npm run package 
+
       - name: Create artifact zip
-        run: zip -r artifact.zip . -i dist/*
-        
-      - name: Generate SHA256 hash
         run: |
-          HASH_VALUE=$(sha256sum artifact.zip | awk '{print $1}')
-          echo "$HASH_VALUE" > hash.txt
+            ls -la
+            # zip -r artifact.zip . -i dist/*
+        
+    #   - name: Generate SHA256 hash
+    #     run: |
+    #       HASH_VALUE=$(sha256sum artifact.zip | awk '{print $1}')
+    #       echo "$HASH_VALUE" > hash.txt
   
-      - name: Display hash
-        run: cat hash.txt
+    #   - name: Display hash
+    #     run: cat hash.txt
   
-      - name: Upload hash file as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: hash-artifacts
-          path: hash.txt
+    #   - name: Upload hash file as artifact
+    #     uses: actions/upload-artifact@v2
+    #     with:
+    #       name: hash-artifacts
+    #       path: hash.txt
