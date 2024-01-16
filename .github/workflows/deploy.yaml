@@ -26,7 +26,7 @@ jobs:
         run: npm run test-i
 
       - name: Create artifact zip
-        run: zip -r artifact.zip dist/*
+        run: zip -r artifact.zip . -i dist/*
         
       - name: Generate SHA256 hash
         run: |
@@ -40,5 +40,5 @@ jobs:
       - name: Upload hash file as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: hash-artifact
+          name: hash-artifacts
           path: hash.txt
