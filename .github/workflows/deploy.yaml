@@ -42,10 +42,11 @@ jobs:
         run: |
             ls -la
         
-    #   - name: Generate SHA256 hash
-    #     run: |
-    #       HASH_VALUE=$(sha256sum artifact.zip | awk '{print $1}')
-    #       echo "$HASH_VALUE" > hash.txt
+      - name: Generate SHA256 hash
+        run: |
+          HASH_VALUE=$(sha256sum ${{ github.sha }}.zip | awk '{print $1}')
+          echo "$HASH_VALUE" > hash.txt
+          echo "$HASH_VALUE" > $GITHUB_STEP_SUMMARY
   
     #   - name: Display hash
     #     run: cat hash.txt
