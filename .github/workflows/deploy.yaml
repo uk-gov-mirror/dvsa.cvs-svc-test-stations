@@ -18,7 +18,7 @@ jobs:
         run: npm ci
 
       - name: Build Artifact
-        run: npm run build 
+        run: npm run build -- --configuration='deploy' --output-path='dist/'
 
       - name: Test 
         run: npm run test
@@ -42,3 +42,10 @@ jobs:
         with:
           name: hash-artifacts
           path: hash.txt
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-stations-build-output
+          path: dist/
+  
