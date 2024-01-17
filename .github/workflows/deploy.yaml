@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+         role-to-assume: ${{ secrets.CVS_MGMT_AWS_ROLE }}
+         aws-region: ${{ secrets.DVSA_AWS_REGION }}
+         role-session-name: 'cvs-svc-test-stations'
 
       - name: Clear build cache
         run: rm -rf .build
@@ -53,3 +58,7 @@ jobs:
         with:
           name: hash-artifacts
           path: hash.txt
+
+      
+      
+    
