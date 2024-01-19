@@ -30,7 +30,7 @@ jobs:
       - name: Check if hash file exists
         run: |
           set +e
-          aws s3api head-object --bucket cvs-services --key test-stations-test/${{ github.sha }}.zip > /dev/null 2>&1 || (echo "ZIP_DOES_NOT_EXIST=true" >> $GITHUB_ENV)
+          aws s3api head-object --bucket cvs-services --key test-stations-test/${{ github.sha }}.zip > /dev/null 2>&1 || $(echo "ZIP_DOES_NOT_EXIST=true" >> $GITHUB_ENV)
           echo "ZIP_DOES_NOT_EXIST: $ZIP_DOES_NOT_EXIST"
 
       - name: Setup Node.js
