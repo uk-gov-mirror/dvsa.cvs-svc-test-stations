@@ -30,8 +30,7 @@ jobs:
       - name: Check if hash file exists
         run: |
           set +e
-          aws s3api head-object --bucket cvs-services --key test-stations-test/${{ github.sha }}.zip > /dev/null 2>&1
-          echo ZIP_DOES_NOT_EXIST="$?" >> $GITHUB_ENV
+          echo "aws s3api head-object --bucket cvs-services --key test-stations-test/${{ github.sha }}.zip > /dev/null 2>&1 || ZIP_DOES_NOT_EXIST=true" >> $GITHUB_ENV
           echo "ZIP_DOES_NOT_EXIST: $ZIP_DOES_NOT_EXIST"
 
       - name: Setup Node.js
@@ -55,28 +54,28 @@ jobs:
 #      - name: Test I
 #        run: npm run test-i
 
-      - name: Package Artifact
-        env:
-            ZIP_NAME: ${{ github.sha }} 
-        run: npm run package 
-
-      - name: Generate SHA256 hash
-        run: |
-          echo "NODE_SHA=$(openssl dgst -sha256 -binary ${{ github.sha }}.zip | openssl enc -base64)" >> $GITHUB_ENV
-          echo $NODE_SHA >> $GITHUB_STEP_SUMMARY  
-        
-      - name: Upload hash zip to S3
-        run: |
-          aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations-test/${{ github.sha }}.zip --metadata 'sha256sum=${{ env.NODE_SHA }},Tag=test-stations-test'      
-
-      - name: Make branch lowercase
-        env:
-          SHORT_BRANCH: ${{ github.ref_name }}
-        run: |
-          SHORT_BRANCH=${SHORT_BRANCH##*/}
-          echo "SHORT_BRANCH=${SHORT_BRANCH,,}" >> $GITHUB_ENV
-
-      - name: Upload ref txt to S3
-        run: |
-          echo ${{ github.sha }} > hash.txt
-          aws s3 cp hash.txt s3://cvs-services/test-stations-test/latestHash_${{ env.SHORT_BRANCH }}.txt --metadata 'Tag=test-stations-test'      
+#      - name: Package Artifact
+#        env:
+#            ZIP_NAME: ${{ github.sha }}
+#        run: npm run package
+#
+#      - name: Generate SHA256 hash
+#        run: |
+#          echo "NODE_SHA=$(openssl dgst -sha256 -binary ${{ github.sha }}.zip | openssl enc -base64)" >> $GITHUB_ENV
+#          echo $NODE_SHA >> $GITHUB_STEP_SUMMARY
+#
+#      - name: Upload hash zip to S3
+#        run: |
+#          aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations-test/${{ github.sha }}.zip --metadata 'sha256sum=${{ env.NODE_SHA }},Tag=test-stations-test'
+#
+#      - name: Make branch lowercase
+#        env:
+#          SHORT_BRANCH: ${{ github.ref_name }}
+#        run: |
+#          SHORT_BRANCH=${SHORT_BRANCH##*/}
+#          echo "SHORT_BRANCH=${SHORT_BRANCH,,}" >> $GITHUB_ENV
+#
+#      - name: Upload ref txt to S3
+#        run: |
+#          echo ${{ github.sha }} > hash.txt
+#          aws s3 cp hash.txt s3://cvs-services/test-stations-test/latestHash_${{ env.SHORT_BRANCH }}.txt --metadata 'Tag=test-stations-test'
