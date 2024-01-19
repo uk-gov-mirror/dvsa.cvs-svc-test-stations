@@ -47,7 +47,7 @@ jobs:
           HASH_VALUE=$(sha256sum ${{ github.sha }}.zip | awk '{print $1}')
           echo "$HASH_VALUE" > hash.txt
           echo "$HASH_VALUE" > $GITHUB_STEP_SUMMARY
-          node_sha = "openssl dgst -sha256 -binary ${{ github.sha }}.zip | openssl enc -base64"
+          node_sha= openssl dgst -sha256 -binary ${{ github.sha }}.zip | openssl enc -base64
           echo "$node_sha"
           echo "$HASH_VALUE"
   
