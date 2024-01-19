@@ -33,7 +33,7 @@ jobs:
           echo "ZIP_DOES_NOT_EXIST=$ZIP_DOES_NOT_EXIST" >> $GITHUB_ENV
 
       - name: Setup Node.js
-        if: ${{ env.ZIP_DOES_NOT_EXIST }}
+        if: !${{ env.ZIP_DOES_NOT_EXIST }}
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
