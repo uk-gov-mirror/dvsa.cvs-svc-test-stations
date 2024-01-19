@@ -13,11 +13,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Filter repositories by latest hash
-        run: |
-          REPO_HASH = sh(returnStdout: true, script: "git ls-remote git@github.com:dvsa/${REPO}.git ${GIT_BRANCH} | cut -f1").trim()
-          def ZIP_EXISTS = sh(script: "aws s3api head-object --bucket cvs-services --key ${SERVICE_NAME_SHORT_MONO_REPO}/${REPO_HASH}.zip > /dev/null 2>&1", returnStatus:true)
-      
+#      - name: Filter repositories by latest hash
+#        run: |
+#          REPO_HASH = sh(returnStdout: true, script: "git ls-remote git@github.com:dvsa/${REPO}.git ${GIT_BRANCH} | cut -f1").trim()
+#          def ZIP_EXISTS = sh(script: "aws s3api head-object --bucket cvs-services --key ${SERVICE_NAME_SHORT_MONO_REPO}/${REPO_HASH}.zip > /dev/null 2>&1", returnStatus:true)
 
       - uses: actions/checkout@v3
 
