@@ -54,7 +54,7 @@ jobs:
           role-session-name: 'cvs-svc-test-station-hash-upload'
         
       - name: Upload to S3
-        run: aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations-test/${{ github.sha }}.zip --metadata 'sha256sum=$node_sha,Tag=test-stations-test'
+        run: aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations-test/${{ github.sha }}.zip --metadata 'sha256sum="$node_sha",Tag=test-stations-test'
 
 
 #   upload:   
