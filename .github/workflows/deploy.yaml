@@ -29,7 +29,7 @@ jobs:
 
       - name: Check if hash file exists
         run: |
-          ZIP_EXISTS = $(aws s3api head-object --bucket cvs-services --key test-stations-test/${{ github.sha }}.zip > /dev/null 2>&1)
+          ZIP_EXISTS=$(aws s3api head-object --bucket cvs-services --key test-stations-test/${{ github.sha }}.zip > /dev/null 2>&1)
           echo "ZIP_EXISTS: $ZIP_EXISTS"
 
       - name: Setup Node.js
