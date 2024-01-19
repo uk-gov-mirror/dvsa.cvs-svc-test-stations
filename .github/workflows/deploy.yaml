@@ -63,13 +63,13 @@ jobs:
           aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations-test/${{ github.sha }}.zip --metadata 'sha256sum=${{ env.NODE_SHA }},Tag=test-stations-test'      
 
       - name: Make branch lowercase
-        id: short_branch
         env:
           SHORT_BRANCH: ${{ github.ref_name }}
         run: |
           SHORT_BRANCH=${SHORT_BRANCH##*/}
-          echo "SHORT_BRANCH=${SHORT_BRANCH,,}" >> ${GITHUB_OUTPUT}
+          echo "SHORT_BRANCH=${SHORT_BRANCH,,}" >> $GITHUB_ENV
 
       - name: Upload ref txt to S3
         run: |
+          echo "SHORT_BRANCH: $SHORT_BRANCH"
           aws s3 cp hash.txt s3://cvs-services/test-stations-test/latestHash_${{ env.SHORT_BRANCH }}.txt --metadata 'Tag=test-stations-test'      
