@@ -13,19 +13,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Filter repositories by latest hash
+        run: |
+          REPO_HASH = sh(returnStdout: true, script: "git ls-remote git@github.com:dvsa/${REPO}.git ${GIT_BRANCH} | cut -f1").trim()
+          def ZIP_EXISTS = sh(script: "aws s3api head-object --bucket cvs-services --key ${SERVICE_NAME_SHORT_MONO_REPO}/${REPO_HASH}.zip > /dev/null 2>&1", returnStatus:true)
+      
+
       - uses: actions/checkout@v3
 
-      - name: Clear build cache
-        run: rm -rf .build
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install tools
+        run: npm run tools-setup
 
       - name: Build Artifact
         run: npm run build 
@@ -55,8 +60,6 @@ jobs:
         
       - name: Upload to S3
         run: |
-          echo "NODE_SHA: $NODE_SHA"
-          echo "{{env.NODE_SHA}}: ${{env.NODE_SHA}}"
           aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations-test/${{ github.sha }}.zip --metadata 'sha256sum=${{ env.NODE_SHA }},Tag=test-stations-test'      
       
     
