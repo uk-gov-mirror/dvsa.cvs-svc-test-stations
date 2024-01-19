@@ -5,6 +5,9 @@ on:
       branches: ["feature/CB2-10412"]
     pull_request:
       branches: ["feature/CB2-10412"]
+      
+permissions:
+  id-token: write
 
 jobs:
   build:
@@ -35,27 +38,13 @@ jobs:
 
       - name: Package Artifact
         env:
-            ZIP_NAME: ${{ github.sha }} #   "TESTING1234"
+            ZIP_NAME: ${{ github.sha }} 
         run: npm run package 
 
-      - name: Create artifact zip
-        run: |
-            ls -la
-        
       - name: Generate SHA256 hash
         run: |
-          HASH_VALUE=$(sha256sum ${{ github.sha }}.zip | awk '{print $1}')
-          echo "$HASH_VALUE" > hash.txt
-          echo "$HASH_VALUE" > $GITHUB_STEP_SUMMARY
           node_sha= openssl dgst -sha256 -binary ${{ github.sha }}.zip | openssl enc -base64
-          echo "$node_sha"
-          echo "$HASH_VALUE"
-  
-      - name: Upload hash file as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: hash-artifacts
-          path: hash.txt
+          echo "$node_sha" > $GITHUB_STEP_SUMMARY
 
       - name: Get AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -65,7 +54,7 @@ jobs:
           role-session-name: 'cvs-svc-test-station-hash-upload'
         
       - name: Upload to S3
-        run: aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations/${{ github.sha }}.zip --metadata 'sha256sum=${node_sha},Tag=${SERVICE_NAME_SHORT}'
+        run: aws s3 cp ${{ github.sha }}.zip s3://cvs-services/test-stations-test/${{ github.sha }}.zip --metadata 'sha256sum=${node_sha},Tag=test-stations-test'
 
 
 #   upload:   
