@@ -28,7 +28,7 @@ jobs:
         run: |
           BUCKET_NAME=$(echo "$BUCKET_NAME" | sed -e "s/cvs-//" -e "s/svc-//" -e "s/tsk-//" -e "s/app-//")
           echo "BUCKET_NAME=${BUCKET_NAME,,}" >> $GITHUB_ENV
-          echo "$BUCKET_NAME"
+          echo "BUCKET_NAME: $BUCKET_NAME"
         #   def SERVICE_NAME_SHORT=REPO.minus("cvs-").minus("svc-").minus("tsk-").minus("app-").trim()
 
 
