@@ -13,6 +13,7 @@ jobs:
     with:
       branch: ${{ inputs.branch }}
       workspace: ${{ inputs.environment }}
+      short_repo_name: ${{ inputs.short_repo_name }}
       runner: ubuntu-latest
     secrets:
      AWS_MGMT_ROLE: ${{ secrets.AWS_MGMT_ROLE }}
