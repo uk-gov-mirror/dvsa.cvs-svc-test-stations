@@ -16,5 +16,4 @@ jobs:
       short_repo_name: ${{ inputs.short_repo_name }}
     secrets:
       CVS_AWS_MGMT_ROLE: ${{ secrets.CVS_AWS_MGMT_ROLE }}
-      AWS_ROLE: ${{ secrets.AWS_ROLE }}
       DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
