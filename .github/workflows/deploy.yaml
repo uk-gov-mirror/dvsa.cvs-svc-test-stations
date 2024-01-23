@@ -8,7 +8,7 @@ on:
       - 'feature/CB2-10412'
 
 jobs:
-  Plan:
+  Build:
     uses: dvsa/cvs-github-actions/.github/workflows/build-node-hash.yaml@feature/CB2-10412
     with:
       branch: ${{ inputs.branch }}
@@ -17,3 +17,4 @@ jobs:
     secrets:
      AWS_MGMT_ROLE: ${{ secrets.AWS_MGMT_ROLE }}
      AWS_ROLE: ${{ secrets.AWS_ROLE }}
+     DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
