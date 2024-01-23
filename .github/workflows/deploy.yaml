@@ -18,3 +18,4 @@ jobs:
      AWS_MGMT_ROLE: ${{ secrets.AWS_MGMT_ROLE }}
      AWS_ROLE: ${{ secrets.AWS_ROLE }}
      DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
+     
