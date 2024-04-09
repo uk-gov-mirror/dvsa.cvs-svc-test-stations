@@ -1,5 +1,8 @@
 import stations from "../resources/test-stations.json";
-import { EventBridgeClient, PutEventsCommand } from "@aws-sdk/client-eventbridge";
+import {
+  EventBridgeClient,
+  PutEventsCommand,
+} from "@aws-sdk/client-eventbridge";
 import { emptyDatabase, populateDatabase } from "../util/dbOperations";
 import { ITestStation } from "../../src/models/ITestStation";
 import LambdaTester from "lambda-tester";

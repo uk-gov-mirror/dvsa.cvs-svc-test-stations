@@ -1,7 +1,18 @@
 import { Configuration } from "../utils/Configuration";
 import AWSXRay from "aws-xray-sdk";
-import { BatchWriteItemOutput, DynamoDBClient, PutItemOutput, ScanOutput } from "@aws-sdk/client-dynamodb";
-import { BatchWriteCommand, DynamoDBDocumentClient, PutCommand, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  BatchWriteItemOutput,
+  DynamoDBClient,
+  PutItemOutput,
+  ScanOutput,
+} from "@aws-sdk/client-dynamodb";
+import {
+  BatchWriteCommand,
+  DynamoDBDocumentClient,
+  PutCommand,
+  QueryCommand,
+  ScanCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { ITestStation } from "./ITestStation";
 import { TEST_STATION_STATUS } from "../utils/Enum";
 import { ServiceException } from "@smithy/smithy-client";
@@ -18,7 +29,7 @@ export class TestStationDAO {
       if (process.env._X_AMZN_TRACE_ID) {
         client = AWSXRay.captureAWSv3Client(new DynamoDBClient(config.params));
       } else {
-        client =new DynamoDBClient(config.params);
+        client = new DynamoDBClient(config.params);
       }
       TestStationDAO.dbClient = DynamoDBDocumentClient.from(client);
     }

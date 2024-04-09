@@ -1,5 +1,13 @@
-import { DynamoDBDocumentClient, PutCommand, PutCommandOutput, QueryCommand, QueryCommandOutput, ScanCommand, ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
-import { mockClient } from 'aws-sdk-client-mock';
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  PutCommandOutput,
+  QueryCommand,
+  QueryCommandOutput,
+  ScanCommand,
+  ScanCommandOutput,
+} from "@aws-sdk/lib-dynamodb";
+import { mockClient } from "aws-sdk-client-mock";
 import { TestStationDAO } from "../../src/models/TestStationDAO";
 import { HTTPError } from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
@@ -13,10 +21,11 @@ describe("TestStationDAO", () => {
     jest.resetAllMocks().restoreAllMocks();
   });
   context("getAll", () => {
-
     it("returns data on successful query", async () => {
       const mockDynamoClient = mockClient(DynamoDBDocumentClient);
-      mockDynamoClient.on(ScanCommand).resolves("success" as unknown as ScanCommandOutput);
+      mockDynamoClient
+        .on(ScanCommand)
+        .resolves("success" as unknown as ScanCommandOutput);
       const dao = new TestStationDAO();
       const output = await dao.getAll();
       expect(output).toEqual(RESPONSE_STATUS.SUCCESS);
@@ -36,16 +45,19 @@ describe("TestStationDAO", () => {
   });
 
   context("getTestStationEmailByPNumber", () => {
-
     it("returns data on successful query", async () => {
       const mockDynamoClient = mockClient(DynamoDBDocumentClient);
-      mockDynamoClient.on(QueryCommand).resolves("success" as unknown as QueryCommandOutput);
+      mockDynamoClient
+        .on(QueryCommand)
+        .resolves("success" as unknown as QueryCommandOutput);
       const dao = new TestStationDAO();
       const testPNumber = "12-345678";
       const output = await dao.getTestStationEmailByPNumber(testPNumber);
       const stub = mockDynamoClient.commandCalls(QueryCommand);
       expect(output).toEqual("success");
-      expect(stub[0].args[0].input.ExpressionAttributeValues).toEqual({":testStationPNumber": testPNumber});
+      expect(stub[0].args[0].input.ExpressionAttributeValues).toEqual({
+        ":testStationPNumber": testPNumber,
+      });
     });
 
     it("throws error on failed query", async () => {
@@ -62,11 +74,14 @@ describe("TestStationDAO", () => {
   });
 
   context("putItem", () => {
-
     it("builds correct query and returns data on successful query", async () => {
       const mockDynamoClient = mockClient(DynamoDBDocumentClient);
-      mockDynamoClient.on(QueryCommand).resolves("success" as unknown as QueryCommandOutput);
-      mockDynamoClient.on(PutCommand).resolves("success" as unknown as PutCommandOutput);
+      mockDynamoClient
+        .on(QueryCommand)
+        .resolves("success" as unknown as QueryCommandOutput);
+      mockDynamoClient
+        .on(PutCommand)
+        .resolves("success" as unknown as PutCommandOutput);
       const expectedParams = stations[0];
       const dao = new TestStationDAO();
       const output = await dao.putItem(stations[0]);
@@ -78,7 +93,9 @@ describe("TestStationDAO", () => {
     it("returns error on failed query", async () => {
       const myError = new HTTPError(418, "It broke");
       const mockDynamoClient = mockClient(DynamoDBDocumentClient);
-      mockDynamoClient.on(QueryCommand).resolves("success" as unknown as QueryCommandOutput);
+      mockDynamoClient
+        .on(QueryCommand)
+        .resolves("success" as unknown as QueryCommandOutput);
       mockDynamoClient.on(PutCommand).rejects(myError);
 
       const dao = new TestStationDAO();
