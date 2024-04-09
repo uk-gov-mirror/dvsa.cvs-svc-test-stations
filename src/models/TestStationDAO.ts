@@ -1,31 +1,26 @@
 import { Configuration } from "../utils/Configuration";
-import { DocumentClient } from "aws-sdk/lib/dynamodb/document_client";
+import AWSXRay from "aws-xray-sdk";
+import { BatchWriteItemOutput, DynamoDBClient, PutItemOutput, ScanOutput } from "@aws-sdk/client-dynamodb";
+import { BatchWriteCommand, DynamoDBDocumentClient, PutCommand, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { ITestStation } from "./ITestStation";
-import { PromiseResult } from "aws-sdk/lib/request";
-import { default as unwrappedAWS } from "aws-sdk";
 import { TEST_STATION_STATUS } from "../utils/Enum";
-/* workaround AWSXRay.captureAWS(...) call obscures types provided by the AWS sdk.
-https://github.com/aws/aws-xray-sdk-node/issues/14
-*/
-/* tslint:disable */
-let AWS: { DynamoDB: { DocumentClient: new (arg0: any) => DocumentClient } };
-if (process.env._X_AMZN_TRACE_ID) {
-  AWS = require("aws-xray-sdk").captureAWS(require("aws-sdk"));
-} else {
-  console.log("Serverless Offline detected; skipping AWS X-Ray setup");
-  AWS = require("aws-sdk");
-}
-/* tslint:enable */
+import { ServiceException } from "@smithy/smithy-client";
 
 export class TestStationDAO {
-  private static dbClient: DocumentClient;
+  private static dbClient: DynamoDBDocumentClient;
   private readonly tableName: string;
 
   constructor() {
     const config: any = Configuration.getInstance().getDynamoDBConfig();
     this.tableName = config.table;
     if (!TestStationDAO.dbClient) {
-      TestStationDAO.dbClient = new AWS.DynamoDB.DocumentClient(config.params);
+      let client;
+      if (process.env._X_AMZN_TRACE_ID) {
+        client = AWSXRay.captureAWSv3Client(new DynamoDBClient(config.params));
+      } else {
+        client =new DynamoDBClient(config.params);
+      }
+      TestStationDAO.dbClient = DynamoDBDocumentClient.from(client);
     }
   }
 
@@ -33,7 +28,7 @@ export class TestStationDAO {
    * Get all email addresses for a given test station ID
    * @param testStationPNumber
    */
-  public getTestStationEmailByPNumber(testStationPNumber: string) {
+  public async getTestStationEmailByPNumber(testStationPNumber: string) {
     const params = {
       TableName: this.tableName,
       IndexName: "testStationPNumberIndex",
@@ -45,8 +40,9 @@ export class TestStationDAO {
         ":testStationPNumber": testStationPNumber,
       },
     };
+    const command = new QueryCommand(params);
 
-    return TestStationDAO.dbClient.query(params).promise();
+    return await TestStationDAO.dbClient.send(command);
   }
 
   /**
@@ -54,10 +50,8 @@ export class TestStationDAO {
    * If the statusFilter is set to null, get all test stations
    * @returns ultimately, an array of TestStation objects, wrapped in a PromiseResult, wrapped in a Promise
    */
-  public getAll(): Promise<
-    PromiseResult<DocumentClient.ScanOutput, AWS.AWSError>
-  > {
-    let scanParams = { TableName: this.tableName };
+  public async getAll(): Promise<ScanOutput | ServiceException> {
+    const scanParams = { TableName: this.tableName };
     const filter = {
       FilterExpression:
         "#testStationStatus IN(:activeStatus, :terminationReqStatus) ",
@@ -69,9 +63,9 @@ export class TestStationDAO {
         ":terminationReqStatus": TEST_STATION_STATUS.TERMINATION_REQUESTED,
       },
     };
-    scanParams = { ...scanParams, ...filter };
+    const command = new ScanCommand({ ...scanParams, ...filter });
 
-    return TestStationDAO.dbClient.scan(scanParams).promise();
+    return await TestStationDAO.dbClient.send(command);
   }
 
   /**
@@ -81,7 +75,7 @@ export class TestStationDAO {
    */
   public async putItem(
     testStationItem: ITestStation
-  ): Promise<PromiseResult<DocumentClient.PutItemOutput, AWS.AWSError>> {
+  ): Promise<PutItemOutput | ServiceException> {
     const pNumber = testStationItem.testStationPNumber;
     const testStationId: string = await this.getTestStaionIdByPNumber(pNumber);
     testStationItem.testStationId = testStationId
@@ -91,7 +85,8 @@ export class TestStationDAO {
       TableName: this.tableName,
       Item: testStationItem,
     };
-    return TestStationDAO.dbClient.put(params).promise();
+    const command = new PutCommand(params);
+    return await TestStationDAO.dbClient.send(command);
   }
 
   /**
@@ -113,7 +108,8 @@ export class TestStationDAO {
         ":testStationPNumber": testStationPNumber,
       },
     };
-    const testStation = await TestStationDAO.dbClient.query(params).promise();
+    const command = new QueryCommand(params);
+    const testStation = await TestStationDAO.dbClient.send(command);
 
     if (!testStation || !testStation.Items || testStation.Count === 0) {
       console.log("record not found for P Number: " + testStationPNumber);
@@ -129,9 +125,9 @@ export class TestStationDAO {
    * @param testStationItems: ITestStation[]
    * @returns DynamoDB BatchWriteItemOutput, wrapped in promises
    */
-  public createMultiple(
+  public async createMultiple(
     testStationItems: ITestStation[]
-  ): Promise<PromiseResult<DocumentClient.BatchWriteItemOutput, AWS.AWSError>> {
+  ): Promise<BatchWriteItemOutput | ServiceException> {
     const params = this.generatePartialParams();
 
     testStationItems.map((testStationItem: ITestStation) => {
@@ -141,17 +137,17 @@ export class TestStationDAO {
         },
       });
     });
-
-    return TestStationDAO.dbClient.batchWrite(params).promise();
+    const command = new BatchWriteCommand(params);
+    return await TestStationDAO.dbClient.send(command);
   }
 
   /**
    * Removes multiple Test Stations from the DB. Only used by the integration tests.
    * @param primaryKeysToBeDeleted
    */
-  public deleteMultiple(
+  public async deleteMultiple(
     primaryKeysToBeDeleted: string[]
-  ): Promise<PromiseResult<DocumentClient.BatchWriteItemOutput, AWS.AWSError>> {
+  ): Promise<BatchWriteItemOutput | ServiceException> {
     const params = this.generatePartialParams();
 
     primaryKeysToBeDeleted.forEach((key: string) => {
@@ -163,8 +159,9 @@ export class TestStationDAO {
         },
       });
     });
+    const command = new BatchWriteCommand(params);
 
-    return TestStationDAO.dbClient.batchWrite(params).promise();
+    return await TestStationDAO.dbClient.send(command);
   }
 
   /**
