@@ -1,5 +1,8 @@
 import stations from "../resources/test-stations.json";
-import AWS from "aws-sdk";
+import {
+  EventBridgeClient,
+  PutEventsCommand,
+} from "@aws-sdk/client-eventbridge";
 import { emptyDatabase, populateDatabase } from "../util/dbOperations";
 import { ITestStation } from "../../src/models/ITestStation";
 import LambdaTester from "lambda-tester";
@@ -13,21 +16,20 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const injection = async (detail: ITestStation) => {
   try {
-    const eventBridge = new AWS.EventBridge({
+    const eventBridge = new EventBridgeClient({
       endpoint: "http://127.0.0.1:4010",
       region: "eu-west-1",
     });
 
-    const response = await eventBridge
-      .putEvents({
-        Entries: [
-          {
-            Source: "cvs.update.test.stations",
-            Detail: JSON.stringify(detail),
-          },
-        ],
-      })
-      .promise();
+    const command = new PutEventsCommand({
+      Entries: [
+        {
+          Source: "cvs.update.test.stations",
+          Detail: JSON.stringify(detail),
+        },
+      ],
+    });
+    const response = await eventBridge.send(command);
 
     await sleep(2000);
     return response;
