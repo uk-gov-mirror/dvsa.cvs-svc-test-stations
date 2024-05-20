@@ -10,7 +10,6 @@ import { Configuration } from "../../src/utils/Configuration";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
 import { APIGatewayEvent, EventBridgeEvent } from "aws-lambda";
 const ctx = mockContext as Context;
-const sandbox = sinon.createSandbox();
 
 describe("The lambda function handling EventBridgeEvent", () => {
   const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {
@@ -235,9 +234,10 @@ describe("The configuration service", () => {
       process.env.BRANCH = "local";
       const configService = Configuration.getInstance();
       const functions = configService.getFunctions();
-      expect(functions.length).toEqual(2);
+      expect(functions.length).toEqual(3);
       expect(functions[0].name).toEqual("getTestStations");
       expect(functions[1].name).toEqual("getTestStationsEmails");
+      expect(functions[2].name).toEqual("getTestStation");
 
       const DBConfig = configService.getDynamoDBConfig();
       expect(DBConfig).toEqual(configService.getConfig().dynamodb.local);
@@ -249,7 +249,7 @@ describe("The configuration service", () => {
       process.env.BRANCH = "local-global";
       const configService = Configuration.getInstance();
       const functions = configService.getFunctions();
-      expect(functions.length).toEqual(2);
+      expect(functions.length).toEqual(3);
       expect(functions[0].name).toEqual("getTestStations");
 
       const DBConfig = configService.getDynamoDBConfig();
@@ -264,7 +264,7 @@ describe("The configuration service", () => {
       process.env.BRANCH = "CVSB-XXX";
       const configService = Configuration.getInstance();
       const functions = configService.getFunctions();
-      expect(functions.length).toEqual(2);
+      expect(functions.length).toEqual(3);
       expect(functions[0].name).toEqual("getTestStations");
 
       const DBConfig = configService.getDynamoDBConfig();

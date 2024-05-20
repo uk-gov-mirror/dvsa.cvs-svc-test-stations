@@ -88,7 +88,7 @@ export class TestStationDAO {
     testStationItem: ITestStation
   ): Promise<PutItemOutput | ServiceException> {
     const pNumber = testStationItem.testStationPNumber;
-    const testStationId: string = await this.getTestStaionIdByPNumber(pNumber);
+    const testStationId = await this.getTestStationIdByPNumber(pNumber);
     testStationItem.testStationId = testStationId
       ? testStationId
       : testStationItem.testStationId;
@@ -105,7 +105,7 @@ export class TestStationDAO {
    * @param testStationPNumber: string
    * @returns Promise<string>, test station id
    */
-  private async getTestStaionIdByPNumber(
+  private async getTestStationIdByPNumber(
     testStationPNumber: string
   ): Promise<string> {
     const params = {
@@ -129,6 +129,35 @@ export class TestStationDAO {
 
     /* tslint:disable:no-string-literal */
     return testStation.Items[0]["testStationId"];
+  }
+
+  /**
+   * Get test station by P number.
+   * @param testStationPNumber: string
+   * @returns Promise<ITestStation | undefined>
+   */
+  public async getTestStationByPNumber(testStationPNumber: string) {
+    const params = {
+      TableName: this.tableName,
+      FilterExpression: "#testStationPNumber = :testStationPNumber",
+      ExpressionAttributeNames: {
+        "#testStationPNumber": "testStationPNumber",
+      },
+      ExpressionAttributeValues: {
+        ":testStationPNumber": testStationPNumber,
+      },
+    };
+
+    const command = new ScanCommand(params);
+    const testStation = await TestStationDAO.dbClient.send(command);
+
+    if (!testStation || !testStation.Items || testStation.Count === 0) {
+      console.log("record not found for P Number: " + testStationPNumber);
+      return;
+    }
+
+    /* tslint:disable:no-string-literal */
+    return testStation.Items[0] as ITestStation;
   }
 
   /**

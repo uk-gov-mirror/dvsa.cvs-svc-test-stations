@@ -1,13 +1,28 @@
 import { HTTPError } from "../models/HTTPError";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { ITestStation } from "../models/ITestStation";
-import { ERRORS, TEST_STATION_STATUS } from "../utils/Enum";
+import { ERRORS } from "../utils/Enum";
 
 export class TestStationService {
   public readonly testStationDAO: TestStationDAO;
 
   constructor(testStationDAO: TestStationDAO) {
     this.testStationDAO = testStationDAO;
+  }
+
+  /**
+   * Fetch a test station (ATF) from DynamoDB based on its pNumber
+   */
+  public async getTestStation(pNumber: string) {
+    const testStation = await this.testStationDAO.getTestStationByPNumber(
+      pNumber
+    );
+
+    if (!testStation) {
+      throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
+    }
+
+    return testStation;
   }
 
   /**
@@ -32,7 +47,7 @@ export class TestStationService {
       });
   }
 
-  public getTestStationEmails = (pNumber: string) => {
+  public getTestStationEmails = async (pNumber: string) => {
     return this.testStationDAO
       .getTestStationEmailByPNumber(pNumber)
       .then((data: any) => {

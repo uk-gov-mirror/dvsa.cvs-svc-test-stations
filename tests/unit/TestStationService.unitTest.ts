@@ -2,8 +2,7 @@ import { HTTPError } from "../../src/models/HTTPError";
 import { TestStationService } from "../../src/services/TestStationService";
 import stations from "../resources/test-stations.json";
 import { ERRORS } from "../../src/utils/Enum";
-import { TestStationDAO } from "../../src/models/TestStationDAO";
-const stationIds = stations.map((station) => station.testStationId);
+import { ITestStation } from "../../src/models/ITestStation";
 
 describe("TestStationService", () => {
   afterEach(() => {
@@ -202,6 +201,91 @@ describe("TestStationService", () => {
               expect(errorResponse.statusCode).toEqual(500);
               expect(errorResponse.body).toEqual(ERRORS.INTERNAL_SERVER_ERROR);
             });
+        });
+      });
+    });
+  });
+
+  describe("getTestStation", () => {
+    describe("when database is on", () => {
+      afterEach(() => {
+        jest.resetAllMocks();
+      });
+
+      context("database call returns valid data", () => {
+        it("should return the expected data", async () => {
+          const TestStationDAOMock = jest.fn().mockImplementation(() => {
+            return {
+              getTestStationByPNumber: () => {
+                return Promise.resolve({
+                  ...stations[0],
+                });
+              },
+            };
+          });
+
+          const testStationService = new TestStationService(
+            new TestStationDAOMock()
+          );
+
+          const returnedRecords: ITestStation =
+            (await testStationService.getTestStation(
+              "87-1369569"
+            )) as ITestStation;
+          expect(returnedRecords).not.toBeNull();
+          expect(returnedRecords.testStationPNumber).toEqual("87-1369569");
+        });
+      });
+
+      context("database call returns no data", () => {
+        it("should throw error", async () => {
+          const TestStationDAOMock = jest.fn().mockImplementation(() => {
+            return {
+              getTestStationByPNumber: () => {
+                return Promise.resolve({
+                  ...stations[0],
+                });
+              },
+            };
+          });
+
+          const testStationService = new TestStationService(
+            new TestStationDAOMock()
+          );
+
+          try {
+            await testStationService.getTestStation("");
+          } catch (errorResponse: any) {
+            expect(errorResponse).toBeInstanceOf(HTTPError);
+            expect(errorResponse.statusCode).toEqual(404);
+            expect(errorResponse.body).toEqual(
+              "No resources match the search criteria."
+            );
+          }
+        });
+      });
+
+      context("Database throws a predicted error (HTTPError)", () => {
+        it("should return the error as is", async () => {
+          const TestStationDAOMock = jest.fn().mockImplementation(() => {
+            return {
+              getTestStationByPNumber: () => {
+                return Promise.reject(new HTTPError(418, "It broke"));
+              },
+            };
+          });
+
+          const testStationService = new TestStationService(
+            new TestStationDAOMock()
+          );
+
+          try {
+            await testStationService.getTestStation("");
+          } catch (errorResponse: any) {
+            expect(errorResponse).toBeInstanceOf(HTTPError);
+            expect(errorResponse.statusCode).toEqual(418);
+            expect(errorResponse.body).toEqual("It broke");
+          }
         });
       });
     });

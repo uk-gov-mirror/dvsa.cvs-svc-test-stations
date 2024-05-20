@@ -105,11 +105,15 @@ describe("ConfigurationUtil", () => {
       const funcConfig: IFunctionConfig[] =
         Configuration.getInstance().getFunctions();
       it("should return the list of specified functions with names and matching paths", () => {
-        expect(funcConfig).toHaveLength(2);
+        expect(funcConfig).toHaveLength(3);
         expect(funcConfig[0].name).toEqual("getTestStations");
         expect(funcConfig[0].path).toEqual("/test-stations");
         expect(funcConfig[1].name).toEqual("getTestStationsEmails");
         expect(funcConfig[1].path).toEqual(
+          "/test-stations/:testStationPNumber/email-addresses"
+        );
+        expect(funcConfig[2].name).toEqual("getTestStation");
+        expect(funcConfig[2].path).toEqual(
           "/test-stations/:testStationPNumber"
         );
       });

@@ -6,9 +6,15 @@ functions:
       function: getTestStations
   - getTestStationsEmails:
       method: GET
-      path: /test-stations/{+proxy}
+      path: /test-stations/{+proxy}/email-addresses
       proxy: :testStationPNumber
       function: getTestStationsEmails
+  - getTestStation:
+      method: GET
+      path: /test-stations/{+proxy}
+      proxy: :testStationPNumber
+      function: getTestStation
+
 dynamodb:
   local:
     params:
