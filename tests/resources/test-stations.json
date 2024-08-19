@@ -403,5 +403,65 @@
     "testStationStatus": "active",
     "testStationTown": "Ruthin",
     "testStationType": "atf"
+  },
+  {
+    "testStationId": "25",
+    "testStationAddress": "1042 Bow Lane",
+    "testStationContactNumber": "02074892500",
+    "testStationEmails": [
+      "sarah.rees@vef1.co.uk",
+      "phil.jones@vef1.co.uk"
+    ],
+    "testStationGeneralNotes": "Example of English VEF site with inactive status",
+    "testStationAccessNotes": "",
+    "testStationLatitude": 181,
+    "testStationLongitude": 362,
+    "testStationName": "VEF 1",
+    "testStationPNumber": "V99900",
+    "testStationPostcode": "EC4M 9DT",
+    "testStationCountry": "England",
+    "testStationStatus": "inactive",
+    "testStationTown": "London",
+    "testStationType": "vef"
+  },
+  {
+    "testStationId": "26",
+    "testStationAddress": "3400 Tan-y-Bryn Road",
+    "testStationContactNumber": "01492879456",
+    "testStationEmails": [
+      "mike.davies@vef2.co.uk",
+      "bob.ross@vef2.co.uk"
+    ],
+    "testStationGeneralNotes": "Example of Welsh VEF site with active status",
+    "testStationAccessNotes": "",
+    "testStationLatitude": 181,
+    "testStationLongitude": 362,
+    "testStationName": "VEF 2",
+    "testStationPNumber": "V99901",
+    "testStationPostcode": "LL30 1UU",
+    "testStationCountry": "Wales",
+    "testStationStatus": "active",
+    "testStationTown": "Llandudno",
+    "testStationType": "vef"
+  },
+  {
+    "testStationId": "27",
+    "testStationAddress": "2108 Church Street",
+    "testStationContactNumber": "02088925908",
+    "testStationEmails": [
+      "norman.bates@vef3.co.uk",
+      "john.smith@vef3.co.uk"
+    ],
+    "testStationGeneralNotes": "Example of English VEF site with active status",
+    "testStationAccessNotes": "",
+    "testStationLatitude": 181,
+    "testStationLongitude": 362,
+    "testStationName": "VEF 3",
+    "testStationPNumber": "V99902",
+    "testStationPostcode": "TW1 3NJ",
+    "testStationCountry": "England",
+    "testStationStatus": "active",
+    "testStationTown": "Twickenham",
+    "testStationType": "vef"
   }
 ]
