@@ -77,7 +77,7 @@ describe("putTestStation Handler", () => {
       } catch (e) {
         expect(e).toBeInstanceOf(Error);
         expect((e as Error).message).toEqual(
-          '"testStationType" must be one of [atf, tass, gvts, potf, hq, other]'
+          '"testStationType" must be one of [atf, gvts, hq, potf, vef]'
         );
       }
     });

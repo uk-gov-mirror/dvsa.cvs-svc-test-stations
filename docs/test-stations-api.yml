@@ -41,6 +41,8 @@ components:
             - atf
             - gvts
             - hq
+            - potf
+            - vef
         testStationEmails:
           type: array
           items:
