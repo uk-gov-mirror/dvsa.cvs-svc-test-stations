@@ -2,7 +2,7 @@ import Joi from "joi";
 import { TestStationService } from "../services/TestStationService";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { ITestStation } from "../models/ITestStation";
-import { TestStationTypes} from "@dvsa/cvs-type-definitions/types/v1/enums/testStationType.enum";
+import { TestStationTypes } from '@dvsa/cvs-type-definitions/types/v1/enums/testStationType.enum';
 
 export const putTestStation = async (testStation: ITestStation) => {
   await validateTestStation(testStation);
